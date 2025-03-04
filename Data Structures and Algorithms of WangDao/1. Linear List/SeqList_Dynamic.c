@@ -1,16 +1,17 @@
 /**
- * @FileName    :SeqList.c
- * @Date        :2025-03-04 13:27:05
+ * @FileName    :SeqList_Dynamic'.c
+ * @Date        :2025-03-04 16:50:59
  * @Author      :LiuBaiWan (https://github.com/LiuBaiWan592)
  * @Version     :V1.0.0
- * @Brief       :Sequence List
+ * @Brief       :Sequence List of Dynamic
  * @Description :The indexes in all functions are array indices starting from 0
- *              :SeqList: Sequence List
- *              :List_Init: Initialize the Sequence List [O(1)]
+ *              :SeqList: Sequence List of dynamic
+ *              :List_Init: Initialize the Sequence List of dynamic [O(1)]
  *              :List_GetLength: Get the length of the List(L) [O(1)]
  *              :List_IsEmpty: Check if the List(L) is empty [O(1)]
  *              :List_GetElem: Get the element at the Index(index) of the List(L) [O(1)]
  *              :List_LocateElem: Search the list (L) to find the index of the first element(e) [O(n)]
+ *              :List_Extend: Extend the capacity of the List(L) [O(n)]
  *              :List_Insert: Insert Element(e) at the Index(index) of the List(L) [O(n)]
  *              :List_Delete: Delete the Element at the Index(index) of the List(L) [O(n)]
  *              :List_Print: Print the List(L) [O(n)]
@@ -19,18 +20,20 @@
 
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #define ElemType int
 #define Maxsize 50
 
-/* Sequence List */
-typedef struct SeqList {
-    ElemType data[Maxsize];
+/* Sequence List of dynamic */
+typedef struct SeqList_D {
+    ElemType *data;
     int length;
 } *SeqList;
 
-/* Initialize the Sequence List */
-void List_Init(SeqList L) {
+/* Initialize the Sequence List of dynamic */
+void List_Init_D(SeqList L) {
+    L->data = (ElemType *)malloc(sizeof(ElemType) * Maxsize);
     L->length = 0;
 }
 
@@ -59,6 +62,11 @@ int List_LocateElem(SeqList L, ElemType e) {
     return -1;
 }
 
+/* Extend the capacity of the List(L) [O(n)] */
+void List_Extend(SeqList L) {
+    L->data = (ElemType *)realloc(L->data, sizeof(ElemType) * (L->length + Maxsize));
+}
+
 /* Insert Element(e) at the Index(index) of the List(L) [O(n)] */
 bool List_Insert(SeqList L, ElemType e, int index) {
     // Judge whether the index is within the valid range
@@ -67,7 +75,7 @@ bool List_Insert(SeqList L, ElemType e, int index) {
     }
     // Judge whether the List is full
     if (L->length > Maxsize) {
-        return false;
+        List_Extend(L);
     }
     // Move the elements after the index to the right
     for (int i = L->length; i > index; i--) {
