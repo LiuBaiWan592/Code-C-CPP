@@ -25,14 +25,19 @@
 #define Maxsize 10
 
 /* Sequence List */
-typedef struct {
+typedef struct SQList {
     ElemType data[Maxsize];
     int length;
-} *SeqList;
+}SQList, *SeqList;
 
 /* Initialize the Sequence List */
-void List_Init(SeqList L) {
-    L->length = 0;
+SQList List_Init() {
+    SQList L;
+    L.length = 0;
+    for(int i = 0; i < Maxsize; i++) {
+        L.data[i] = 0;
+    }
+    return L;
 }
 
 /* Get the length of the List(L) [O(1)] */
@@ -131,8 +136,8 @@ void List_Print(SeqList L) {
 
 /* Driver Code */
 int main() {
-    SeqList L;
-    List_Init(L);
+    SQList List = List_Init();
+    SeqList L = &List;
     for (int i = 0; i < 6; i++) {
         List_InsertEnd(L, i);
     }

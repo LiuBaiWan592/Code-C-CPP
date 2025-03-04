@@ -35,10 +35,12 @@ typedef struct {
 } *SeqList;
 
 /* Initialize the Sequence List of dynamic */
-void List_Init(SeqList L) {
+SeqList List_Init() {
+    SeqList L = (SeqList)malloc(sizeof(SeqList));
     L->length = 0;
     L->capacity = Maxsize;
     L->data = (ElemType *)malloc(sizeof(ElemType) * L->capacity);
+    return L;
 }
 
 /* Get the length of the List(L) [O(1)] */
@@ -72,9 +74,10 @@ int List_LocateElem(SeqList L, ElemType e) {
 }
 
 /* Extend the capacity of the List(L) [O(n)] */
-void List_Extend(SeqList L) {
+bool List_Extend(SeqList L) {
     L->data = (ElemType *)realloc(L->data, sizeof(ElemType) * (L->capacity + Maxsize));
     L->capacity += Maxsize;
+    return true;
 }
 
 /* Insert Element(e) at the Index(index) of the List(L) [O(n)] */
@@ -149,8 +152,7 @@ void List_Print(SeqList L) {
 
 /* Driver Code */
 int main() {
-    SeqList L;
-    List_Init(L);
+    SeqList L = List_Init();
     for (int i = 0; i < 20; i++) {
         List_InsertEnd(L, i);
     }
