@@ -12,19 +12,20 @@
  *              :List_GetElem: Get the element at the Index(index) of the List(L) [O(1)]
  *              :List_LocateElem: Search the list (L) to find the index of the first element(e) [O(n)]
  *              :List_Insert: Insert Element(e) at the Index(index) of the List(L) [O(n)]
+ *              :List_InsertEnd: Insert Element(e) at the end of the List(L) [O(1)]
  *              :List_Delete: Delete the Element at the Index(index) of the List(L) [O(n)]
  *              :List_Print: Print the List(L) [O(n)]
- *              :List_Destroy: Destory the List(L) [O(n)]
+ *              :List_Destroy: Destory the List(L) [O(1)]
  */
 
 #include <stdbool.h>
 #include <stdio.h>
 
 #define ElemType int
-#define Maxsize 50
+#define Maxsize 10
 
 /* Sequence List */
-typedef struct SeqList {
+typedef struct {
     ElemType data[Maxsize];
     int length;
 } *SeqList;
@@ -63,10 +64,12 @@ int List_LocateElem(SeqList L, ElemType e) {
 bool List_Insert(SeqList L, ElemType e, int index) {
     // Judge whether the index is within the valid range
     if (index < 0 || index > L->length) {
+        printf("Index out of range!\n");
         return false;
     }
     // Judge whether the List is full
-    if (L->length > Maxsize) {
+    if (L->length >= Maxsize) {
+        printf("List is full!\n");
         return false;
     }
     // Move the elements after the index to the right
@@ -77,6 +80,11 @@ bool List_Insert(SeqList L, ElemType e, int index) {
     L->data[index] = e;
     L->length++;
     return true;
+}
+
+/* Insert Element(e) at the end of the List(L) */
+bool List_InsertEnd(SeqList L, ElemType e) {
+    return List_Insert(L, e, L->length);
 }
 
 /* Delete the Element at the Index(index) of the List(L) [O(n)] */
@@ -95,19 +103,62 @@ bool List_Delete(SeqList L, int index, ElemType *e) {
     return true;
 }
 
+/* Destory the List(L) [O(1)] */
+void List_Destroy(SeqList L) {
+    L->length = 0;
+}
+
 /* Print the List(L) [O(n)] */
 void List_Print(SeqList L) {
+    printf("Sequence List: ");
+    if (L->length == 0) {
+        printf("Empty List!\n");
+        return;
+    } else {
+        printf("\n");
+    }
+    printf("  Index: ");
+    for (int i = 0; i < L->length; i++) {
+        printf("%d    ", i);
+    }
+    printf("\n");
+    printf("  Value: ");
     for (int i = 0; i < L->length; i++) {
         printf("%d    ", L->data[i]);
     }
     printf("\n");
 }
 
-/* Destory the List(L) [O(1)] */
-void List_Destroy(SeqList L) {
-    L->length = 0;
-}
-
+/* Driver Code */
 int main() {
+    SeqList L;
+    List_Init(L);
+    for (int i = 0; i < 6; i++) {
+        List_InsertEnd(L, i);
+    }
+    List_Print(L);
+
+    printf("Length: %d\n", List_GetLength(L));
+
+    if (List_IsEmpty(L)) {
+        printf("List is empty!\n");
+    } else {
+        printf("List is not empty!\n");
+    }
+
+    printf("Element at index 2: %d\n", List_GetElem(L, 2));
+
+    printf("Index of element 3: %d\n", List_LocateElem(L, 3));
+
+    List_Insert(L, 100, 5);
+    List_Print(L);
+
+    ElemType e;
+    List_Delete(L, 3, &e);
+    printf("Deleted Element: %d\n", e);
+    List_Print(L);
+
+    List_Destroy(L);
+    List_Print(L);
     return 0;
 }
