@@ -1,9 +1,9 @@
 /**
- * @FileName    :LinkList.c
- * @Date        :2025-03-06 17:27:31
+ * @FileName    :CirCirLinkList.c
+ * @Date        :2025-03-06 19:57:39
  * @Author      :LiuBaiWan (https://github.com/LiuBaiWan592)
  * @Version     :V1.0.0
- * @Brief       :Linked List
+ * @Brief       :Circular Linked List
  * @Description :
  */
 
@@ -16,33 +16,33 @@
 typedef struct LNode {
     ElemType data;
     struct LNode *next;
-} LNode, *LinkList;
+} LNode, *CirLinkList;
 
-LinkList List_Init() {
-    LinkList L = (LinkList)malloc(sizeof(LNode));
-    L->next = NULL;
+CirLinkList List_Init() {
+    CirLinkList L = (CirLinkList)malloc(sizeof(LNode));
+    L->next = L;
     return L;
 }
 
-LinkList List_Init_NoHead() {
-    LinkList L = NULL;
+CirLinkList List_Init_NoHead() {
+    CirLinkList L = NULL;
     return L;
 }
-int List_GetLength(LinkList L) {
+int List_GetLength(CirLinkList L) {
     int length = 0;
     LNode *p = L;
-    while (p->next != NULL) {
+    while (p->next != L) {
         length++;
         p = p->next;
     }
     return length;
 }
 
-bool List_IsEmpty(LinkList L) {
-    return L->next == NULL;
+bool List_IsEmpty(CirLinkList L) {
+    return L->next == L;
 }
 
-LNode *List_GetElem(LinkList L, int i) {
+LNode *List_GetElem(CirLinkList L, int i) {
     if (i < 1) {
         return NULL;
     }
@@ -55,24 +55,24 @@ LNode *List_GetElem(LinkList L, int i) {
     return p;
 }
 
-int List_LocateElem(LinkList L, ElemType e) {
+int List_LocateElem(CirLinkList L, ElemType e) {
     LNode *p = L->next;
     int j = 1;
-    while (p != NULL && p->data != e) {
+    while (p != L && p->data != e) {
         p = p->next;
         j++;
     }
-    return p == NULL ? 0 : j;
+    return p == L ? 0 : j;
 }
 
-bool List_Insert(LinkList L, int i, ElemType e) {
+bool List_Insert(CirLinkList L, int i, ElemType e) {
     LNode *p = L;
     int j = 0;
-    while (p != NULL && j < i - 1) {
+    while (p->next != L && j < i - 1) {
         p = p->next;
         j++;
     }
-    if (p == NULL) {
+    if (p->next == L && j < i - 1) {
         return false;
     }
     LNode *s = (LNode *)malloc(sizeof(LNode));
@@ -82,14 +82,14 @@ bool List_Insert(LinkList L, int i, ElemType e) {
     return true;
 }
 
-bool List_Delete(LinkList L, int i, ElemType *e) {
+bool List_Delete(CirLinkList L, int i, ElemType *e) {
     LNode *p = L;
     int j = 0;
-    while (p->next != NULL && j < i - 1) {
+    while (p->next != L && j < i - 1) {
         p = p->next;
         j++;
     }
-    if (p->next == NULL || j != i - 1) {
+    if (p->next == L || j != i - 1) {
         return false;
     }
     LNode *q = p->next;
@@ -99,27 +99,27 @@ bool List_Delete(LinkList L, int i, ElemType *e) {
     return true;
 }
 
-void List_Print(LinkList L) {
+void List_Print(CirLinkList L) {
     LNode *p = L;
-    while (p != NULL && p->next != NULL) {
+    while (p->next != L) {
         p = p->next;
         printf("%d ", p->data);
     }
     printf("\n");
 }
 
-bool List_Destory(LinkList L) {
+bool List_Destory(CirLinkList L) {
     LNode *p = L->next;
-    while (p != NULL) {
+    while (p != L) {
         LNode *q = p;
         p = p->next;
         free(q);
     }
-    L->next = NULL;
+    L->next = L;
     return true;
 }
 
-bool List_HeadInsert(LinkList L, ElemType e) {
+bool List_HeadInsert(CirLinkList L, ElemType e) {
     LNode *s = (LNode *)malloc(sizeof(LNode));
     s->data = e;
     s->next = L->next;
@@ -127,20 +127,21 @@ bool List_HeadInsert(LinkList L, ElemType e) {
     return true;
 }
 
-bool List_TailInsert(LinkList L, ElemType e) {
+bool List_TailInsert(CirLinkList L, ElemType e) {
     LNode *p = L;
-    while (p->next != NULL) {
+    while (p->next != L) {
         p = p->next;
     }
     LNode *s = (LNode *)malloc(sizeof(LNode));
     s->data = e;
-    s->next = NULL;
+    s->next = L;
     p->next = s;
     return true;
 }
 
+
 int main() {
-    LinkList L = List_Init();
+    CirLinkList L = List_Init();
 
     for (int i = 0; i < 5; i++) {
         List_TailInsert(L, i);

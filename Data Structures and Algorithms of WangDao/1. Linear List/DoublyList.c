@@ -1,9 +1,9 @@
 /**
- * @FileName    :LinkList.c
- * @Date        :2025-03-06 17:27:31
+ * @FileName    :DoublyList.c
+ * @Date        :2025-03-06 19:24:24
  * @Author      :LiuBaiWan (https://github.com/LiuBaiWan592)
  * @Version     :V1.0.0
- * @Brief       :Linked List
+ * @Brief       :Doubly Linked List
  * @Description :
  */
 
@@ -13,24 +13,25 @@
 
 #define ElemType int
 
-typedef struct LNode {
+typedef struct DNode {
     ElemType data;
-    struct LNode *next;
-} LNode, *LinkList;
+    struct DNode *prior, *next;
+} DNode, *DoublyList;
 
-LinkList List_Init() {
-    LinkList L = (LinkList)malloc(sizeof(LNode));
+DoublyList List_Init() {
+    DoublyList L = (DoublyList)malloc(sizeof(DNode));
+    L->prior = NULL;
     L->next = NULL;
     return L;
 }
 
-LinkList List_Init_NoHead() {
-    LinkList L = NULL;
+DoublyList List_Init_NoHead() {
+    DoublyList L = NULL;
     return L;
 }
-int List_GetLength(LinkList L) {
+int List_GetLength(DoublyList L) {
     int length = 0;
-    LNode *p = L;
+    DNode *p = L;
     while (p->next != NULL) {
         length++;
         p = p->next;
@@ -38,15 +39,15 @@ int List_GetLength(LinkList L) {
     return length;
 }
 
-bool List_IsEmpty(LinkList L) {
+bool List_IsEmpty(DoublyList L) {
     return L->next == NULL;
 }
 
-LNode *List_GetElem(LinkList L, int i) {
+DNode *List_GetElem(DoublyList L, int i) {
     if (i < 1) {
         return NULL;
     }
-    LNode *p = L->next;
+    DNode *p = L->next;
     int j = 1;
     while (p != L && j < i) {
         p = p->next;
@@ -55,8 +56,8 @@ LNode *List_GetElem(LinkList L, int i) {
     return p;
 }
 
-int List_LocateElem(LinkList L, ElemType e) {
-    LNode *p = L->next;
+int List_LocateElem(DoublyList L, ElemType e) {
+    DNode *p = L->next;
     int j = 1;
     while (p != NULL && p->data != e) {
         p = p->next;
@@ -65,8 +66,8 @@ int List_LocateElem(LinkList L, ElemType e) {
     return p == NULL ? 0 : j;
 }
 
-bool List_Insert(LinkList L, int i, ElemType e) {
-    LNode *p = L;
+bool List_Insert(DoublyList L, int i, ElemType e) {
+    DNode *p = L;
     int j = 0;
     while (p != NULL && j < i - 1) {
         p = p->next;
@@ -75,15 +76,19 @@ bool List_Insert(LinkList L, int i, ElemType e) {
     if (p == NULL) {
         return false;
     }
-    LNode *s = (LNode *)malloc(sizeof(LNode));
+    DNode *s = (DNode *)malloc(sizeof(DNode));
     s->data = e;
     s->next = p->next;
+    if (p->next != NULL) {
+        p->next->prior = s;
+    }
+    s->prior = p;
     p->next = s;
     return true;
 }
 
-bool List_Delete(LinkList L, int i, ElemType *e) {
-    LNode *p = L;
+bool List_Delete(DoublyList L, int i, ElemType *e) {
+    DNode *p = L;
     int j = 0;
     while (p->next != NULL && j < i - 1) {
         p = p->next;
@@ -92,15 +97,18 @@ bool List_Delete(LinkList L, int i, ElemType *e) {
     if (p->next == NULL || j != i - 1) {
         return false;
     }
-    LNode *q = p->next;
+    DNode *q = p->next;
     *e = q->data;
     p->next = q->next;
+    if (q->next != NULL) {
+        q->next->prior = p;
+    }
     free(q);
     return true;
 }
 
-void List_Print(LinkList L) {
-    LNode *p = L;
+void List_Print(DoublyList L) {
+    DNode *p = L;
     while (p != NULL && p->next != NULL) {
         p = p->next;
         printf("%d ", p->data);
@@ -108,10 +116,10 @@ void List_Print(LinkList L) {
     printf("\n");
 }
 
-bool List_Destory(LinkList L) {
-    LNode *p = L->next;
+bool List_Destory(DoublyList L) {
+    DNode *p = L->next;
     while (p != NULL) {
-        LNode *q = p;
+        DNode *q = p;
         p = p->next;
         free(q);
     }
@@ -119,28 +127,34 @@ bool List_Destory(LinkList L) {
     return true;
 }
 
-bool List_HeadInsert(LinkList L, ElemType e) {
-    LNode *s = (LNode *)malloc(sizeof(LNode));
+bool List_HeadInsert(DoublyList L, ElemType e) {
+    DNode *s = (DNode *)malloc(sizeof(DNode));
     s->data = e;
     s->next = L->next;
+    if (L->next != NULL) {
+        L->next->prior = s;
+    }
+    s->prior = L;
     L->next = s;
     return true;
 }
 
-bool List_TailInsert(LinkList L, ElemType e) {
-    LNode *p = L;
+bool List_TailInsert(DoublyList L, ElemType e) {
+    DNode *p = L;
     while (p->next != NULL) {
         p = p->next;
     }
-    LNode *s = (LNode *)malloc(sizeof(LNode));
+    DNode *s = (DNode *)malloc(sizeof(DNode));
     s->data = e;
     s->next = NULL;
+    s->prior = p;
     p->next = s;
     return true;
 }
 
+
 int main() {
-    LinkList L = List_Init();
+    DoublyList L = List_Init();
 
     for (int i = 0; i < 5; i++) {
         List_TailInsert(L, i);

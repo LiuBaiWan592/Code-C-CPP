@@ -1,9 +1,9 @@
 /**
- * @FileName    :LinkList.c
- * @Date        :2025-03-06 17:27:31
+ * @FileName    :CirDoublyList.c
+ * @Date        :2025-03-06 19:57:58
  * @Author      :LiuBaiWan (https://github.com/LiuBaiWan592)
  * @Version     :V1.0.0
- * @Brief       :Linked List
+ * @Brief       :Circular Doubly Linked List
  * @Description :
  */
 
@@ -13,40 +13,41 @@
 
 #define ElemType int
 
-typedef struct LNode {
+typedef struct DNode {
     ElemType data;
-    struct LNode *next;
-} LNode, *LinkList;
+    struct DNode *prior, *next;
+} DNode, *CirDoublyList;
 
-LinkList List_Init() {
-    LinkList L = (LinkList)malloc(sizeof(LNode));
-    L->next = NULL;
+CirDoublyList List_Init() {
+    CirDoublyList L = (CirDoublyList)malloc(sizeof(DNode));
+    L->prior = L;
+    L->next = L;
     return L;
 }
 
-LinkList List_Init_NoHead() {
-    LinkList L = NULL;
+CirDoublyList List_Init_NoHead() {
+    CirDoublyList L = NULL;
     return L;
 }
-int List_GetLength(LinkList L) {
+int List_GetLength(CirDoublyList L) {
     int length = 0;
-    LNode *p = L;
-    while (p->next != NULL) {
+    DNode *p = L;
+    while (p->next != L) {
         length++;
         p = p->next;
     }
     return length;
 }
 
-bool List_IsEmpty(LinkList L) {
-    return L->next == NULL;
+bool List_IsEmpty(CirDoublyList L) {
+    return L->next == L;
 }
 
-LNode *List_GetElem(LinkList L, int i) {
+DNode *List_GetElem(CirDoublyList L, int i) {
     if (i < 1) {
         return NULL;
     }
-    LNode *p = L->next;
+    DNode *p = L->next;
     int j = 1;
     while (p != L && j < i) {
         p = p->next;
@@ -55,92 +56,99 @@ LNode *List_GetElem(LinkList L, int i) {
     return p;
 }
 
-int List_LocateElem(LinkList L, ElemType e) {
-    LNode *p = L->next;
+int List_LocateElem(CirDoublyList L, ElemType e) {
+    DNode *p = L->next;
     int j = 1;
-    while (p != NULL && p->data != e) {
+    while (p != L && p->data != e) {
         p = p->next;
         j++;
     }
-    return p == NULL ? 0 : j;
+    return p == L ? 0 : j;
 }
 
-bool List_Insert(LinkList L, int i, ElemType e) {
-    LNode *p = L;
+bool List_Insert(CirDoublyList L, int i, ElemType e) {
+    DNode *p = L;
     int j = 0;
-    while (p != NULL && j < i - 1) {
+    while (p->next != L && j < i - 1) {
         p = p->next;
         j++;
     }
-    if (p == NULL) {
+    if (p->next == L && j < i - 1) {
         return false;
     }
-    LNode *s = (LNode *)malloc(sizeof(LNode));
+    DNode *s = (DNode *)malloc(sizeof(DNode));
     s->data = e;
     s->next = p->next;
+    p->next->prior = s;
+    s->prior = p;
     p->next = s;
     return true;
 }
 
-bool List_Delete(LinkList L, int i, ElemType *e) {
-    LNode *p = L;
+bool List_Delete(CirDoublyList L, int i, ElemType *e) {
+    DNode *p = L;
     int j = 0;
-    while (p->next != NULL && j < i - 1) {
+    while (p->next != L && j < i - 1) {
         p = p->next;
         j++;
     }
-    if (p->next == NULL || j != i - 1) {
+    if (p->next == L || j != i - 1) {
         return false;
     }
-    LNode *q = p->next;
+    DNode *q = p->next;
     *e = q->data;
     p->next = q->next;
+    q->next->prior = p;
     free(q);
     return true;
 }
 
-void List_Print(LinkList L) {
-    LNode *p = L;
-    while (p != NULL && p->next != NULL) {
+void List_Print(CirDoublyList L) {
+    DNode *p = L;
+    while (p->next != L) {
         p = p->next;
         printf("%d ", p->data);
     }
     printf("\n");
 }
 
-bool List_Destory(LinkList L) {
-    LNode *p = L->next;
-    while (p != NULL) {
-        LNode *q = p;
+bool List_Destory(CirDoublyList L) {
+    DNode *p = L->next;
+    while (p != L) {
+        DNode *q = p;
         p = p->next;
         free(q);
     }
-    L->next = NULL;
+    L->next = L;
+    L->prior = L;
     return true;
 }
 
-bool List_HeadInsert(LinkList L, ElemType e) {
-    LNode *s = (LNode *)malloc(sizeof(LNode));
+bool List_HeadInsert(CirDoublyList L, ElemType e) {
+    DNode *s = (DNode *)malloc(sizeof(DNode));
     s->data = e;
     s->next = L->next;
+    L->next->prior = s;
+    s->prior = L;
     L->next = s;
     return true;
 }
 
-bool List_TailInsert(LinkList L, ElemType e) {
-    LNode *p = L;
-    while (p->next != NULL) {
+bool List_TailInsert(CirDoublyList L, ElemType e) {
+    DNode *p = L;
+    while (p->next != L) {
         p = p->next;
     }
-    LNode *s = (LNode *)malloc(sizeof(LNode));
+    DNode *s = (DNode *)malloc(sizeof(DNode));
     s->data = e;
-    s->next = NULL;
+    s->next = L;
+    s->prior = p;
     p->next = s;
     return true;
 }
 
 int main() {
-    LinkList L = List_Init();
+    CirDoublyList L = List_Init();
 
     for (int i = 0; i < 5; i++) {
         List_TailInsert(L, i);
