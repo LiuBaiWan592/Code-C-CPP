@@ -49,7 +49,7 @@ DNode *List_GetElem(DoublyList L, int i) {
     }
     DNode *p = L->next;
     int j = 1;
-    while (p != L && j < i) {
+    while (p != NULL && j < i) {
         p = p->next;
         j++;
     }

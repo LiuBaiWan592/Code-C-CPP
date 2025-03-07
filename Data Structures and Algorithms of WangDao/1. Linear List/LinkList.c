@@ -48,7 +48,7 @@ LNode *List_GetElem(LinkList L, int i) {
     }
     LNode *p = L->next;
     int j = 1;
-    while (p != L && j < i) {
+    while (p != NULL && j < i) {
         p = p->next;
         j++;
     }
