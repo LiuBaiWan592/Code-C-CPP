@@ -224,6 +224,26 @@ int main() {
 
     printf("================================================\n");
 
+    DoublyList_Print(L);
+    DoublyList_Reverse(L);
+    DoublyList_Print(L);
+    DoublyList_Reverse(L);
+    DoublyList_Print(L);
+
+    DoublyList tmp = LinkList_Init();
+    DoublyList_Reverse(tmp);
+    DoublyList_HeadInsertData(tmp, 1);
+    DoublyList_Reverse(tmp);
+    DoublyList_HeadInsertData(tmp, 2);
+    DoublyList_HeadInsertData(tmp, 3);
+    DoublyList_HeadInsertData(tmp, 4);
+    DoublyList_HeadInsertData(tmp, 5);
+    DoublyList_Print(tmp);
+    DoublyList_Reverse(tmp);
+    DoublyList_Print(tmp);
+
+    printf("================================================\n");
+
     DoublyList_Destroy(L);
     if (L->length == 0 && L->front == NULL && L->rear == NULL) {
         printf("LinkList Destroyed!\n");

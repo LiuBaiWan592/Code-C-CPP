@@ -224,6 +224,26 @@ int main() {
 
     printf("================================================\n");
 
+    LinkList_Print(L);
+    LinkList_Reverse(L);
+    LinkList_Print(L);
+    LinkList_Reverse(L);
+    LinkList_Print(L);
+
+    LinkList tmp = LinkList_Init();
+    LinkList_Reverse(tmp);
+    LinkList_HeadInsertData(tmp, 1);
+    LinkList_Reverse(tmp);
+    LinkList_HeadInsertData(tmp, 2);
+    LinkList_HeadInsertData(tmp, 3);
+    LinkList_HeadInsertData(tmp, 4);
+    LinkList_HeadInsertData(tmp, 5);
+    LinkList_Print(tmp);
+    LinkList_Reverse(tmp);
+    LinkList_Print(tmp);
+
+    printf("================================================\n");
+
     LinkList_Destroy(L);
     if (L->length == 0 && L->front == NULL && L->rear == NULL) {
         printf("LinkList Destroyed!\n");

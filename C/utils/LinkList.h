@@ -29,6 +29,8 @@
  * Insert by Position:
  *              :LinkList_InsertNodeByPosition: Insert the Node p into the List(L) at the position i (i start from 1) [O(n)]
  *              :LinkList_InsertDataByPosition: Insert the Data into the List(L) at the position i (i start from 1) [O(n)]
+ * Reverse:
+ *              :LinkList_Reverse: Reverse the List(L) [O(n)]
  * Delete and Destroy:
  *              :LinkList_DeleteNodeByPosition: Delete the Node p in the List(L) at the position i (i start from 1) [O(n)]
  *              :LinkList_DeleteNodeByData: Delete the Node p in the List(L) with the first occurrence of Data [O(n)]
@@ -301,6 +303,26 @@ bool LinkList_DeleteNodeByData(LinkList L, ElemType data, ElemType *del) {
     L->length--;
     *del = q->data;
     free(q);
+    return true;
+}
+
+/* =============================================================================== */
+
+/* Reverse the List(L) [O(n)] */
+bool LinkList_Reverse(LinkList L) {
+    if (L->front == NULL || L->front == L->rear) {
+        printf("Reverse Warring: Empty List or Only One Node in the List!\n");
+        return false;
+    }
+    LNode *p = L->front, *q = NULL;
+    L->rear = p;
+    while (p != NULL) {
+        q = p->next;
+        p->next = L->front;
+        L->front = p;
+        p = q;
+    }
+    L->rear->next = NULL;
     return true;
 }
 

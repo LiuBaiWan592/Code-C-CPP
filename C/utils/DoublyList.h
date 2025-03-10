@@ -247,6 +247,24 @@ bool DoublyList_InsertDataByPosition(DoublyList L, int i, ElemType data) {
 
 /* =============================================================================== */
 
+/* Reverse the List(L) [O(n)] */
+bool DoublyList_Reverse(DoublyList L) {
+    if (L->front == NULL || L->front == L->rear) {
+        printf("Reverse Warring: Empty List or Only One Node in the List!\n");
+        return false;
+    }
+    DNode *p = L->front;
+    DNode *q = L->rear;
+    while (p != q && q->next != p) {
+        ElemType temp = p->data;
+        p->data = q->data;
+        q->data = temp;
+        p = p->next;
+        q = q->prior;
+    }
+    return true;
+}
+
 /* Delete the Node p in the List(L) at the position i (i start from 1) [O(n)]  */
 bool DoublyList_DeleteNodeByPosition(DoublyList L, int i, ElemType *del) {
     if (i < 1 || i > L->length) {
