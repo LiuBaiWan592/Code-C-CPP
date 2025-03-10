@@ -19,32 +19,32 @@ typedef struct {
 } SeqStack;
 
 void SeqStack_Init(SeqStack *S) {
-    S->top = -1; // Initialize the top of the stack to -1
+    S->top = -1;
 }
 
 bool SeqStack_IsEmpty(SeqStack S) {
-    return S.top == -1; // If the top of the stack is -1, the stack is empty
+    return S.top == -1;
 }
 
-bool Push(SeqStack *S, ElemType e) {
+bool SeqStack_Push(SeqStack *S, ElemType e) {
     if (S->top == MAXSIZE - 1) {
-        return false; // If the stack is full, return false
+        return false;
     }
     S->data[++S->top] = e;
     return true;
 }
 
-bool Pop(SeqStack *S, ElemType *e) {
+bool SeqStack_Pop(SeqStack *S, ElemType *e) {
     if (S->top == -1) {
-        return false; // If the stack is empty, return false
+        return false;
     }
     *e = S->data[S->top--];
     return true;
 }
 
-bool GetTop(SeqStack S, ElemType *e) {
+bool SeqStack_GetTop(SeqStack S, ElemType *e) {
     if (S.top == -1) {
-        return false; // If the stack is empty, return false
+        return false;
     }
     *e = S.data[S.top];
     return true;
@@ -55,15 +55,37 @@ bool SeqStack_Destroy(SeqStack *S) {
     return true;
 }
 
+void SeqStack_Print(SeqStack S) {
+    for (int i = 0; i <= S.top; i++) {
+        printf("%d ", S.data[i]);
+    }
+    printf("\n");
+}
+
 int main() {
     SeqStack S;
     SeqStack_Init(&S);
-    Push(&S, 1);
-    Push(&S, 2);
-    Push(&S, 3);
-    ElemType e;
-    Pop(&S, &e);
-    printf("%d\n", e);
-    GetTop(S, &e);
-    printf("%d\n", e);
+    SeqStack_Push(&S, 1);
+    SeqStack_Push(&S, 3);
+    SeqStack_Push(&S, 2);
+    SeqStack_Push(&S, 5);
+    SeqStack_Push(&S, 4);
+
+    SeqStack_Print(S);
+
+    ElemType top;
+    SeqStack_GetTop(S, &top);
+    printf("Top: %d\n", top);
+
+    ElemType pop;
+    SeqStack_Pop(&S, &pop);
+    printf("Pop: %d\n", pop);
+
+    bool empty = SeqStack_IsEmpty(S);
+    printf("Is Empty: %s\n", empty ? "true" : "false");
+
+    SeqStack_Print(S);
+
+    SeqStack_Destroy(&S);
+    return 0;
 }
