@@ -20,22 +20,24 @@
 
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #define ElemType int
 #define Maxsize 10
 
 /* Sequence List */
-typedef struct SQList {
-    ElemType data[Maxsize];
+typedef struct {
+    ElemType *data;
     int length;
-} SQList, *SeqList;
+} *SeqList;
 
 /* Initialize the Sequence List */
-SQList List_Init() {
-    SQList L;
-    L.length = 0;
+SeqList List_Init() {
+    SeqList L = (SeqList)malloc(sizeof(SeqList));
+    L->length = 0;
+    L->data = (ElemType *)malloc(Maxsize * sizeof(ElemType));
     for (int i = 0; i < Maxsize; i++) {
-        L.data[i] = 0;
+        L->data[i] = 0;
     }
     return L;
 }
@@ -137,8 +139,7 @@ void List_Print(SeqList L) {
 
 /* Driver Code */
 int main() {
-    SQList List = List_Init();
-    SeqList L = &List;
+    SeqList L = List_Init();
     for (int i = 0; i < 6; i++) {
         List_InsertEnd(L, i);
     }
