@@ -5,22 +5,23 @@
  * @Version     :V2.0.0
  * @Brief       :Sequence Stack
  * @Description :
- *              :Initialize the Sequence Stack
- *              :Get the length of the Stack(S) [O(1)]
- *              :Check if the Stack(S) is empty [O(1)]
- *              :Push Element to the Stack(S) [O(1)]
- *              :Pop Element from the Stack(S) [O(1)]
- *              :Get the top Element of the Stack(S) [O(1)]
- *              :Clear the Stack(S)
- *              :Destroy the Stack(S)
- *              :Print the Stack(S) [O(n)]
+ *              :SeqStack_Init: Initialize the Sequence Stack
+ *              :SeqStack_GetLength: Get the length of the Stack(S) [O(1)]
+ *              :SeqStack_IsEmpty: Check if the Stack(S) is empty [O(1)]
+ *              :SeqStack_IsFull: Check if the Stack(S) is full [O(1)]
+ *              :SeqStack_Push: Push Element to the Stack(S) [O(1)]
+ *              :SeqStack_Pop: Pop Element from the Stack(S) [O(1)]
+ *              :SeqStack_GetTop: Get the top Element of the Stack(S) [O(1)]
+ *              :SeqStack_Clear: Clear the Stack(S)
+ *              :SeqStack_Destroy: Destroy the Stack(S)
+ *              :SeqStack_Print: Print the Stack(S) [O(n)]
  */
 
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-#define Maxsize 10
+#define Maxsize 4
 #define ElemType int
 
 /* Sequence Stack */
@@ -54,9 +55,15 @@ bool SeqStack_IsEmpty(SeqStack S) {
     return S->length == 0;
 }
 
+/* Check if the Stack(S) is full [O(1)] */
+bool SeqStack_IsFull(SeqStack S) {
+    return S->top == Maxsize - 1;
+}
+
 /* Push Element to the Stack(S) [O(1)] */
 bool SeqStack_Push(SeqStack S, ElemType e) {
-    if (S->top == Maxsize - 1) {
+    if (SeqStack_IsFull(S)) {
+        printf("Push Error: Stack is Full! Failed to Push Element %d!\n", e);
         return false;
     }
     S->data[++S->top] = e;
@@ -66,7 +73,8 @@ bool SeqStack_Push(SeqStack S, ElemType e) {
 
 /* Pop Element from the Stack(S) [O(1)] */
 bool SeqStack_Pop(SeqStack S, ElemType *e) {
-    if (S->top == -1) {
+    if (SeqStack_IsEmpty(S)) {
+        printf("Pop Error: Stack is Empty! Failed to Pop Element!\n");
         return false;
     }
     *e = S->data[S->top--];
@@ -76,7 +84,8 @@ bool SeqStack_Pop(SeqStack S, ElemType *e) {
 
 /* Get the top Element of the Stack(S) [O(1)] */
 bool SeqStack_GetTop(SeqStack S, ElemType *e) {
-    if (S->top == -1) {
+    if (SeqStack_IsEmpty(S)) {
+        printf("Pop Error: Stack is Empty! Failed to Pop Element!\n");
         return false;
     }
     *e = S->data[S->top];

@@ -2,18 +2,20 @@
  * @FileName    :LinkStack.c
  * @Date        :2025-03-11 10:45:06
  * @Author      :LiuBaiWan (https://github.com/LiuBaiWan592)
- * @Version     :V1.0.0
+ * @Version     :V2.0.0
  * @Brief       :Linked List Stack With Head Node
  * @Description :
- *              :Initialize the Linked List Stack
- *              :Get the length of the Stack(S) [O(1)]
- *              :Check if the Stack(S) is empty [O(1)]
- *              :Push Element to the Stack(S) [O(1)]
- *              :Pop Element from the Stack(S) [O(1)]
- *              :Get the top Element of the Stack(S) [O(1)]
- *              :Clear the Stack(S)
- *              :Destroy the Stack(S)
- *              :Print the Stack(S) [O(n)]
+ *              :LinkStack_Init: Initialize the Linked List Stack
+ *              :LinkStack_GetLength: Get the length of the Stack(S) [O(1)]
+ *              :LinkStack_IsEmpty: Check if the Stack(S) is empty [O(1)]
+ *              :LinkStack_IsFull: Check if the Stack(S) is full [O(1)]
+ *              :LinkStack_Push: Push Element to the Stack(S) [O(1)]
+ *              :LinkStack_Pop: Pop Element from the Stack(S) [O(1)]
+ *              :LinkStack_GetTop: Get the top Element of the Stack(S) [O(1)]
+ *              :LinkStack_Clear: Clear the Stack(S)
+ *              :LinkStack_Destroy: Destroy the Stack(S)
+ *              :LinkStack_Print: Print the Stack(S) [O(n)]
+ *              :LinkStack_Reverse: Reverse the Stack(S) [O(n)]
  */
 
 #include <stdbool.h>
@@ -26,26 +28,35 @@
 typedef struct LNode {
     ElemType data;
     struct LNode *next;
-} *LinkStack;
+} LNode, *LinkStack;
 
 /* Initialize Linked List Stack */
 LinkStack LinkStack_Init() {
     LinkStack S = (LinkStack)malloc(sizeof(LinkStack));
-    if (S == NULL)
-        exit(1);
     S->data = 0;
     S->next = NULL;
     return S;
 }
 
-/* Check if Linked List Stack is Empty */
+/* Get the length of the Stack(S) [O(1)] */
+int LinkStack_GetLength(LinkStack S) {
+    int len = 0;
+    LNode *p = S->next;
+    while (p != NULL) {
+        len++;
+        p = p->next;
+    }
+    return len;
+}
+
+/* Check if Linked List Stack is Empty [O(1)] */
 bool LinkStack_IsEmpty(LinkStack S) {
     return S->next == NULL;
 }
 
-/* Push Element(x) to Linked List Stack */
+/* Push Element(x) to Linked List Stack [O(1)] */
 bool LinkStack_Push(LinkStack S, ElemType x) {
-    LinkStack s = (LinkStack *)malloc(sizeof(LinkStack));
+    LNode *s = (LNode *)malloc(sizeof(LNode));
     if (s == NULL)
         return false;
     s->data = x;
@@ -54,18 +65,18 @@ bool LinkStack_Push(LinkStack S, ElemType x) {
     return true;
 }
 
-/* Pop Element(x) from Linked List Stack */
+/* Pop Element(x) from Linked List Stack [O(1)] */
 bool LinkStack_Pop(LinkStack S, ElemType *x) {
     if (S->next == NULL)
         return false;
-    LinkStack s = S->next;
+    LNode *s = S->next;
     *x = s->data;
     S->next = s->next;
     free(s);
     return true;
 }
 
-/* Get Top Element(x) from Linked List Stack */
+/* Get Top Element(x) from Linked List Stack [O(1)] */
 bool LinkStack_GetTop(LinkStack S, ElemType *x) {
     if (S->next == NULL)
         return false;
@@ -84,9 +95,9 @@ bool LinkStack_Clear(LinkStack S) {
 
 /* Destroy Linked List Stack */
 bool LinkStack_Destroy(LinkStack S) {
-    LinkStack p = S;
+    LNode *p = S;
     while (p != NULL) {
-        LinkStack q = p->next;
+        LNode *q = p->next;
         free(p);
         p = q;
     }
@@ -95,11 +106,11 @@ bool LinkStack_Destroy(LinkStack S) {
 
 /* Print Linked List Stack */
 void LinkStack_Print(LinkStack S) {
-    if(LinkStack_IsEmpty(S)) {
+    if (LinkStack_IsEmpty(S)) {
         printf("Empty Linked Stack!\n");
         return;
     }
-    LinkStack p = S->next;
+    LNode *p = S->next;
     while (p != NULL) {
         printf("%d ", p->data);
         p = p->next;
@@ -109,8 +120,8 @@ void LinkStack_Print(LinkStack S) {
 
 /* Reverse the List(L) [O(n)] */
 bool LinkStack_Reverse(LinkStack S) {
-    struct LNode *p = S->next, *q = NULL;
-    struct LNode *rear = p;
+    LNode *p = S->next, *q = NULL;
+    LNode *rear = p;
     while (p != NULL) {
         q = p->next;
         p->next = S->next;

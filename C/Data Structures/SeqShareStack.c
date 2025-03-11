@@ -5,15 +5,16 @@
  * @Version     :V1.0.0
  * @Brief       :Sequential shared stack
  * @Description :
- *              :Initialize the Sequential shared stack
- *              :Get the length of the Stack(S) [O(1)]
- *              :Check if the Stack(S) is empty [O(1)]
- *              :Push Element to the Stack(S) [O(1)]
- *              :Pop Element from the Stack(S) [O(1)]
- *              :Get the top Element of the Stack(S) [O(1)]
- *              :Clear the Stack(S)
- *              :Destroy the Stack(S)
- *              :Print the Stack(S) [O(n)]
+ *              :SeqShareStack_Init: Initialize the Sequence Stack
+ *              :SeqShareStack_GetLength: Get the length of the Stack(S) [O(1)]
+ *              :SeqShareStack_IsEmpty: Check if the Stack(S) is empty [O(1)]
+ *              :SeqShareStack_IsFull: Check if the Stack(S) is full [O(1)]
+ *              :SeqShareStack_Push: Push Element to the Stack(S) [O(1)]
+ *              :SeqShareStack_Pop: Pop Element from the Stack(S) [O(1)]
+ *              :SeqShareStack_GetTop: Get the top Element of the Stack(S) [O(1)]
+ *              :SeqShareStack_Clear: Clear the Stack(S)
+ *              :SeqShareStack_Destroy: Destroy the Stack(S)
+ *              :SeqShareStack_Print: Print the Stack(S) [O(n)]
  */
 
 #include <stdbool.h>
@@ -75,7 +76,7 @@ bool SeqShareStack_IsFull(SeqShareStack S) {
 /* Push Element to the Stack(S) [O(1)] */
 bool SeqShareStack_Push(SeqShareStack S, int flag, ElemType e) {
     if (SeqShareStack_IsFull(S)) {
-        printf("Stack is full!\n");
+        printf("Push Error: Stack is Full! Failed to Push Element %d!\n", e);
         return false;
     }
     if (flag == 1) {
@@ -91,7 +92,7 @@ bool SeqShareStack_Push(SeqShareStack S, int flag, ElemType e) {
 /* Pop Element from the Stack(S) [O(1)] */
 bool SeqShareStack_Pop(SeqShareStack S, int flag, ElemType *e) {
     if (SeqShareStack_IsEmpty(S, flag)) {
-        printf("Stack is empty!\n");
+        printf("Pop Error: Stack is Empty! Failed to Pop Element!\n");
         return false;
     }
     if (flag == 1) {
@@ -107,6 +108,7 @@ bool SeqShareStack_Pop(SeqShareStack S, int flag, ElemType *e) {
 /* Get the top Element of the Stack(S) [O(1)] */
 bool SeqShareStack_GetTop(SeqShareStack S, int flag, ElemType *e) {
     if (SeqShareStack_IsEmpty(S, flag)) {
+        printf("Pop Error: Stack is Empty! Failed to Pop Element!\n");
         return false;
     }
     if (flag == 1) {
