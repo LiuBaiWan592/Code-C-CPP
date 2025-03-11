@@ -2,7 +2,7 @@
  * @FileName    :SeqStack.c
  * @Date        :2025-03-10 11:54:57
  * @Author      :LiuBaiWan (https://github.com/LiuBaiWan592)
- * @Version     :V1.0.0
+ * @Version     :V2.0.0
  * @Brief       :Sequence Stack
  * @Description :
  *              :Initialize the Sequence Stack
@@ -11,6 +11,7 @@
  *              :Push Element to the Stack(S) [O(1)]
  *              :Pop Element from the Stack(S) [O(1)]
  *              :Get the top Element of the Stack(S) [O(1)]
+ *              :Clear the Stack(S)
  *              :Destroy the Stack(S)
  *              :Print the Stack(S) [O(n)]
  */
@@ -31,7 +32,7 @@ typedef struct {
 
 /* Initialize the Sequence Stack */
 SeqStack SeqStack_Init() {
-    SeqStack S = (SeqStack *)malloc(sizeof(SeqStack));
+    SeqStack S = (SeqStack)malloc(sizeof(SeqStack));
     S->top = -1;
     S->length = 0;
     S->data = (ElemType *)malloc(sizeof(ElemType) * Maxsize);
@@ -82,10 +83,17 @@ bool SeqStack_GetTop(SeqStack S, ElemType *e) {
     return true;
 }
 
-/* Destroy the Stack(S) */
-bool SeqStack_Destroy(SeqStack S) {
+/* Clear the Stack(S) */
+bool SeqStack_Clear(SeqStack S) {
     S->top = -1;
     S->length = 0;
+    return true;
+}
+
+/* Destroy the Stack(S) */
+bool SeqStack_Destroy(SeqStack S) {
+    free(S->data);
+    free(S);
     return true;
 }
 
@@ -135,6 +143,8 @@ int main() {
     int length = SeqStack_GetLength(S);
     printf("Length: %d\n", length);
 
+    SeqStack_Print(S);
+    SeqStack_Clear(S);
     SeqStack_Print(S);
 
     SeqStack_Destroy(S);
