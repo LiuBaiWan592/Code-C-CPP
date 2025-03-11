@@ -2,7 +2,7 @@
  * @FileName    :Driver_SeqList.c
  * @Date        :2025-03-07 20:14:48
  * @Author      :LiuBaiWan (https://github.com/LiuBaiWan592)
- * @Version     :V1.0.0
+ * @Version     :V2.0.0
  * @Brief       :
  * @Description :
  */
@@ -11,8 +11,7 @@
 
 /* Driver Code */
 int main() {
-    SQList List = List_Init();
-    SeqList L = &List;
+    SeqList L = List_Init();
     for (int i = 0; i < 6; i++) {
         List_InsertEnd(L, i);
     }

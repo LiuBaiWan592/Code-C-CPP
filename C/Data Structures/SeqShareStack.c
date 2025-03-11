@@ -5,6 +5,15 @@
  * @Version     :V1.0.0
  * @Brief       :Sequential shared stack
  * @Description :
+ *              :Initialize the Sequential shared stack
+ *              :Get the length of the Stack(S) [O(1)]
+ *              :Check if the Stack(S) is empty [O(1)]
+ *              :Push Element to the Stack(S) [O(1)]
+ *              :Pop Element from the Stack(S) [O(1)]
+ *              :Get the top Element of the Stack(S) [O(1)]
+ *              :Clear the Stack(S)
+ *              :Destroy the Stack(S)
+ *              :Print the Stack(S) [O(n)]
  */
 
 #include <stdbool.h>
