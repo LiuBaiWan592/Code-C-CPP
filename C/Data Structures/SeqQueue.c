@@ -5,17 +5,17 @@
  * @Version     :V1.0.0
  * @Brief       :Sequence Queue (Circular)
  * @Description :Sequential Storage Loop Queue
- *              :SeqStack_Init: Initialize the Sequence Stack
- *              :SeqStack_GetLength: Get the length of the Stack(S) [O(1)]
- *              :SeqStack_IsEmpty: Check if the Stack(S) is empty [O(1)]
- *              :SeqStack_IsFull: Check if the Stack(S) is full [O(1)]
- *              :SeqStack_Push: Push Element to the Stack(S) [O(1)]
- *              :SeqStack_Pop: Pop Element from the Stack(S) [O(1)]
- *              :SeqStack_GetTop: Get the top Element of the Stack(S) [O(1)]
- *              :SeqStack_Clear: Clear the Stack(S)
- *              :SeqStack_Destroy: Destroy the Stack(S)
- *              :SeqStack_Print: Print the Stack(S) [O(n)]
- */
+ *              :SeqQueue_Init: Initialize the Queue
+ *              :SeqQueue_IsEmpty: Check if the Queue is empty [O(1)]
+ *              :SeqQueue_IsFull: Check if the Queue is full [O(1)]
+ *              :SeqQueue_GetLength: Get the length of the Queue [O(1)]
+ *              :SeqQueue_Enter: Enter the element into the Queue [O(1)]
+ *              :SeqQueue_Delete: Delete the element from the Queue [O(1)]
+ *              :SeqQueue_GetFront: Get the front element of the Queue [O(1)]
+ *              :SeqQueue_Clear: Clear the Queue
+ *              :SeqQueue_Destroy: Destroy the Queue
+ *              :SeqQueue_Print: Print the Queue [O(n)]
+ */     
 
 #include <stdbool.h>
 #include <stdio.h>
@@ -39,22 +39,22 @@ SeqQueue SeqQueue_Init() {
     return Q;
 }
 
-/* Check if the Queue(Q) is empty */
+/* Check if the Queue(Q) is empty [O(1)] */
 bool SeqQueue_IsEmpty(SeqQueue Q) {
     return Q->front == Q->rear;
 }
 
-/* Check if the Queue(Q) is full */
+/* Check if the Queue(Q) is full [O(1)] */
 bool SeqQueue_IsFull(SeqQueue Q) {
     return (Q->rear + 1) % Maxsize == Q->front;
 }
 
-/* Get the length of the Queue(Q) */
+/* Get the length of the Queue(Q) [O(1)] */
 int SeqQueue_GetLength(SeqQueue Q) {
     return (Q->rear + Maxsize - Q->front) % Maxsize;
 }
 
-/* Enter the element(e) into the Queue(Q) */
+/* Enter the element(e) into the Queue(Q) [O(1)] */
 bool SeqQueue_Enter(SeqQueue Q, ElemType e) {
     if (SeqQueue_IsFull(Q)) {
         printf("Queue is full!\n");
@@ -65,8 +65,8 @@ bool SeqQueue_Enter(SeqQueue Q, ElemType e) {
     return true;
 }
 
-/* Exit the element(e) from the Queue(Q) */
-bool SeqQueue_Exit(SeqQueue Q, ElemType *e) {
+/* Delete the element(e) from the Queue(Q) [O(1)] */
+bool SeqQueue_Delete(SeqQueue Q, ElemType *e) {
     if (SeqQueue_IsEmpty(Q)) {
         printf("Queue is empty!\n");
         return false;
@@ -76,7 +76,7 @@ bool SeqQueue_Exit(SeqQueue Q, ElemType *e) {
     return true;
 }
 
-/* Get the front element(e) of the Queue(Q) */
+/* Get the front element(e) of the Queue(Q) [O(1)] */
 bool SeqQueue_GetFront(SeqQueue Q, ElemType *e) {
     if (SeqQueue_IsEmpty(Q)) {
         printf("Queue is empty!\n");
@@ -97,15 +97,25 @@ void SeqQueue_Destroy(SeqQueue Q) {
     free(Q);
 }
 
-/* Print the Queue(Q) */
+/* Print the Queue(Q) [O(n)]*/
 void SeqQueue_Print(SeqQueue Q) {
+    printf("Sequence Queue: ");
     if (SeqQueue_IsEmpty(Q)) {
         printf("Queue is empty!\n");
         return;
+    } else {
+        printf("\n");
     }
+    printf("  Index: ");
+    int length = SeqQueue_GetLength(Q);
+    for (int i = 0; i < length; i++) {
+        printf("%d    ", i);
+    }
+    printf("\n");
+    printf("  Value: ");
     int i = Q->front;
     while (i != Q->rear) {
-        printf("%d ", Q->data[i]);
+        printf("%d    ", Q->data[i]);
         i = (i + 1) % Maxsize;
     }
     printf("\n");
@@ -121,10 +131,10 @@ int main() {
     SeqQueue_Enter(Q, 5);
     SeqQueue_Print(Q);
     ElemType e;
-    SeqQueue_Exit(Q, &e);
-    printf("Exit: %d\n", e);
-    SeqQueue_Exit(Q, &e);
-    printf("Exit: %d\n", e);
+    SeqQueue_Delete(Q, &e);
+    printf("Delete: %d\n", e);
+    SeqQueue_Delete(Q, &e);
+    printf("Delete: %d\n", e);
     SeqQueue_Enter(Q, 4);
     SeqQueue_Enter(Q, 5);
     SeqQueue_Print(Q);
