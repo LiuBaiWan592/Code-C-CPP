@@ -15,7 +15,7 @@
  *              :SeqQueue_Clear: Clear the Queue
  *              :SeqQueue_Destroy: Destroy the Queue
  *              :SeqQueue_Print: Print the Queue [O(n)]
- */     
+ */
 
 #include <stdbool.h>
 #include <stdio.h>

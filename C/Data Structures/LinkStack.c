@@ -8,7 +8,6 @@
  *              :LinkStack_Init: Initialize the Linked List Stack
  *              :LinkStack_GetLength: Get the length of the Stack(S) [O(1)]
  *              :LinkStack_IsEmpty: Check if the Stack(S) is empty [O(1)]
- *              :LinkStack_IsFull: Check if the Stack(S) is full [O(1)]
  *              :LinkStack_Push: Push Element to the Stack(S) [O(1)]
  *              :LinkStack_Pop: Pop Element from the Stack(S) [O(1)]
  *              :LinkStack_GetTop: Get the top Element of the Stack(S) [O(1)]
