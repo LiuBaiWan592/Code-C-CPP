@@ -20,8 +20,8 @@
  *              :List_Dyn_Destroy: Destory the List(L) [O(1)]
  */
 
-#ifndef _SEQ_LIST_DYN_H
-#define _SEQ_LIST_DYN_H
+#ifndef SEQLIST_DYN_H
+#define SEQLIST_DYN_H
 
 #include "common.h"
 

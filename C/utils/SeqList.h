@@ -18,8 +18,8 @@
  *              :List_Destroy: Destory the List(L) [O(1)]
  */
 
-#ifndef SEQ_LIST_H
-#define SEQ_LIST_H
+#ifndef SEQLIST_H
+#define SEQLIST_H
 
 #include "common.h"
 
