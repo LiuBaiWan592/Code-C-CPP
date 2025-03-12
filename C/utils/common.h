@@ -26,4 +26,6 @@
 #include "SeqList.h"
 #include "SeqList_Dyn.h"
 
+#include "./uthash/src/uthash.h" // uthash库
+
 #endif // COMMON_H
