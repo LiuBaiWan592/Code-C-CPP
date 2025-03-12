@@ -2,7 +2,7 @@
  * @FileName    :SeqShareStack_Share.c
  * @Date        :2025-03-10 13:56:20
  * @Author      :LiuBaiWan (https://github.com/LiuBaiWan592)
- * @Version     :V1.0.0
+ * @Version     :V2.0.0
  * @Brief       :Sequential shared stack
  * @Description :
  *              :SeqShareStack_Init: Initialize the Sequence Stack
@@ -108,7 +108,7 @@ bool SeqShareStack_Pop(SeqShareStack S, int flag, ElemType *e) {
 /* Get the top Element of the Stack(S) [O(1)] */
 bool SeqShareStack_GetTop(SeqShareStack S, int flag, ElemType *e) {
     if (SeqShareStack_IsEmpty(S, flag)) {
-        printf("Pop Error: Stack is Empty! Failed to Pop Element!\n");
+        printf("GetTop Error: Stack is Empty! Failed to Get Top Element!\n");
         return false;
     }
     if (flag == 1) {

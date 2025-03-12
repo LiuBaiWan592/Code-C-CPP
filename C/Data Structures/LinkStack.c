@@ -28,25 +28,25 @@
 typedef struct LNode {
     ElemType data;
     struct LNode *next;
-} LNode, *LinkStack;
+} LNode;
+
+/* Head Node of Linked List Stack */
+typedef struct {
+    int length;
+    LNode *next;
+} *LinkStack;
 
 /* Initialize Linked List Stack */
 LinkStack LinkStack_Init() {
     LinkStack S = (LinkStack)malloc(sizeof(LinkStack));
-    S->data = 0;
+    S->length = 0;
     S->next = NULL;
     return S;
 }
 
 /* Get the length of the Stack(S) [O(1)] */
 int LinkStack_GetLength(LinkStack S) {
-    int len = 0;
-    LNode *p = S->next;
-    while (p != NULL) {
-        len++;
-        p = p->next;
-    }
-    return len;
+    return S->length;
 }
 
 /* Check if Linked List Stack is Empty [O(1)] */
@@ -57,29 +57,33 @@ bool LinkStack_IsEmpty(LinkStack S) {
 /* Push Element(x) to Linked List Stack [O(1)] */
 bool LinkStack_Push(LinkStack S, ElemType x) {
     LNode *s = (LNode *)malloc(sizeof(LNode));
-    if (s == NULL)
-        return false;
     s->data = x;
     s->next = S->next;
     S->next = s;
+    S->length++;
     return true;
 }
 
 /* Pop Element(x) from Linked List Stack [O(1)] */
 bool LinkStack_Pop(LinkStack S, ElemType *x) {
-    if (S->next == NULL)
+    if (S->next == NULL) {
+        printf("Pop Error: Stack is Empty! Failed to Pop Element!\n");
         return false;
+    }
     LNode *s = S->next;
     *x = s->data;
     S->next = s->next;
     free(s);
+    S->length--;
     return true;
 }
 
 /* Get Top Element(x) from Linked List Stack [O(1)] */
 bool LinkStack_GetTop(LinkStack S, ElemType *x) {
-    if (S->next == NULL)
+    if (S->next == NULL) {
+        printf("GetTop Error: Stack is Empty! Failed to Get Top Element!\n");
         return false;
+    }
     *x = S->next->data;
     return true;
 }
@@ -90,6 +94,7 @@ bool LinkStack_Clear(LinkStack S) {
     while (!LinkStack_IsEmpty(S)) {
         LinkStack_Pop(S, &tmp);
     }
+    S->length = 0;
     return true;
 }
 
@@ -106,13 +111,22 @@ bool LinkStack_Destroy(LinkStack S) {
 
 /* Print Linked List Stack */
 void LinkStack_Print(LinkStack S) {
+    printf("Linked Stack: ");
     if (LinkStack_IsEmpty(S)) {
         printf("Empty Linked Stack!\n");
         return;
+    } else {
+        printf("\n");
     }
+    printf("  Index: ");
+    for (int i = 1; i <= S->length; i++) {
+        printf("%d    ", i);
+    }
+    printf("\n");
+    printf("  Value: ");
     LNode *p = S->next;
     while (p != NULL) {
-        printf("%d ", p->data);
+        printf("%d    ", p->data);
         p = p->next;
     }
     printf("\n");
