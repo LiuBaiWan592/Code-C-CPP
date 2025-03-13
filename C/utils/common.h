@@ -19,12 +19,16 @@
 
 #include "Node.h"
 
-#include "CirDoublyList.h"
-#include "CirLinkList.h"
-#include "DoublyList.h"
-#include "LinkList.h"
-#include "SeqList.h"
-#include "SeqList_Dyn.h"
+#include "./LinearList/CirDoublyList.h"
+#include "./LinearList/CirLinkList.h"
+#include "./LinearList/DoublyList.h"
+#include "./LinearList/LinkList.h"
+#include "./LinearList/SeqList.h"
+#include "./LinearList/SeqList_Dyn.h"
+
+#include "./Stack/SeqStack.h"
+#include "./Stack/SeqShareStack.h"
+
 
 #include "./uthash/src/uthash.h" // uthash库
 

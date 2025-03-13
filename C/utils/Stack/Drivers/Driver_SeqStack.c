@@ -7,7 +7,7 @@
  * @Description :
  */
 
-#include "../utils/SeqStack.h"
+#include "../SeqStack.h"
 
 /* Driver Code */
 int main() {

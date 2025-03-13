@@ -40,7 +40,7 @@
 #ifndef CIRDOUBLYLIST_H
 #define CIRDOUBLYLIST_H
 
-#include "common.h"
+#include "../common.h"
 
 /* Head Node of Linked List */
 typedef struct {

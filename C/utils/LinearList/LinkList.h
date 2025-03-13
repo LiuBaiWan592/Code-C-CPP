@@ -42,7 +42,7 @@
 #ifndef LINKLIST_H
 #define LINKLIST_H
 
-#include "common.h"
+#include "../common.h"
 
 /* Head Node of Linked List */
 typedef struct {

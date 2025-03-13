@@ -40,7 +40,7 @@
 #ifndef CIRLINKLIST_H
 #define CIRLINKLIST_H
 
-#include "common.h"
+#include "../common.h"
 
 /* Head Node of Linked List */
 typedef struct {

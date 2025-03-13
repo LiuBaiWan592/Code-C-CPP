@@ -23,7 +23,7 @@
 #ifndef SEQLIST_DYN_H
 #define SEQLIST_DYN_H
 
-#include "common.h"
+#include "../common.h"
 
 /* Sequence List of dynamic */
 typedef struct {

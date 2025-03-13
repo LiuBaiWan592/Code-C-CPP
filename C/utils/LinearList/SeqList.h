@@ -21,7 +21,7 @@
 #ifndef SEQLIST_H
 #define SEQLIST_H
 
-#include "common.h"
+#include "../common.h"
 
 /* Sequence List */
 typedef struct SQList {

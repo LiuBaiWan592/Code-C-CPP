@@ -7,7 +7,7 @@
  * @Description :
  */
 
-#include "../utils/common.h"
+#include "common.h"
 
 int main() {
     SQList List = List_Init();

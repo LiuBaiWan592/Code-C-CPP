@@ -20,7 +20,7 @@
 #ifndef SEQSTACK_H
 #define SEQSTACK_H
 
-#include "common.h"
+#include "../common.h"
 
 /* Sequence Stack */
 typedef struct {
