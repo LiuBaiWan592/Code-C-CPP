@@ -7,7 +7,7 @@
  * @Description :
  */
 
-#include "../utils/SeqList.h"
+#include "../SeqList.h"
 
 /* Driver Code */
 int main() {
