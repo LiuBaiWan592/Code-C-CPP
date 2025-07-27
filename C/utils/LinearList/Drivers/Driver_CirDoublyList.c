@@ -7,7 +7,7 @@
  * @Description :
  */
 
-#include "../utils/CirDoublyList.h"
+#include "../CirDoublyList.h"
 
 /* Driver Code */
 int main() {

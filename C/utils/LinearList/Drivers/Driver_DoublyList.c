@@ -7,7 +7,7 @@
  * @Description :
  */
 
-#include "../utils/DoublyList.h"
+#include "../DoublyList.h"
 
 /* Driver Code */
 int main() {

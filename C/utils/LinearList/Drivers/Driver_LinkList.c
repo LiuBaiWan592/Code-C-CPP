@@ -7,7 +7,7 @@
  * @Description :
  */
 
-#include "../utils/LinkList.h"
+#include "../LinkList.h"
 
 /* Driver Code */
 int main() {

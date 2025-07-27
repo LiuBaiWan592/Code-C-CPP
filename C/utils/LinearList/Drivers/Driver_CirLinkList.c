@@ -7,7 +7,7 @@
  * @Description :
  */
 
-#include "../utils/CirLinkList.h"
+#include "../CirLinkList.h"
 
 /* Driver Code */
 int main() {
