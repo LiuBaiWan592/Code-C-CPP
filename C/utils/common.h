@@ -2,7 +2,7 @@
  * @FileName    :common.h
  * @Date        :2025-03-07 20:13:57
  * @Author      :LiuBaiWan (https://github.com/LiuBaiWan592)
- * @Version     :V1.0.0
+ * @Version     :V2.0.0
  * @Brief       :
  * @Description :
  */
@@ -10,8 +10,13 @@
 #ifndef COMMON_H
 #define COMMON_H
 
+#ifndef ElemType
 #define ElemType int
+#endif // ElemType
+
+#ifndef Maxsize
 #define Maxsize 10
+#endif // Maxsize
 
 #include <stdbool.h>
 #include <stdio.h>
@@ -24,7 +29,7 @@
 #include "./LinearList/DoublyList.h"
 #include "./LinearList/LinkList.h"
 #include "./LinearList/SeqList.h"
-#include "./LinearList/SeqList_Dyn.h"
+#include "./LinearList/SeqListDyn.h"
 
 #include "./Stack/SeqStack.h"
 #include "./Stack/SeqShareStack.h"
