@@ -98,10 +98,11 @@ bool SeqStack_Clear(SeqStack S) {
 }
 
 /* Destroy the Stack(S) */
-bool SeqStack_Destroy(SeqStack S) {
+SeqStack SeqStack_Destroy(SeqStack S) {
     free(S->data);
     free(S);
-    return true;
+    S = NULL;
+    return S;
 }
 
 /* Print the Stack(S) [O(n)] */

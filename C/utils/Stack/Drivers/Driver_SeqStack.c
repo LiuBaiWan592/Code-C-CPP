@@ -37,6 +37,6 @@ int main() {
     SeqStack_Clear(S);
     SeqStack_Print(S);
 
-    SeqStack_Destroy(S);
+    S = SeqStack_Destroy(S);
     return 0;
 }
