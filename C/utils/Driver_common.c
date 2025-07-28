@@ -17,6 +17,10 @@ int main() {
     DoublyList doublylist = DoublyList_Init();
     CirLinkList cirlinklist = CirLinkList_Init();
     CirDoublyList cirdoublylist = CirDoublyList_Init();
+    SeqStack seqstack = SeqStack_Init();
+    SeqShareStack seqsharestack = SeqShareStack_Init();
+    LinkStack linkstack = LinkStack_Init();
     UT_hash_table * hashtable = (UT_hash_table *)malloc(sizeof(UT_hash_table));
+    printf("Test common success!\n");
     return 0;
 }

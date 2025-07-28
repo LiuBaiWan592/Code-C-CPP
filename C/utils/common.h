@@ -28,6 +28,7 @@
 
 #include "./Stack/SeqStack.h"
 #include "./Stack/SeqShareStack.h"
+#include "./Stack/LinkStack.h"
 
 
 #include "./uthash/src/uthash.h" // uthash库
