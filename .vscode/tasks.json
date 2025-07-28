@@ -9,6 +9,7 @@
                 "-fdiagnostics-color=always",                               // 诊断信息以颜色显示
                 "-g",                                                       // 生成调试信息
                 "${file}",                                                  // 要编译的源文件
+                "-I", "${workspaceFolder}/C/utils",                         // 指定头文件目录
                 "-o",                                                       // 指定输出文件的路径和名称
                 "${workspaceFolder}/.exe/${fileBasenameNoExtension}.exe"    // 输出文件的路径和名称
             ],
