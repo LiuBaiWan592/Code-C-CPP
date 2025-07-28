@@ -44,6 +44,6 @@
     SeqShareStack_Clear(S);
     SeqShareStack_Print(S);
 
-    SeqShareStack_Destroy(S);
+    S = SeqShareStack_Destroy(S);
     return 0;
 }

@@ -130,14 +130,14 @@
  }
  
  /* Destroy the Stack(S) */
- bool SeqShareStack_Destroy(SeqShareStack S) {
+ SeqShareStack SeqShareStack_Destroy(SeqShareStack S) {
      if (S == NULL) {
-         return false;
+         return S;
      }
      free(S->data);
      free(S);
      S = NULL;
-     return true;
+     return S;
  }
  
  /* Print the Stack(S) [O(n)] */
