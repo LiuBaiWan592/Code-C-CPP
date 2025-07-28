@@ -14,7 +14,7 @@
  *              :List_Dyn_LocateElem: Search the list (L) to find the index of the first element(e) [O(n)]
  *              :List_Dyn_Extend: Extend the capacity of the List(L) [O(n)]
  *              :List_Dyn_Insert: Insert Element(e) at the Index(index) of the List(L) [O(n)]
-                :List_Dyn_InsertEnd: Insert Element(e) at the end of the List(L) [O(1)]
+ *              :List_Dyn_InsertEnd: Insert Element(e) at the end of the List(L) [O(1)]
  *              :List_Dyn_Delete: Delete the Element at the Index(index) of the List(L) [O(n)]
  *              :List_Dyn_Print: Print the List(L) [O(n)]
  *              :List_Dyn_Destroy: Destory the List(L) [O(1)]
