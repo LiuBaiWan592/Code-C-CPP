@@ -2,9 +2,9 @@
  * @FileName    :CirDoublyList.h
  * @Date        :2025-03-07 20:27:54
  * @Author      :LiuBaiWan (https://github.com/LiuBaiWan592)
- * @Version     :V1.0.0
- * @Brief       :Circular Linked List
- * @Description :Circular List With a Header node outside the list
+ * @Version     :V2.0.0
+ * @Brief       :Circular Doubly Linked List
+ * @Description :Circular Doubly List With a Header node outside the list
  *              :The indexes in all functions are the order of nodes starting from 1
  *              :DNode: Linked List Node
  *              :CirDoublyList: Head Node of Linked List
@@ -43,7 +43,7 @@
 #include "../common.h"
 
 /* Head Node of Linked List */
-typedef struct {
+typedef struct CirDoublyList{
     int length;         // Length of Linked List
     DNode *front;        // Front Node
     DNode *rear;        // Rear Node
@@ -51,7 +51,7 @@ typedef struct {
 
 /* Initialize the Linked List Head Node [O(1)] */
 CirDoublyList CirDoublyList_Init() {
-    CirDoublyList L = (CirDoublyList)malloc(sizeof(CirDoublyList));
+    CirDoublyList L = (CirDoublyList)malloc(sizeof(struct CirDoublyList));
     L->length = 0;
     L->front = NULL;
     L->rear = NULL;
@@ -120,7 +120,7 @@ int CirDoublyList_GetPositionByNode(CirDoublyList L, DNode *p) {
     }
     if (i > L->length) {
         printf("Get Position Error: Node is not in the List\n");
-        return 0;
+        return -1;
     }
     return i;
 }
@@ -135,7 +135,7 @@ int CirDoublyList_GetPositionByData(CirDoublyList L, ElemType data) {
     }
     if (p == NULL || i > L->length) {
         printf("Get Position Error: Data %d is not in the List\n", data);
-        return 0;
+        return -1;
     }
     return i;
 }
@@ -150,6 +150,10 @@ bool CirDoublyList_GetDataByPosition(CirDoublyList L, int i, ElemType *data) {
 
 /* Insert the Node p into the List(L) at the front [O(1)] */
 bool CirDoublyList_HeadInsertNode(CirDoublyList L, DNode *p) {
+    if(L == NULL || p == NULL) {
+        printf("Insert Node Error: List or Node is NULL\n");
+        return false;
+    }
     if (L->front == NULL) {
         p->next = p;
         p->prior = p;
@@ -176,13 +180,22 @@ bool CirDoublyList_HeadInsertData(CirDoublyList L, ElemType data) {
 /* Create CirDoublyList(L) from Array(dataset) By Head Insert [O(n)] */
 bool CirDoublyList_CreateByHeadInsert(CirDoublyList L, ElemType dataset[], int length) {
     for (int i = length - 1; i >= 0; i--) {
-        CirDoublyList_HeadInsertData(L, dataset[i]);
+        if(CirDoublyList_HeadInsertData(L, dataset[i])) {
+            continue;
+        } else {
+            printf("Create List Error: Create Node Failed\n");
+            return false;
+        }
     }
     return true;
 }
 
 /* Insert the Node p into the List(L) at the rear [O(1)] */
 bool CirDoublyList_TailInsertNode(CirDoublyList L, DNode *p) {
+    if(L == NULL || p == NULL) {
+        printf("Insert Node Error: List or Node is NULL\n");
+        return false;
+    }
     if (L->front == NULL) {
         p->next = p;
         p->prior = p;
@@ -209,7 +222,12 @@ bool CirDoublyList_TailInsertData(CirDoublyList L, ElemType data) {
 /* Create CirDoublyList(L) from Array(dataset) By Tail Insert [O(n)] */
 bool CirDoublyList_CreateByTailInsert(CirDoublyList L, ElemType dataset[], int length) {
     for (int i = 0; i < length; i++) {
-        CirDoublyList_TailInsertData(L, dataset[i]);
+        if(CirDoublyList_TailInsertData(L, dataset[i])) {
+            continue;
+        } else {
+            printf("Create List Error: Create Node Failed\n");
+            return false;
+        }
     }
     return true;
 }
