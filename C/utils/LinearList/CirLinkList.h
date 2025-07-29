@@ -2,7 +2,7 @@
  * @FileName    :CirLinkList.h
  * @Date        :2025-03-07 20:25:55
  * @Author      :LiuBaiWan (https://github.com/LiuBaiWan592)
- * @Version     :V1.0.0
+ * @Version     :V2.0.0
  * @Brief       :Circular Linked List
  * @Description :Circular List With a Header node outside the list
  *              :The indexes in all functions are the order of nodes starting from 1
@@ -43,7 +43,7 @@
 #include "../common.h"
 
 /* Head Node of Linked List */
-typedef struct {
+typedef struct CirLinkList{
     int length;         // Length of Linked List
     LNode *front;        // Front Node
     LNode *rear;        // Rear Node
@@ -51,7 +51,7 @@ typedef struct {
 
 /* Initialize the Linked List Head Node [O(1)] */
 CirLinkList CirLinkList_Init() {
-    CirLinkList L = (CirLinkList)malloc(sizeof(CirLinkList));
+    CirLinkList L = (CirLinkList)malloc(sizeof(struct CirLinkList));
     L->length = 0;
     L->front = NULL;
     L->rear = NULL;
@@ -120,7 +120,7 @@ int CirLinkList_GetPositionByNode(CirLinkList L, LNode *p) {
     }
     if (i > L->length) {
         printf("Get Position Error: Node is not in the List\n");
-        return 0;
+        return -1;
     }
     return i;
 }
@@ -135,7 +135,7 @@ int CirLinkList_GetPositionByData(CirLinkList L, ElemType data) {
     }
     if (p == NULL || i > L->length) {
         printf("Get Position Error: Data %d is not in the List\n", data);
-        return 0;
+        return -1;
     }
     return i;
 }
@@ -150,6 +150,10 @@ bool CirLinkList_GetDataByPosition(CirLinkList L, int i, ElemType *data) {
 
 /* Insert the Node p into the List(L) at the front [O(1)] */
 bool CirLinkList_HeadInsertNode(CirLinkList L, LNode *p) {
+    if(L == NULL || p == NULL) {
+        printf("Insert Node Error: List or Node is NULL\n");
+        return false;
+    }
     if (L->front == NULL) {
         p->next = p;
         L->front = p;
@@ -173,13 +177,23 @@ bool CirLinkList_HeadInsertData(CirLinkList L, ElemType data) {
 /* Create CirLinkList(L) from Array(dataset) By Head Insert [O(n)] */
 bool CirLinkList_CreateByHeadInsert(CirLinkList L, ElemType dataset[], int length) {
     for (int i = length - 1; i >= 0; i--) {
-        CirLinkList_HeadInsertData(L, dataset[i]);
+        if(CirLinkList_HeadInsertData(L, dataset[i])){
+            continue;
+        } else {
+            printf("Create List Error: Create Node %d failed\n", i);
+            return false;
+        }
+        
     }
     return true;
 }
 
 /* Insert the Node p into the List(L) at the rear [O(1)] */
 bool CirLinkList_TailInsertNode(CirLinkList L, LNode *p) {
+    if(L == NULL || p == NULL) {
+        printf("Insert Node Error: List or Node is NULL\n");
+        return false;
+    }
     if (L->front == NULL) {
         p->next = p;
         L->front = p;
@@ -203,7 +217,12 @@ bool CirLinkList_TailInsertData(CirLinkList L, ElemType data) {
 /* Create CirLinkList(L) from Array(dataset) By Tail Insert [O(n)] */
 bool CirLinkList_CreateByTailInsert(CirLinkList L, ElemType dataset[], int length) {
     for (int i = 0; i < length; i++) {
-        CirLinkList_TailInsertData(L, dataset[i]);
+        if(CirLinkList_TailInsertData(L, dataset[i])){
+            continue;
+        } else {
+            printf("Create List Error: Create Node %d failed\n", i);
+            return false;
+        }
     }
     return true;
 }
