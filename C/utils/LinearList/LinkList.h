@@ -2,7 +2,7 @@
  * @FileName    :LinkList.h
  * @Date        :2025-03-07 20:19:51
  * @Author      :LiuBaiWan (https://github.com/LiuBaiWan592)
- * @Version     :V1.0.0
+ * @Version     :V2.0.0
  * @Brief       :Linked List
  * @Description :List With Header node
  *              :The indexes in all functions are the order of nodes starting from 1
@@ -45,7 +45,7 @@
 #include "../common.h"
 
 /* Head Node of Linked List */
-typedef struct {
+typedef struct LinkList{
     int length;         // Length of Linked List
     LNode *front;        // Front Node
     LNode *rear;        // Rear Node
@@ -53,7 +53,7 @@ typedef struct {
 
 /* Initialize the Linked List Head Node [O(1)] */
 LinkList LinkList_Init() {
-    LinkList L = (LinkList)malloc(sizeof(LinkList));
+    LinkList L = (LinkList)malloc(sizeof(struct LinkList));
     L->length = 0;
     L->front = NULL;
     L->rear = NULL;
@@ -120,7 +120,7 @@ int LinkList_GetPositionByNode(LinkList L, LNode *p) {
     }
     if (q == NULL) {
         printf("Get Position Error: Node is not in the List\n");
-        return 0;
+        return -1;
     }
     return i;
 }
@@ -135,7 +135,7 @@ int LinkList_GetPositionByData(LinkList L, ElemType data) {
     }
     if (p == NULL) {
         printf("Get Position Error: Data %d is not in the List\n", data);
-        return 0;
+        return -1;
     }
     return i;
 }
@@ -150,6 +150,10 @@ bool LinkList_GetDataByPosition(LinkList L, int i, ElemType *data) {
 
 /* Insert the Node p into the List(L) at the front [O(1)] */
 bool LinkList_HeadInsertNode(LinkList L, LNode *p) {
+    if(L == NULL || p == NULL) {
+        printf("Insert Node Error: List or Node is NULL\n");
+        return false;
+    }
     if (L->front == NULL) {
         p->next = L->front;
         L->front = p;
@@ -172,13 +176,22 @@ bool LinkList_HeadInsertData(LinkList L, ElemType data) {
 /* Create LinkList(L) from Array(dataset) By Head Insert [O(n)] */
 bool LinkList_CreateByHeadInsert(LinkList L, ElemType dataset[], int length) {
     for (int i = length - 1; i >= 0; i--) {
-        LinkList_HeadInsertData(L, dataset[i]);
+        if(LinkList_HeadInsertData(L, dataset[i])){
+            continue;
+        }else {
+            printf("Create List Error: Insert Data %d failed\n", dataset[i]);
+            return false;
+        }
     }
     return true;
 }
 
 /* Insert the Node p into the List(L) at the rear [O(1)] */
 bool LinkList_TailInsertNode(LinkList L, LNode *p) {
+    if(L == NULL || p == NULL) {
+        printf("Insert Node Error: List or Node is NULL\n");
+        return false;
+    }
     if (L->front == NULL) {
         p->next = L->front;
         L->front = p;
@@ -202,7 +215,12 @@ bool LinkList_TailInsertData(LinkList L, ElemType data) {
 /* Create LinkList(L) from Array(dataset) By Tail Insert [O(n)] */
 bool LinkList_CreateByTailInsert(LinkList L, ElemType dataset[], int length) {
     for (int i = 0; i < length; i++) {
-        LinkList_TailInsertData(L, dataset[i]);
+        if(LinkList_TailInsertData(L, dataset[i])){
+            continue;
+        }else {
+            printf("Create List Error: Insert Data %d failed\n", dataset[i]);
+            return false;
+        }
     }
     return true;
 }
