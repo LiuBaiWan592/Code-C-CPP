@@ -2,67 +2,70 @@
  * @FileName    :SeqListDyn_Dyn.h
  * @Date        :2025-03-07 20:16:20
  * @Author      :LiuBaiWan (https://github.com/LiuBaiWan592)
- * @Version     :V1.0.0
+ * @Version     :V2.0.0
  * @Brief       :Sequence List of Dynamic
  * @Description :The indexes in all functions are array indices starting from 0
  *              :SeqListDyn: Sequence List of dynamic
- *              :List_Dyn_Init: Initialize the Sequence List of dynamic [O(1)]
- *              :List_Dyn_GetLength: Get the length of the List(L) [O(1)]
- *              :List_Dyn_GetCapacity: Get the capacity of the List(L) [O(1)]
- *              :List_Dyn_IsEmpty: Check if the List(L) is empty [O(1)]
- *              :List_Dyn_GetElem: Get the element at the Index(index) of the List(L) [O(1)]
- *              :List_Dyn_LocateElem: Search the list (L) to find the index of the first element(e) [O(n)]
- *              :List_Dyn_Extend: Extend the capacity of the List(L) [O(n)]
- *              :List_Dyn_Insert: Insert Element(e) at the Index(index) of the List(L) [O(n)]
- *              :List_Dyn_InsertEnd: Insert Element(e) at the end of the List(L) [O(1)]
- *              :List_Dyn_Delete: Delete the Element at the Index(index) of the List(L) [O(n)]
- *              :List_Dyn_Print: Print the List(L) [O(n)]
- *              :List_Dyn_Destroy: Destory the List(L) [O(1)]
+ *              :SeqListDyn_Init: Initialize the Sequence List of dynamic [O(1)]
+ *              :SeqListDyn_GetLength: Get the length of the List(L) [O(1)]
+ *              :SeqListDyn_GetCapacity: Get the capacity of the List(L) [O(1)]
+ *              :SeqListDyn_IsEmpty: Check if the List(L) is empty [O(1)]
+ *              :SeqListDyn_GetElem: Get the element at the Index(index) of the List(L) [O(1)]
+ *              :SeqListDyn_LocateElem: Search the list (L) to find the index of the first element(e) [O(n)]
+ *              :SeqListDyn_Extend: Extend the capacity of the List(L) [O(n)]
+ *              :SeqListDyn_Insert: Insert Element(e) at the Index(index) of the List(L) [O(n)]
+ *              :SeqListDyn_InsertEnd: Insert Element(e) at the end of the List(L) [O(1)]
+ *              :SeqListDyn_Delete: Delete the Element at the Index(index) of the List(L) [O(n)]
+ *              :SeqListDyn_Print: Print the List(L) [O(n)]
+ *              :SeqListDyn_Destroy: Destory the List(L) [O(1)]
  */
 
-#ifndef SEQLIST_DYN_H
-#define SEQLIST_DYN_H
+#ifndef SEQLISTDYN_H
+#define SEQLISTDYN_H
 
 #include "../common.h"
 
 /* Sequence List of dynamic */
-typedef struct {
+typedef struct SeqListDyn{
     ElemType *data;
     int length;
     int capacity;
 } *SeqListDyn;
 
 /* Initialize the Sequence List of dynamic */
-SeqListDyn List_Dyn_Init() {
-    SeqListDyn L = (SeqListDyn)malloc(sizeof(SeqListDyn));
+SeqListDyn SeqListDyn_Init(int capacity) {
+    SeqListDyn L = (SeqListDyn)malloc(sizeof(struct SeqListDyn));
     L->length = 0;
-    L->capacity = Maxsize;
+    L->capacity = capacity;
     L->data = (ElemType *)malloc(sizeof(ElemType) * L->capacity);
+    for (int i = 0; i < L->capacity; i++) {
+        L->data[i] = 0;
+    }
     return L;
 }
 
 /* Get the length of the List(L) [O(1)] */
-int List_Dyn_GetLength(SeqListDyn L) {
+int SeqListDyn_GetLength(SeqListDyn L) {
     return L->length;
 }
 
 /* Get the capacity of the List(L) [O(1)] */
-int List_Dyn_GetCapacity(SeqListDyn L) {
+int SeqListDyn_GetCapacity(SeqListDyn L) {
     return L->capacity;
 }
 
 /* Check if the List(L) is empty [O(1)] */
-bool List_Dyn_IsEmpty(SeqListDyn L) {
+bool SeqListDyn_IsEmpty(SeqListDyn L) {
     return L->length == 0;
 }
 
 /* Get the element at the Index(index) of the List(L) [O(1)] */
-ElemType List_Dyn_GetElem(SeqListDyn L, int index) {
+ElemType SeqListDyn_GetElem(SeqListDyn L, int index) {
     return L->data[index];
 }
 
 /* Search the list (L) to find the index of the first element(e) [O(n)] */
-int List_Dyn_LocateElem(SeqListDyn L, ElemType e) {
+int SeqListDyn_LocateElem(SeqListDyn L, ElemType e) {
     for (int i = 0; i < L->length; i++) {
         if (L->data[i] == e) {
             return i;
@@ -72,14 +75,18 @@ int List_Dyn_LocateElem(SeqListDyn L, ElemType e) {
 }
 
 /* Extend the capacity of the List(L) [O(n)] */
-bool List_Dyn_Extend(SeqListDyn L) {
-    L->data = (ElemType *)realloc(L->data, sizeof(ElemType) * (L->capacity + Maxsize));
-    L->capacity += Maxsize;
+bool SeqListDyn_Extend(SeqListDyn L, int extend) {
+    if(!L){
+        printf("ERROR: The List is NULL!\n");
+        return false;
+    }
+    L->data = (ElemType *)realloc(L->data, sizeof(ElemType) * (L->capacity + extend));
+    L->capacity += extend;
     return true;
 }
 
 /* Insert Element(e) at the Index(index) of the List(L) [O(n)] */
-bool List_Dyn_Insert(SeqListDyn L, ElemType e, int index) {
+bool SeqListDyn_Insert(SeqListDyn L, ElemType e, int index) {
     // Judge whether the index is within the valid range
     if (index < 0 || index > L->length) {
         printf("ERROR: Index (%d) out of range!\n", index);
@@ -88,7 +95,7 @@ bool List_Dyn_Insert(SeqListDyn L, ElemType e, int index) {
     // Judge whether the List is full
     if (L->length >= L->capacity) {
         printf("WARRING: The List is full, will extend the capacity of the List\n");
-        List_Dyn_Extend(L);
+        SeqListDyn_Extend(L, L->capacity);
     }
     // Move the elements after the index to the right
     for (int i = L->length; i > index; i--) {
@@ -101,12 +108,12 @@ bool List_Dyn_Insert(SeqListDyn L, ElemType e, int index) {
 }
 
 /* Insert Element(e) at the end of the List(L) */
-bool List_Dyn_InsertEnd(SeqListDyn L, ElemType e) {
-    return List_Dyn_Insert(L, e, L->length);
+bool SeqListDyn_InsertEnd(SeqListDyn L, ElemType e) {
+    return SeqListDyn_Insert(L, e, L->length);
 }
 
 /* Delete the Element at the Index(index) of the List(L) [O(n)] */
-bool List_Dyn_Delete(SeqListDyn L, int index, ElemType *e) {
+bool SeqListDyn_Delete(SeqListDyn L, int index, ElemType *e) {
     // Judge whether the index is within the valid range
     if (index < 0 || index >= L->length) {
         printf("ERROR: Index (%d) out of range!\n", index);
@@ -123,13 +130,15 @@ bool List_Dyn_Delete(SeqListDyn L, int index, ElemType *e) {
 }
 
 /* Destory the List(L) [O(1)] */
-void List_Dyn_Destroy(SeqListDyn L) {
+void SeqListDyn_Destroy(SeqListDyn L) {
     free(L->data);
     L->length = 0;
+    L->capacity = 0;
+    return;
 }
 
 /* Print the List(L) [O(n)] */
-void List_Dyn_Print(SeqListDyn L) {
+void SeqListDyn_Print(SeqListDyn L) {
     printf("Sequence List: ");
     if (L->length == 0) {
         printf("Empty List!\n");
@@ -149,4 +158,4 @@ void List_Dyn_Print(SeqListDyn L) {
     printf("\n");
 }
 
-#endif // SEQ_LIST_DYN_H
+#endif // SEQLISTDYN_H
