@@ -2,20 +2,20 @@
  * @FileName    :SeqList.h
  * @Date        :2025-03-07 20:10:54
  * @Author      :LiuBaiWan (https://github.com/LiuBaiWan592)
- * @Version     :V1.0.0
+ * @Version     :V2.0.0
  * @Brief       :Sequence List
  * @Description :The indexes in all functions are array indices starting from 0
  *              :SeqList: Sequence List
- *              :List_Init: Initialize the Sequence List [O(1)]
- *              :List_GetLength: Get the length of the List(L) [O(1)]
- *              :List_IsEmpty: Check if the List(L) is empty [O(1)]
- *              :List_GetElem: Get the element at the Index(index) of the List(L) [O(1)]
- *              :List_LocateElem: Search the list (L) to find the index of the first element(e) [O(n)]
- *              :List_Insert: Insert Element(e) at the Index(index) of the List(L) [O(n)]
- *              :List_InsertEnd: Insert Element(e) at the end of the List(L) [O(1)]
- *              :List_Delete: Delete the Element at the Index(index) of the List(L) [O(n)]
- *              :List_Print: Print the List(L) [O(n)]
- *              :List_Destroy: Destory the List(L) [O(1)]
+ *              :SeqList_Init: Initialize the Sequence List [O(1)]
+ *              :SeqList_GetLength: Get the length of the List(L) [O(1)]
+ *              :SeqList_IsEmpty: Check if the List(L) is empty [O(1)]
+ *              :SeqList_GetElem: Get the element at the Index(index) of the List(L) [O(1)]
+ *              :SeqList_LocateElem: Search the list (L) to find the index of the first element(e) [O(n)]
+ *              :SeqList_Insert: Insert Element(e) at the Index(index) of the List(L) [O(n)]
+ *              :SeqList_InsertEnd: Insert Element(e) at the end of the List(L) [O(1)]
+ *              :SeqList_Delete: Delete the Element at the Index(index) of the List(L) [O(n)]
+ *              :SeqList_Print: Print the List(L) [O(n)]
+ *              :SeqList_Destroy: Destory the List(L) [O(1)]
  */
 
 #ifndef SEQLIST_H
@@ -24,13 +24,13 @@
 #include "../common.h"
 
 /* Sequence List */
-typedef struct SQList {
+typedef struct {
     ElemType data[Maxsize];
     int length;
 } SQList, *SeqList;
 
 /* Initialize the Sequence List */
-SQList List_Init() {
+SQList SeqList_Init() {
     SQList L;
     L.length = 0;
     for (int i = 0; i < Maxsize; i++) {
@@ -40,22 +40,22 @@ SQList List_Init() {
 }
 
 /* Get the length of the List(L) [O(1)] */
-int List_GetLength(SeqList L) {
+int SeqList_GetLength(SeqList L) {
     return L->length;
 }
 
 /* Check if the List(L) is empty [O(1)] */
-bool List_IsEmpty(SeqList L) {
+bool SeqList_IsEmpty(SeqList L) {
     return L->length == 0;
 }
 
 /* Get the element at the Index(index) of the List(L) [O(1)] */
-ElemType List_GetElem(SeqList L, int index) {
+ElemType SeqList_GetElem(SeqList L, int index) {
     return L->data[index];
 }
 
 /* Search the list (L) to find the index of the first element(e) [O(n)] */
-int List_LocateElem(SeqList L, ElemType e) {
+int SeqList_LocateElem(SeqList L, ElemType e) {
     for (int i = 0; i < L->length; i++) {
         if (L->data[i] == e) {
             return i;
@@ -65,7 +65,7 @@ int List_LocateElem(SeqList L, ElemType e) {
 }
 
 /* Insert Element(e) at the Index(index) of the List(L) [O(n)] */
-bool List_Insert(SeqList L, ElemType e, int index) {
+bool SeqList_Insert(SeqList L, ElemType e, int index) {
     // Judge whether the index is within the valid range
     if (index < 0 || index > L->length) {
         printf("ERROR: Index (%d) out of range!\n", index);
@@ -87,12 +87,12 @@ bool List_Insert(SeqList L, ElemType e, int index) {
 }
 
 /* Insert Element(e) at the end of the List(L) */
-bool List_InsertEnd(SeqList L, ElemType e) {
-    return List_Insert(L, e, L->length);
+bool SeqList_InsertEnd(SeqList L, ElemType e) {
+    return SeqList_Insert(L, e, L->length);
 }
 
 /* Delete the Element at the Index(index) of the List(L) [O(n)] */
-bool List_Delete(SeqList L, int index, ElemType *e) {
+bool SeqList_Delete(SeqList L, int index, ElemType *e) {
     // Judge whether the index is within the valid range
     if (index < 0 || index >= L->length) {
         printf("ERROR: Index (%d) out of range!\n", index);
@@ -109,12 +109,16 @@ bool List_Delete(SeqList L, int index, ElemType *e) {
 }
 
 /* Destory the List(L) [O(1)] */
-void List_Destroy(SeqList L) {
+void SeqList_Destroy(SeqList L) {
+    for (int i = 0; i < Maxsize; i++) {
+        L->data[i] = 0;
+    }
     L->length = 0;
+    return;
 }
 
 /* Print the List(L) [O(n)] */
-void List_Print(SeqList L) {
+void SeqList_Print(SeqList L) {
     printf("Sequence List: ");
     if (L->length == 0) {
         printf("Empty List!\n");
@@ -134,4 +138,4 @@ void List_Print(SeqList L) {
     printf("\n");
 }
 
-#endif // SEQ_LIST_H
+#endif // SEQLIST_H
