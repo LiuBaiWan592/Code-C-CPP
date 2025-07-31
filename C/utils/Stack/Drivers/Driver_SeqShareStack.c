@@ -2,7 +2,7 @@
  * @FileName    :Driver_SeqShareStack.c
  * @Date        :2025-03-13 21:57:55
  * @Author      :LiuBaiWan (https://github.com/LiuBaiWan592)
- * @Version     :V1.0.0
+ * @Version     :V2.0.0
  * @Brief       :
  * @Description :
  */
@@ -11,7 +11,8 @@
 
  /* Driver Code */
  int main() {
-    SeqShareStack S = SeqShareStack_Init();
+    int capacity = 10;
+    SeqShareStack S = SeqShareStack_Init(capacity);
     SeqShareStack_Push(S, 1, 1);
     SeqShareStack_Push(S, 1, 2);
     SeqShareStack_Push(S, 1, 3);
@@ -44,6 +45,6 @@
     SeqShareStack_Clear(S);
     SeqShareStack_Print(S);
 
-    S = SeqShareStack_Destroy(S);
+    SeqShareStack_Destroy(S);
     return 0;
 }
