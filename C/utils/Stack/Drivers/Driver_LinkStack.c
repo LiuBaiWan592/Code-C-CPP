@@ -2,7 +2,7 @@
  * @FileName    :Driver_LinkStack.c
  * @Date        :2025-07-28 18:22:10
  * @Author      :LiuBaiWan (https://github.com/LiuBaiWan592)
- * @Version     :V1.0.0
+ * @Version     :V2.0.0
  * @Brief       :
  * @Description :
  */
@@ -37,6 +37,6 @@ int main() {
     LinkStack_Clear(S);
     LinkStack_Print(S);
 
-    S = LinkStack_Destroy(S);
+    LinkStack_Destroy(S);
     return 0;
 }

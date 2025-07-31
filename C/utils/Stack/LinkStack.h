@@ -2,7 +2,7 @@
  * @FileName    :LinkStack.h
  * @Date        :2025-07-28 18:26:04
  * @Author      :LiuBaiWan (https://github.com/LiuBaiWan592)
- * @Version     :V1.0.0
+ * @Version     :V2.0.0
  * @Brief       :Linked List Stack With Head Node
  * @Description :
  *              :LinkStack_Init: Initialize the Linked List Stack
@@ -23,14 +23,14 @@
 #include "../common.h"
 
 /* Head Node of Linked List Stack */
-typedef struct {
+typedef struct LinkStack{
     int length;
     LNode *next;
 } *LinkStack;
 
 /* Initialize Linked List Stack */
 LinkStack LinkStack_Init() {
-    LinkStack S = (LinkStack)malloc(sizeof(LinkStack));
+    LinkStack S = (LinkStack)malloc(sizeof(struct LinkStack));
     S->length = 0;
     S->next = NULL;
     return S;
@@ -91,16 +91,18 @@ bool LinkStack_Clear(LinkStack S) {
 }
 
 /* Destroy Linked List Stack */
-LinkStack LinkStack_Destroy(LinkStack S) {
+void LinkStack_Destroy(LinkStack S) {
+    if (S == NULL) {
+        return;
+    }
     LNode *p = S->next;
     while (p != NULL) {
         LNode *q = p->next;
         free(p);
         p = q;
     }
-    free(S);
-    S = NULL;
-    return S;
+    S->length = 0;
+    return;
 }
 
 /* Print Linked List Stack */
