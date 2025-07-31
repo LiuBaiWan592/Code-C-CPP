@@ -2,7 +2,7 @@
  * @FileName    :SeqShareStack.h
  * @Date        :2025-03-13 21:57:06
  * @Author      :LiuBaiWan (https://github.com/LiuBaiWan592)
- * @Version     :V2.0.0
+ * @Version     :V2.1.0
  * @Brief       :Sequential shared stack
  * @Description :
  *              :SeqShareStack_Init: Initialize the Sequence Stack
@@ -39,9 +39,6 @@ SeqShareStack SeqShareStack_Init(int capacity) {
     S->length_b = 0;
     S->capacity = capacity;
     S->data = (ElemType *)malloc(sizeof(ElemType) * capacity);
-    for (int i = 0; i < capacity; i++) {
-        S->data[i] = 0;
-    }
     return S;
 }
 

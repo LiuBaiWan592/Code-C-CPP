@@ -2,7 +2,7 @@
  * @FileName    :SeqStack.h
  * @Date        :2025-03-12 14:25:59
  * @Author      :LiuBaiWan (https://github.com/LiuBaiWan592)
- * @Version     :V2.0.0
+ * @Version     :V2.1.0
  * @Brief       :Sequence Stack
  * @Description :
  *              :SeqStack_Init: Initialize the Sequence Stack
@@ -37,9 +37,6 @@ SeqStack SeqStack_Init(int capacity) {
     S->length = 0;
     S->capacity = capacity;
     S->data = (ElemType *)malloc(sizeof(ElemType) * capacity);
-    for (int i = 0; i < capacity; i++) {
-        S->data[i] = 0;
-    }
     return S;
 }
 
