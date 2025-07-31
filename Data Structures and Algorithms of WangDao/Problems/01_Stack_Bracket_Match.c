@@ -28,13 +28,10 @@ bool Bracket_Match(char *str){
             char topElem;
             SeqStack_Pop(S, &topElem);       // pop the top element
             if(str[i] == ')' && topElem != '(')
-                SeqStack_Clear(S);
                 return false;
             if(str[i] == ']' && topElem != '[')
-                SeqStack_Clear(S);
                 return false;
             if(str[i] == '}' && topElem != '{')
-                SeqStack_Clear(S);
                 return false;
         }
     }
@@ -53,3 +50,4 @@ int main(){
 // {[()([))]()}         false
 // {[()()]()            false
 // ({[()()]()})[        false
+// ({[()()]()})[]       true
