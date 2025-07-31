@@ -2,7 +2,7 @@
  * @FileName    :SeqStack.h
  * @Date        :2025-03-12 14:25:59
  * @Author      :LiuBaiWan (https://github.com/LiuBaiWan592)
- * @Version     :V1.0.0
+ * @Version     :V2.0.0
  * @Brief       :Sequence Stack
  * @Description :
  *              :SeqStack_Init: Initialize the Sequence Stack
@@ -23,19 +23,21 @@
 #include "../common.h"
 
 /* Sequence Stack */
-typedef struct {
+typedef struct SeqStack{
     ElemType *data;
     int top;
     int length;
+    int capacity;
 } *SeqStack;
 
 /* Initialize the Sequence Stack */
-SeqStack SeqStack_Init() {
-    SeqStack S = (SeqStack)malloc(sizeof(SeqStack));
+SeqStack SeqStack_Init(int capacity) {
+    SeqStack S = (SeqStack)malloc(sizeof(struct SeqStack));
     S->top = -1;
     S->length = 0;
-    S->data = (ElemType *)malloc(sizeof(ElemType) * Maxsize);
-    for (int i = 0; i < Maxsize; i++) {
+    S->capacity = capacity;
+    S->data = (ElemType *)malloc(sizeof(ElemType) * capacity);
+    for (int i = 0; i < capacity; i++) {
         S->data[i] = 0;
     }
     return S;
@@ -55,7 +57,7 @@ bool SeqStack_IsEmpty(SeqStack S) {
 
 /* Check if the Stack(S) is full [O(1)] */
 bool SeqStack_IsFull(SeqStack S) {
-    return S->top == Maxsize - 1;
+    return S->top == S->capacity - 1;
 }
 
 /* Push Element to the Stack(S) [O(1)] */
@@ -98,11 +100,15 @@ bool SeqStack_Clear(SeqStack S) {
 }
 
 /* Destroy the Stack(S) */
-SeqStack SeqStack_Destroy(SeqStack S) {
+void SeqStack_Destroy(SeqStack S) {
+    if (S == NULL) {
+        return;
+    }
     free(S->data);
-    free(S);
-    S = NULL;
-    return S;
+    S->top = -1;
+    S->length = 0;
+    S->capacity = 0;
+    return;
 }
 
 /* Print the Stack(S) [O(n)] */
