@@ -1,8 +1,8 @@
 /**
- * @FileName    :01_Stack_Bracket_Match.c
+ * @FileName    :01_Bracket_Match.c
  * @Date        :2025-07-28 22:09:32
  * @Author      :LiuBaiWan (https://github.com/LiuBaiWan592)
- * @Version     :V1.0.0
+ * @Version     :V2.0.0
  * @Brief       :Stack to match brackets
  * @Description :
  */
