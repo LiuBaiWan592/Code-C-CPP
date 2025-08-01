@@ -2,7 +2,7 @@
  * @FileName    :SeqListDyn_Dyn.h
  * @Date        :2025-03-07 20:16:20
  * @Author      :LiuBaiWan (https://github.com/LiuBaiWan592)
- * @Version     :V2.0.0
+ * @Version     :V2.1.0
  * @Brief       :Sequence List of Dynamic
  * @Description :The indexes in all functions are array indices starting from 0
  *              :SeqListDyn: Sequence List of dynamic
@@ -38,9 +38,6 @@ SeqListDyn SeqListDyn_Init(int capacity) {
     L->length = 0;
     L->capacity = capacity;
     L->data = (ElemType *)malloc(sizeof(ElemType) * L->capacity);
-    for (int i = 0; i < L->capacity; i++) {
-        L->data[i] = 0;
-    }
     return L;
 }
 

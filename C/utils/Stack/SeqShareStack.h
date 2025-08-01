@@ -125,9 +125,6 @@ bool SeqShareStack_Clear(SeqShareStack S) {
     S->top_b = S->capacity;
     S->length_a = 0;
     S->length_b = 0;
-    for (int i = 0; i < S->capacity; i++) {
-        S->data[i] = 0;
-    }
     return true;
 }
 

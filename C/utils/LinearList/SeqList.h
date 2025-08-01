@@ -2,7 +2,7 @@
  * @FileName    :SeqList.h
  * @Date        :2025-03-07 20:10:54
  * @Author      :LiuBaiWan (https://github.com/LiuBaiWan592)
- * @Version     :V2.0.0
+ * @Version     :V2.1.0
  * @Brief       :Sequence List
  * @Description :The indexes in all functions are array indices starting from 0
  *              :SeqList: Sequence List
@@ -33,9 +33,6 @@ typedef struct {
 SQList SeqList_Init() {
     SQList L;
     L.length = 0;
-    for (int i = 0; i < Maxsize; i++) {
-        L.data[i] = 0;
-    }
     return L;
 }
 
@@ -110,9 +107,6 @@ bool SeqList_Delete(SeqList L, int index, ElemType *e) {
 
 /* Destory the List(L) [O(1)] */
 void SeqList_Destroy(SeqList L) {
-    for (int i = 0; i < Maxsize; i++) {
-        L->data[i] = 0;
-    }
     L->length = 0;
     return;
 }
