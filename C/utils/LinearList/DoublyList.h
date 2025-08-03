@@ -2,7 +2,7 @@
  * @FileName    :DoublyList.h
  * @Date        :2025-03-07 20:23:41
  * @Author      :LiuBaiWan (https://github.com/LiuBaiWan592)
- * @Version     :V2.0.0
+ * @Version     :V1.0.0
  * @Brief       :Doubly Linked List
  * @Description :Doubly List With Header node
  *              :The indexes in all functions are the order of nodes starting from 1
@@ -29,6 +29,8 @@
  * Insert by Position:
  *              :DoublyList_InsertNodeByPosition: Insert the Node p into the DoublyList(L) at the position i (i start from 1) [O(n)]
  *              :DoublyList_InsertDataByPosition: Insert the Data into the DoublyList(L) at the position i (i start from 1) [O(n)]
+ * Reverse:
+ *              :LinkList_Reverse: Reverse the List(L) [O(n)]
  * Delete and Destroy:
  *              :DoublyList_DeleteNodeByPosition: Delete the Node p in the DoublyList(L) at the position i (i start from 1) [O(n)]
  *              :DoublyList_DeleteNodeByData: Delete the Node p in the DoublyList(L) with the first occurrence of Data [O(n)]
@@ -43,7 +45,7 @@
 #include "../common.h"
 
 /* Head Node of Linked List */
-typedef struct DoublyList{
+typedef struct DoublyList {
     int length;         // Length of Linked List
     DNode *front;        // Front Node
     DNode *rear;        // Rear Node
@@ -60,27 +62,28 @@ DoublyList DoublyList_Init() {
 
 /* Get the length of the List(L) [O(1)] */
 int DoublyList_GetLength(DoublyList L) {
+    assert(L != NULL && "ERROR: When getting the length of the List, the List is NULL");
     return L->length;
 }
 
 /* Check if the List(L) is empty [O(1)] */
 bool DoublyList_IsEmpty(DoublyList L) {
+    assert(L != NULL && "ERROR: When checking if the List is empty, the List is NULL");
     // return L->length == 0;
     return L->front == NULL;
 }
 
 /* Get the Data of the Node p [O(1)] */
-bool DoublyList_GetData(DNode *p, ElemType *data) {
-    if (p == NULL) {
-        printf("Get Data Error: Node is NULL\n");
-        return false;
-    }
-    *data = p->data;
-    return true;
+ElemType DoublyList_GetData(DNode *p) {
+    assert(p != NULL && "ERROR: When getting the Data of the Node, the Node is NULL");
+    ElemType data = p->data;
+    return data;
 }
 
 /* Get the Node of the List(L) at the position i (i start from 1) [O(n)] */
 DNode *DoublyList_GetNodeByPosition(DoublyList L, int i) {
+    assert(L != NULL && "ERROR: When getting the Node of the List, the List is NULL");
+    // Judge whether the index is within the valid range
     if (i < 1 || i > L->length) {
         printf("Get Node Error: Position %d is out of range\n", i);
         return NULL;
@@ -97,6 +100,7 @@ DNode *DoublyList_GetNodeByPosition(DoublyList L, int i) {
 
 /* Get the Node of the List(L) with the Data [O(n)] */
 DNode *DoublyList_GetNodeByData(DoublyList L, ElemType data) {
+    assert(L != NULL && "ERROR: When getting the Node of the List, the List is NULL");
     DNode *p = L->front;
     while (p != NULL && p->data != data) {
         p = p->next;
@@ -110,6 +114,8 @@ DNode *DoublyList_GetNodeByData(DoublyList L, ElemType data) {
 
 /* Get the position i (i start from 1) of the Node p in the List(L) [O(n)] */
 int DoublyList_GetPositionByNode(DoublyList L, DNode *p) {
+    assert(L != NULL && "ERROR: When getting the position of the Node, the List is NULL");
+    assert(p != NULL && "ERROR: When getting the position of the Node, the Node is NULL");
     DNode *q = L->front;
     int i = 1;
     while (q != NULL && q != p) {
@@ -125,6 +131,7 @@ int DoublyList_GetPositionByNode(DoublyList L, DNode *p) {
 
 /* Get the position i (i start from 1) of the Data in the List(L) [O(n)] */
 int DoublyList_GetPositionByData(DoublyList L, ElemType data) {
+    assert(L != NULL && "ERROR: When getting the position of the Data, the List is NULL");
     DNode *p = L->front;
     int i = 1;
     while (p != NULL && p->data != data) {
@@ -138,20 +145,20 @@ int DoublyList_GetPositionByData(DoublyList L, ElemType data) {
     return i;
 }
 
-/* Get the Data of the List(L) at the position i (i start from 1) [O(n)] */
-bool DoublyList_GetDataByPosition(DoublyList L, int i, ElemType *data) {
+/* Get the data of the List(L) at the position i (i start from 1) [O(n)] */
+ElemType DoublyList_GetDataByPosition(DoublyList L, int i) {
+    assert(L != NULL && "ERROR: When getting the data of the List, the List is NULL!");
+    assert(i >= 1 && i <= L->length && "ERROR: When getting the data of the List, the position is out of range!");
     DNode *p = DoublyList_GetNodeByPosition(L, i);
-    return DoublyList_GetData(p, data);
+    return DoublyList_GetData(p);
 }
 
 /* =============================================================================== */
 
 /* Insert the Node p into the List(L) at the front [O(1)] */
 bool DoublyList_HeadInsertNode(DoublyList L, DNode *p) {
-    if(L == NULL || p == NULL) {
-        printf("Insert Node Error: List or Node is NULL\n");
-        return false;
-    }
+    assert(L != NULL && "ERROR: When inserting the Node, the List is NULL!");
+    assert(p != NULL && "ERROR: When inserting the Node, the Node is NULL!");
     if (L->front == NULL) {
         p->next = L->front;
         p->prior = NULL;
@@ -169,6 +176,7 @@ bool DoublyList_HeadInsertNode(DoublyList L, DNode *p) {
 
 /* (Head Insertion) Insert the Data into the List(L) at the front [O(1)] */
 bool DoublyList_HeadInsertData(DoublyList L, ElemType data) {
+    assert(L != NULL && "ERROR: When inserting the Data, the List is NULL!");
     DNode *p = (DNode *)malloc(sizeof(DNode));
     p->data = data;
     return DoublyList_HeadInsertNode(L, p);
@@ -176,24 +184,23 @@ bool DoublyList_HeadInsertData(DoublyList L, ElemType data) {
 
 /* Create DoublyList(L) from Array(dataset) By Head Insert [O(n)] */
 bool DoublyList_CreateByHeadInsert(DoublyList L, ElemType dataset[], int length) {
+    assert(L != NULL && "ERROR: When creating the List, the List is NULL!");
+    assert(dataset != NULL && "ERROR: When creating the List, the Dataset is NULL!");
     for (int i = length - 1; i >= 0; i--) {
-        if(DoublyList_HeadInsertData(L, dataset[i])){
+        if (DoublyList_HeadInsertData(L, dataset[i])) {
             continue;
         } else {
             printf("Create List Error: Insert Data %d failed\n", dataset[i]);
             return false;
         }
-
     }
     return true;
 }
 
 /* Insert the Node p into the List(L) at the rear [O(1)] */
 bool DoublyList_TailInsertNode(DoublyList L, DNode *p) {
-    if(L == NULL || p == NULL) {
-        printf("Insert Node Error: List or Node is NULL\n");
-        return false;
-    }
+    assert(L != NULL && "ERROR: When inserting the Node, the List is NULL!");
+    assert(p != NULL && "ERROR: When inserting the Node, the Node is NULL!");
     if (L->front == NULL) {
         p->next = L->front;
         p->prior = NULL;
@@ -211,6 +218,7 @@ bool DoublyList_TailInsertNode(DoublyList L, DNode *p) {
 
 /* (Tail Insertion) Insert the Data into the List(L) at the rear [O(1)] */
 bool DoublyList_TailInsertData(DoublyList L, ElemType data) {
+    assert(L != NULL && "ERROR: When inserting the Data, the List is NULL!");
     DNode *p = (DNode *)malloc(sizeof(DNode));
     p->data = data;
     return DoublyList_TailInsertNode(L, p);
@@ -218,8 +226,10 @@ bool DoublyList_TailInsertData(DoublyList L, ElemType data) {
 
 /* Create DoublyList(L) from Array(dataset) By Tail Insert [O(n)] */
 bool DoublyList_CreateByTailInsert(DoublyList L, ElemType dataset[], int length) {
+    assert(L != NULL && "ERROR: When creating the List, the List is NULL!");
+    assert(dataset != NULL && "ERROR: When creating the List, the Dataset is NULL!");
     for (int i = 0; i < length; i++) {
-        if(DoublyList_TailInsertData(L, dataset[i])){
+        if (DoublyList_TailInsertData(L, dataset[i])) {
             continue;
         } else {
             printf("Create List Error: Insert Data %d failed\n", dataset[i]);
@@ -231,6 +241,8 @@ bool DoublyList_CreateByTailInsert(DoublyList L, ElemType dataset[], int length)
 
 /* Insert the Node p into the List(L) at the position i (i start from 1) [O(n)] */
 bool DoublyList_InsertNodeByPosition(DoublyList L, int i, DNode *p) {
+    assert(L != NULL && "ERROR: When inserting the Node, the List is NULL!");
+    assert(p != NULL && "ERROR: When inserting the Node, the Node is NULL!");
     if (i < 1 || i > L->length + 1) {
         printf("Insert Position Error: Index (%d) out of range!\n", i);
         return false;
@@ -259,6 +271,11 @@ bool DoublyList_InsertNodeByPosition(DoublyList L, int i, DNode *p) {
 
 /* Insert the Data into the List(L) at the position i (i start from 1) [O(n)] */
 bool DoublyList_InsertDataByPosition(DoublyList L, int i, ElemType data) {
+    assert(L != NULL && "ERROR: When inserting the Data, the List is NULL!");
+    if (i < 1 || i > L->length + 1) {
+        printf("Insert Position Error: Index (%d) out of range!\n", i);
+        return false;
+    }
     DNode *p = (DNode *)malloc(sizeof(DNode));
     p->data = data;
     return DoublyList_InsertNodeByPosition(L, i, p);
@@ -268,10 +285,16 @@ bool DoublyList_InsertDataByPosition(DoublyList L, int i, ElemType data) {
 
 /* Reverse the List(L) [O(n)] */
 bool DoublyList_Reverse(DoublyList L) {
-    if (L->front == NULL || L->front == L->rear) {
-        printf("Reverse Warring: Empty List or Only One Node in the List!\n");
+    assert(L != NULL && "ERROR: When reversing the List, the List is NULL!");
+    if (L->front == NULL) {
+        printf("Reverse Warring: Empty List!\n");
         return false;
     }
+    if (L->front == L->rear) {
+        printf("Reverse Warring: Only One Node in the List!\n");
+        return false;
+    }
+
     DNode *p = L->front;
     DNode *q = L->rear;
     while (p != q && q->next != p) {
@@ -284,13 +307,12 @@ bool DoublyList_Reverse(DoublyList L) {
     return true;
 }
 
+/* =============================================================================== */
+
 /* Delete the Node p in the List(L) at the position i (i start from 1) [O(n)]  */
-bool DoublyList_DeleteNodeByPosition(DoublyList L, int i, ElemType *del) {
-    if (i < 1 || i > L->length) {
-        *del = -1;
-        printf("Delete Position Error: Index (%d) out of range!\n", i);
-        return false;
-    }
+ElemType DoublyList_DeleteNodeByPosition(DoublyList L, int i) {
+    assert(L != NULL && "ERROR: When deleting the Node, the List is NULL!");
+    assert(i >= 1 && i <= L->length && "ERROR: When deleting the Node, the Index out of range!");
     // q: Target Node; p: Node before q
     DNode *q;
     if (i == 1) {
@@ -317,24 +339,21 @@ bool DoublyList_DeleteNodeByPosition(DoublyList L, int i, ElemType *del) {
         }
     }
     L->length--;
-    *del = q->data;
+    ElemType del = q->data;
     free(q);
-    return true;
+    return del;
 }
 
 /* Delete the Node p in the List(L) with the first occurrence of Data [O(n)] */
-bool DoublyList_DeleteNodeByData(DoublyList L, ElemType data, ElemType *del) {
+ElemType DoublyList_DeleteNodeByData(DoublyList L, ElemType data) {
+    assert(L != NULL && "ERROR: When deleting the Node, the List is NULL!");
     // q: Target Node; p: Node before q
     DNode *p = NULL, *q = L->front;
     while (q != NULL && q->data != data) {
         p = q;
         q = q->next;
     }
-    if (q == NULL) {
-        *del = -1;
-        printf("Delete Data Error: Data (%d) not in the list!\n", data);
-        return false;
-    }
+    assert(q != NULL && "ERROR: When deleting the Node, the Data not found!");      // q == NULL means the Data not found
     if (q == L->front) {
         L->front = q->next;
         if (L->front == NULL) {
@@ -351,13 +370,14 @@ bool DoublyList_DeleteNodeByData(DoublyList L, ElemType data, ElemType *del) {
         }
     }
     L->length--;
-    *del = q->data;
+    ElemType del = q->data;
     free(q);
-    return true;
+    return del;
 }
 
 /* Destroy the List(L) [O(n)] */
 bool DoublyList_Destroy(DoublyList L) {
+    assert(L != NULL && "ERROR: When destroying the List, the List is NULL!");
     DNode *p = L->front, *q = NULL;
     while (p != NULL) {
         q = p;
