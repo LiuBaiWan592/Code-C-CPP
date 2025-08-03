@@ -18,6 +18,8 @@
 #define Maxsize 10
 #endif // Maxsize
 
+#include <assert.h>
+
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
