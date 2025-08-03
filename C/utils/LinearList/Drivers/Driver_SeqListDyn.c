@@ -2,7 +2,7 @@
  * @FileName    :Driver_SeqListDyn.c
  * @Date        :2025-03-07 20:18:29
  * @Author      :LiuBaiWan (https://github.com/LiuBaiWan592)
- * @Version     :V2.0.0
+ * @Version     :V1.0.0
  * @Brief       :
  * @Description :
  */
@@ -17,16 +17,15 @@ int main() {
         SeqListDyn_InsertEnd(L, i);
     }
 
-    printf("Length: %d\n", SeqListDyn_GetLength(L));
-
-    SeqListDyn_Print(L);
-
-
     if (SeqListDyn_IsEmpty(L)) {
         printf("List is empty!\n");
     } else {
         printf("List is not empty!\n");
     }
+
+    printf("Length: %d\n", SeqListDyn_GetLength(L));
+
+    SeqListDyn_Print(L);
 
     printf("Element at index 2: %d\n", SeqListDyn_GetElem(L, 2));
     printf("Index of element 3: %d\n", SeqListDyn_LocateElem(L, 3));
@@ -39,41 +38,37 @@ int main() {
     printf("Length: %d\n", SeqListDyn_GetLength(L));
     SeqListDyn_Insert(L, 9999, 9);
     SeqListDyn_Insert(L, 99999, 10);
-    SeqListDyn_Insert(L, 999999, 11);
+    SeqListDyn_Insert(L, 999999, 11);  // The List is full, will extend the capacity of the List
     SeqListDyn_Print(L);
 
     printf("================================================\n");
 
-    ElemType e;
-    SeqListDyn_Delete(L, 0, &e);
-    printf("Deleted Element: %d\n", e);
+    printf("Deleted Element: %d\n", SeqListDyn_Delete(L, 0));
     SeqListDyn_Print(L);
     printf("\n");
 
-    SeqListDyn_Delete(L, 1, &e);
-    printf("Deleted Element: %d\n", e);
+    printf("Deleted Element: %d\n", SeqListDyn_Delete(L, 1));
     SeqListDyn_Print(L);
     printf("\n");
 
-    SeqListDyn_Delete(L, 7, &e);
-    printf("Deleted Element: %d\n", e);
+    printf("Deleted Element: %d\n", SeqListDyn_Delete(L, 7));
     SeqListDyn_Print(L);
     printf("\n");
 
-    SeqListDyn_Delete(L, 8, &e);
-    printf("Deleted Element: %d\n", e);
+    printf("Deleted Element: %d\n", SeqListDyn_Delete(L, 8));
     SeqListDyn_Print(L);
     printf("\n");
 
-    SeqListDyn_Delete(L, 10, &e);
-    printf("Deleted Element: %d\n", e);
+    // Out of Range
+    /*
+    printf("Deleted Element: %d\n", SeqListDyn_Delete(L, 10));
     SeqListDyn_Print(L);
     printf("\n");
 
-    SeqListDyn_Delete(L, 11, &e);
-    printf("Deleted Element: %d\n", e);
+    printf("Deleted Element: %d\n", SeqListDyn_Delete(L, 11));
     SeqListDyn_Print(L);
     printf("\n");
+    */
 
     printf("================================================\n");
 
