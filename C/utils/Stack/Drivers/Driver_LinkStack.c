@@ -21,13 +21,9 @@ int main() {
 
     LinkStack_Print(S);
 
-    ElemType top;
-    LinkStack_GetTop(S, &top);
-    printf("Top: %d\n", top);
+    printf("Top: %d\n", LinkStack_GetTop(S));
 
-    ElemType pop;
-    LinkStack_Pop(S, &pop);
-    printf("Pop: %d\n", pop);
+    printf("Pop: %d\n", LinkStack_Pop(S));
 
     bool empty = LinkStack_IsEmpty(S);
     printf("Is Empty: %s\n", empty ? "true" : "false");
