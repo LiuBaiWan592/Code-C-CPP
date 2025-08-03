@@ -10,7 +10,7 @@
 #include "../SeqShareStack.h"
 
  /* Driver Code */
- int main() {
+int main() {
     int capacity = 10;
     SeqShareStack S = SeqShareStack_Init(capacity);
     SeqShareStack_Push(S, 1, 1);
@@ -23,17 +23,13 @@
     SeqShareStack_Push(S, 2, 8);
     SeqShareStack_Push(S, 2, 9);
     SeqShareStack_Push(S, 2, 10);
-    SeqShareStack_Push(S, 2, 11);
+    // SeqShareStack_Push(S, 2, 11);        // The stack is full, so this line will cause an error
 
     SeqShareStack_Print(S);
 
-    ElemType top;
-    SeqShareStack_GetTop(S, 2, &top);
-    printf("Top: %d\n", top);
+    printf("Top: %d\n", SeqShareStack_GetTop(S, 2));
 
-    ElemType pop;
-    SeqShareStack_Pop(S, 2, &pop);
-    printf("Pop: %d\n", pop);
+    printf("Pop: %d\n", SeqShareStack_Pop(S, 2));
 
     bool empty = SeqShareStack_IsEmpty(S, 2);
     printf("Is Empty: %s\n", empty ? "true" : "false");

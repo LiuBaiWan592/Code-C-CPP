@@ -2,7 +2,7 @@
  * @FileName    :SeqShareStack.h
  * @Date        :2025-03-13 21:57:06
  * @Author      :LiuBaiWan (https://github.com/LiuBaiWan592)
- * @Version     :V2.1.0
+ * @Version     :V1.0.0
  * @Brief       :Sequential shared stack
  * @Description :
  *              :SeqShareStack_Init: Initialize the Sequence Stack
@@ -23,7 +23,7 @@
 #include "../common.h"
 
 /* Sequential shared stack */
-typedef struct SeqShareStack{
+typedef struct SeqShareStack {
     ElemType *data;
     int top_a, top_b;
     int length_a, length_b;
@@ -44,6 +44,8 @@ SeqShareStack SeqShareStack_Init(int capacity) {
 
 /* Get the length of the Stack(S) [O(1)] */
 int SeqShareStack_GetLength(SeqShareStack S, int flag) {
+    assert(S != NULL && "ERROR: When getting the length of the Stack, the Stack is NULL!\n");
+    assert(flag == 1 || flag == 2 && "ERROR: When getting the length of the Stack, flag must be 1 or 2!");
     if (flag == 1) {
         // return S->length_a;
         return S->top_a + 1;
@@ -55,6 +57,8 @@ int SeqShareStack_GetLength(SeqShareStack S, int flag) {
 
 /* Check if the Stack(S) is empty [O(1)] */
 bool SeqShareStack_IsEmpty(SeqShareStack S, int flag) {
+    assert(S != NULL && "ERROR: When checking if the Stack is empty, the Stack is NULL!\n");
+    assert(flag == 1 || flag == 2 && "ERROR: When checking if the Stack is empty, flag must be 1 or 2!");
     if (flag == 1) {
         // return S->top_a == -1;
         return S->length_a == 0;
@@ -66,16 +70,16 @@ bool SeqShareStack_IsEmpty(SeqShareStack S, int flag) {
 
 /* Check if the Stack(S) is full [O(1)] */
 bool SeqShareStack_IsFull(SeqShareStack S) {
+    assert(S != NULL && "ERROR: When checking if the Stack is full, the Stack is NULL!\n");
     // return S->length_a + S->length_b == S->capacity;
     return S->top_a + 1 == S->top_b;
 }
 
 /* Push Element to the Stack(S) [O(1)] */
 bool SeqShareStack_Push(SeqShareStack S, int flag, ElemType e) {
-    if (SeqShareStack_IsFull(S)) {
-        printf("Push Error: Stack is Full! Failed to Push Element %d!\n", e);
-        return false;
-    }
+    assert(S != NULL && "ERROR: When pushing an element to the Stack, the Stack is NULL!\n");
+    assert(flag == 1 || flag == 2 && "ERROR: When pushing an element to the Stack, flag must be 1 or 2!");
+    assert(!SeqShareStack_IsFull(S) && "ERROR: When pushing an element to the Stack, the Stack is Full!\n");
     if (flag == 1) {
         S->data[++S->top_a] = e;
         S->length_a++;
@@ -87,37 +91,38 @@ bool SeqShareStack_Push(SeqShareStack S, int flag, ElemType e) {
 }
 
 /* Pop Element from the Stack(S) [O(1)] */
-bool SeqShareStack_Pop(SeqShareStack S, int flag, ElemType *e) {
-    if (SeqShareStack_IsEmpty(S, flag)) {
-        printf("Pop Error: Stack is Empty! Failed to Pop Element!\n");
-        return false;
-    }
+ElemType SeqShareStack_Pop(SeqShareStack S, int flag) {
+    assert(S != NULL && "ERROR: When popping an element from the Stack, the Stack is NULL!\n");
+    assert(flag == 1 || flag == 2 && "ERROR: When popping an element from the Stack, flag must be 1 or 2!");
+    assert(!SeqShareStack_IsEmpty(S, flag) && "ERROR: When popping an element from the Stack, the Stack is Empty!\n");
+    ElemType e;
     if (flag == 1) {
-        *e = S->data[S->top_a--];
+        e = S->data[S->top_a--];
         S->length_a--;
     } else {
-        *e = S->data[S->top_b++];
+        e = S->data[S->top_b++];
         S->length_b--;
     }
-    return true;
+    return e;
 }
 
 /* Get the top Element of the Stack(S) [O(1)] */
-bool SeqShareStack_GetTop(SeqShareStack S, int flag, ElemType *e) {
-    if (SeqShareStack_IsEmpty(S, flag)) {
-        printf("GetTop Error: Stack is Empty! Failed to Get Top Element!\n");
-        return false;
-    }
+ElemType SeqShareStack_GetTop(SeqShareStack S, int flag) {
+    assert(S != NULL && "ERROR: When getting the top element of the Stack, the Stack is NULL!\n");
+    assert(flag == 1 || flag == 2 && "ERROR: When getting the top element of the Stack, flag must be 1 or 2!");
+    assert(!SeqShareStack_IsEmpty(S, flag) && "ERROR: When getting the top element of the Stack, the Stack is Empty!\n");
+    ElemType e;
     if (flag == 1) {
-        *e = S->data[S->top_a];
+        e = S->data[S->top_a];
     } else {
-        *e = S->data[S->top_b];
+        e = S->data[S->top_b];
     }
-    return true;
+    return e;
 }
 
 /* Clear the Stack(S) */
 bool SeqShareStack_Clear(SeqShareStack S) {
+    assert(S != NULL && "ERROR: When clearing the Stack, the Stack is NULL!\n");
     if (S == NULL) {
         return false;
     }
@@ -130,6 +135,7 @@ bool SeqShareStack_Clear(SeqShareStack S) {
 
 /* Destroy the Stack(S) */
 void SeqShareStack_Destroy(SeqShareStack S) {
+    assert(S != NULL && "ERROR: When destroying the Stack, the Stack is NULL!\n");
     if (S == NULL) {
         return;
     }
@@ -160,14 +166,14 @@ void SeqShareStack_Print(SeqShareStack S) {
     for (int i = 0; i < S->top_a + 1; i++) {
         printf("%d    ", S->data[i]);
     }
-    for(int i = S->top_a + 1; i < S->top_b; i++) {
+    for (int i = S->top_a + 1; i < S->top_b; i++) {
         printf("%d    ", 0);
     }
-    for(int i = S->top_b; i < Maxsize; i++) {
+    for (int i = S->top_b; i < Maxsize; i++) {
         printf("%d    ", S->data[i]);
     }
     printf("\n");
     return;
 }
 
-#endif //SEQSHARESTACK_H
+#endif // SEQSHARESTACK_H
