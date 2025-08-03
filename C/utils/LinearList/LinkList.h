@@ -2,7 +2,7 @@
  * @FileName    :LinkList.h
  * @Date        :2025-03-07 20:19:51
  * @Author      :LiuBaiWan (https://github.com/LiuBaiWan592)
- * @Version     :V2.0.0
+ * @Version     :V1.0.0
  * @Brief       :Linked List
  * @Description :List With Header node
  *              :The indexes in all functions are the order of nodes starting from 1
@@ -45,7 +45,7 @@
 #include "../common.h"
 
 /* Head Node of Linked List */
-typedef struct LinkList{
+typedef struct LinkList {
     int length;         // Length of Linked List
     LNode *front;        // Front Node
     LNode *rear;        // Rear Node
@@ -62,27 +62,28 @@ LinkList LinkList_Init() {
 
 /* Get the length of the List(L) [O(1)] */
 int LinkList_GetLength(LinkList L) {
+    assert(L != NULL && "ERROR: When getting the length of the List, the List is NULL!");
     return L->length;
 }
 
 /* Check if the List(L) is empty [O(1)] */
 bool LinkList_IsEmpty(LinkList L) {
+    assert(L != NULL && "ERROR: When checking if the List is empty, the List is NULL!");
     // return L->length == 0;
     return L->front == NULL;
 }
 
 /* Get the Data of the Node p [O(1)] */
-bool LinkList_GetData(LNode *p, ElemType *data) {
-    if (p == NULL) {
-        printf("Get Data Error: Node is NULL\n");
-        return false;
-    }
-    *data = p->data;
-    return true;
+ElemType LinkList_GetData(LNode *p) {
+    assert(p != NULL && "ERROR: When getting the Data of the Node, the Node is NULL!");
+    ElemType data = p->data;
+    return data;
 }
 
 /* Get the Node of the List(L) at the position i (i start from 1) [O(n)] */
 LNode *LinkList_GetNodeByPosition(LinkList L, int i) {
+    assert(L != NULL && "ERROR: When getting the Node of the List, the List is NULL!");
+    // Judge whether the index is within the valid range
     if (i < 1 || i > L->length) {
         printf("Get Node Error: Position %d is out of range\n", i);
         return NULL;
@@ -99,6 +100,7 @@ LNode *LinkList_GetNodeByPosition(LinkList L, int i) {
 
 /* Get the Node of the List(L) with the Data [O(n)] */
 LNode *LinkList_GetNodeByData(LinkList L, ElemType data) {
+    assert(L != NULL && "ERROR: When getting the Node of the List, the List is NULL!");
     LNode *p = L->front;
     while (p != NULL && p->data != data) {
         p = p->next;
@@ -112,6 +114,8 @@ LNode *LinkList_GetNodeByData(LinkList L, ElemType data) {
 
 /* Get the position i (i start from 1) of the Node p in the List(L) [O(n)] */
 int LinkList_GetPositionByNode(LinkList L, LNode *p) {
+    assert(L != NULL && "ERROR: When getting the position of the Node, the List is NULL!");
+    assert(p != NULL && "ERROR: When getting the position of the Node, the Node is NULL!");
     LNode *q = L->front;
     int i = 1;
     while (q != NULL && q != p) {
@@ -127,6 +131,7 @@ int LinkList_GetPositionByNode(LinkList L, LNode *p) {
 
 /* Get the position i (i start from 1) of the Data in the List(L) [O(n)] */
 int LinkList_GetPositionByData(LinkList L, ElemType data) {
+    assert(L != NULL && "ERROR: When getting the position of the Data, the List is NULL!");
     LNode *p = L->front;
     int i = 1;
     while (p != NULL && p->data != data) {
@@ -141,19 +146,19 @@ int LinkList_GetPositionByData(LinkList L, ElemType data) {
 }
 
 /* Get the data of the List(L) at the position i (i start from 1) [O(n)] */
-bool LinkList_GetDataByPosition(LinkList L, int i, ElemType *data) {
+ElemType LinkList_GetDataByPosition(LinkList L, int i) {
+    assert(L != NULL && "ERROR: When getting the data of the List, the List is NULL!");
+    assert(i >= 1 && i <= L->length && "ERROR: When getting the data of the List, the position is out of range!");
     LNode *p = LinkList_GetNodeByPosition(L, i);
-    return LinkList_GetData(p, data);
+    return LinkList_GetData(p);
 }
 
 /* =============================================================================== */
 
 /* Insert the Node p into the List(L) at the front [O(1)] */
 bool LinkList_HeadInsertNode(LinkList L, LNode *p) {
-    if(L == NULL || p == NULL) {
-        printf("Insert Node Error: List or Node is NULL\n");
-        return false;
-    }
+    assert(L != NULL && "ERROR: When inserting the Node, the List is NULL!");
+    assert(p != NULL && "ERROR: When inserting the Node, the Node is NULL!");
     if (L->front == NULL) {
         p->next = L->front;
         L->front = p;
@@ -168,6 +173,7 @@ bool LinkList_HeadInsertNode(LinkList L, LNode *p) {
 
 /* (Head Insertion) Insert the Data into the List(L) at the front [O(1)] */
 bool LinkList_HeadInsertData(LinkList L, ElemType data) {
+    assert(L != NULL && "ERROR: When inserting the Data, the List is NULL!");
     LNode *p = (LNode *)malloc(sizeof(LNode));
     p->data = data;
     return LinkList_HeadInsertNode(L, p);
@@ -175,10 +181,12 @@ bool LinkList_HeadInsertData(LinkList L, ElemType data) {
 
 /* Create LinkList(L) from Array(dataset) By Head Insert [O(n)] */
 bool LinkList_CreateByHeadInsert(LinkList L, ElemType dataset[], int length) {
+    assert(L != NULL && "ERROR: When creating the List, the List is NULL!");
+    assert(dataset != NULL && "ERROR: When creating the List, the Dataset is NULL!");
     for (int i = length - 1; i >= 0; i--) {
-        if(LinkList_HeadInsertData(L, dataset[i])){
+        if (LinkList_HeadInsertData(L, dataset[i])) {
             continue;
-        }else {
+        } else {
             printf("Create List Error: Insert Data %d failed\n", dataset[i]);
             return false;
         }
@@ -188,10 +196,8 @@ bool LinkList_CreateByHeadInsert(LinkList L, ElemType dataset[], int length) {
 
 /* Insert the Node p into the List(L) at the rear [O(1)] */
 bool LinkList_TailInsertNode(LinkList L, LNode *p) {
-    if(L == NULL || p == NULL) {
-        printf("Insert Node Error: List or Node is NULL\n");
-        return false;
-    }
+    assert(L != NULL && "ERROR: When inserting the Node, the List is NULL!");
+    assert(p != NULL && "ERROR: When inserting the Node, the Node is NULL!");
     if (L->front == NULL) {
         p->next = L->front;
         L->front = p;
@@ -207,6 +213,7 @@ bool LinkList_TailInsertNode(LinkList L, LNode *p) {
 
 /* (Tail Insertion) Insert the Data into the List(L) at the rear [O(1)] */
 bool LinkList_TailInsertData(LinkList L, ElemType data) {
+    assert(L != NULL && "ERROR: When inserting the Data, the List is NULL!");
     LNode *p = (LNode *)malloc(sizeof(LNode));
     p->data = data;
     return LinkList_TailInsertNode(L, p);
@@ -214,10 +221,12 @@ bool LinkList_TailInsertData(LinkList L, ElemType data) {
 
 /* Create LinkList(L) from Array(dataset) By Tail Insert [O(n)] */
 bool LinkList_CreateByTailInsert(LinkList L, ElemType dataset[], int length) {
+    assert(L != NULL && "ERROR: When creating the List, the List is NULL!");
+    assert(dataset != NULL && "ERROR: When creating the List, the Dataset is NULL!");
     for (int i = 0; i < length; i++) {
-        if(LinkList_TailInsertData(L, dataset[i])){
+        if (LinkList_TailInsertData(L, dataset[i])) {
             continue;
-        }else {
+        } else {
             printf("Create List Error: Insert Data %d failed\n", dataset[i]);
             return false;
         }
@@ -227,6 +236,8 @@ bool LinkList_CreateByTailInsert(LinkList L, ElemType dataset[], int length) {
 
 /* Insert the Node p into the List(L) at the position i (i start from 1) [O(n)] */
 bool LinkList_InsertNodeByPosition(LinkList L, int i, LNode *p) {
+    assert(L != NULL && "ERROR: When inserting the Node, the List is NULL!");
+    assert(p != NULL && "ERROR: When inserting the Node, the Node is NULL!");
     if (i < 1 || i > L->length + 1) {
         printf("Insert Position Error: Index (%d) out of range!\n", i);
         return false;
@@ -253,6 +264,11 @@ bool LinkList_InsertNodeByPosition(LinkList L, int i, LNode *p) {
 
 /* Insert the Data into the List(L) at the position i (i start from 1) [O(n)] */
 bool LinkList_InsertDataByPosition(LinkList L, int i, ElemType data) {
+    assert(L != NULL && "ERROR: When inserting the Data, the List is NULL!");
+    if (i < 1 || i > L->length + 1) {
+        printf("Insert Position Error: Index (%d) out of range!\n", i);
+        return false;
+    }
     LNode *p = (LNode *)malloc(sizeof(LNode));
     p->data = data;
     return LinkList_InsertNodeByPosition(L, i, p);
@@ -260,13 +276,36 @@ bool LinkList_InsertDataByPosition(LinkList L, int i, ElemType data) {
 
 /* =============================================================================== */
 
-/* Delete the Node p in the List(L) at the position i (i start from 1) [O(n)]  */
-bool LinkList_DeleteNodeByPosition(LinkList L, int i, ElemType *del) {
-    if (i < 1 || i > L->length) {
-        *del = -1;
-        printf("Delete Position Error: Index (%d) out of range!\n", i);
+/* Reverse the List(L) [O(n)] */
+bool LinkList_Reverse(LinkList L) {
+    assert(L != NULL && "ERROR: When reversing the List, the List is NULL!");
+    if (L->front == NULL) {
+        printf("Reverse Warring: Empty List!\n");
         return false;
     }
+    if (L->front == L->rear) {
+        printf("Reverse Warring: Only One Node in the List!\n");
+        return false;
+    }
+
+    LNode *p = L->front, *q = NULL;
+    L->rear = p;
+    while (p != NULL) {
+        q = p->next;
+        p->next = L->front;
+        L->front = p;
+        p = q;
+    }
+    L->rear->next = NULL;
+    return true;
+}
+
+/* =============================================================================== */
+
+/* Delete the Node p in the List(L) at the position i (i start from 1) [O(n)]  */
+ElemType LinkList_DeleteNodeByPosition(LinkList L, int i) {
+    assert(L != NULL && "ERROR: When deleting the Node, the List is NULL!");
+    assert(i >= 1 && i <= L->length && "ERROR: When deleting the Node, the Index out of range!");
     // q: Target Node; p: Node before q
     LNode *q;
     if (i == 1) {
@@ -289,24 +328,21 @@ bool LinkList_DeleteNodeByPosition(LinkList L, int i, ElemType *del) {
         }
     }
     L->length--;
-    *del = q->data;
+    ElemType del = q->data;
     free(q);
-    return true;
+    return del;
 }
 
 /* Delete the Node p in the List(L) with the first occurrence of Data [O(n)] */
-bool LinkList_DeleteNodeByData(LinkList L, ElemType data, ElemType *del) {
+ElemType LinkList_DeleteNodeByData(LinkList L, ElemType data) {
+    assert(L != NULL && "ERROR: When deleting the Node, the List is NULL!");
     // q: Target Node; p: Node before q
     LNode *p = NULL, *q = L->front;
     while (q != NULL && q->data != data) {
         p = q;
         q = q->next;
     }
-    if (q == NULL) {
-        *del = -1;
-        printf("Delete Data Error: Data (%d) not in the list!\n", data);
-        return false;
-    }
+    assert(q != NULL && "ERROR: When deleting the Node, the Data not in the List!"); // q == NULL means the Data not in the List
     if (q == L->front) {
         L->front = q->next;
         if (L->front == NULL) {
@@ -319,33 +355,14 @@ bool LinkList_DeleteNodeByData(LinkList L, ElemType data, ElemType *del) {
         }
     }
     L->length--;
-    *del = q->data;
+    ElemType del = q->data;
     free(q);
-    return true;
-}
-
-/* =============================================================================== */
-
-/* Reverse the List(L) [O(n)] */
-bool LinkList_Reverse(LinkList L) {
-    if (L->front == NULL || L->front == L->rear) {
-        printf("Reverse Warring: Empty List or Only One Node in the List!\n");
-        return false;
-    }
-    LNode *p = L->front, *q = NULL;
-    L->rear = p;
-    while (p != NULL) {
-        q = p->next;
-        p->next = L->front;
-        L->front = p;
-        p = q;
-    }
-    L->rear->next = NULL;
-    return true;
+    return del;
 }
 
 /* Destroy the List(L) [O(n)] */
 bool LinkList_Destroy(LinkList L) {
+    assert(L != NULL && "ERROR: When destroying the List, the List is NULL!");
     LNode *p = L->front, *q = NULL;
     while (p != NULL) {
         q = p;
