@@ -2,7 +2,7 @@
  * @FileName    :SeqStack.h
  * @Date        :2025-03-12 14:25:59
  * @Author      :LiuBaiWan (https://github.com/LiuBaiWan592)
- * @Version     :V2.1.0
+ * @Version     :V1.0.0
  * @Brief       :Sequence Stack
  * @Description :
  *              :SeqStack_Init: Initialize the Sequence Stack
@@ -23,7 +23,7 @@
 #include "../common.h"
 
 /* Sequence Stack */
-typedef struct SeqStack{
+typedef struct SeqStack {
     ElemType *data;
     int top;
     int length;
@@ -42,55 +42,56 @@ SeqStack SeqStack_Init(int capacity) {
 
 /* Get the length of the Stack(S) [O(1)] */
 int SeqStack_GetLength(SeqStack S) {
+    assert(S != NULL && "ERROR: When getting the length of the Stack, the Stack is NULL!\n");
     // return S->top + 1;
     return S->length;
 }
 
 /* Check if the Stack(S) is empty [O(1)] */
 bool SeqStack_IsEmpty(SeqStack S) {
+    assert(S != NULL && "ERROR: When checking if the Stack is empty, the Stack is NULL!\n");
     // return S->top == -1;
     return S->length == 0;
 }
 
 /* Check if the Stack(S) is full [O(1)] */
 bool SeqStack_IsFull(SeqStack S) {
+    assert(S != NULL && "ERROR: When checking if the Stack is full, the Stack is NULL!\n");
     return S->top == S->capacity - 1;
 }
 
 /* Push Element to the Stack(S) [O(1)] */
 bool SeqStack_Push(SeqStack S, ElemType e) {
-    if (SeqStack_IsFull(S)) {
-        printf("Push Error: Stack is Full! Failed to Push Element %d!\n", e);
-        return false;
-    }
+    assert(S != NULL && "ERROR: When pushing an element to the Stack, the Stack is NULL!\n");
+    assert(!SeqStack_IsFull(S) && "ERROR: When pushing an element to the Stack, the Stack is Full!\n");
     S->data[++S->top] = e;
     S->length++;
     return true;
 }
 
 /* Pop Element from the Stack(S) [O(1)] */
-bool SeqStack_Pop(SeqStack S, ElemType *e) {
-    if (SeqStack_IsEmpty(S)) {
-        printf("Pop Error: Stack is Empty! Failed to Pop Element!\n");
-        return false;
-    }
-    *e = S->data[S->top--];
+ElemType SeqStack_Pop(SeqStack S) {
+    assert(S != NULL && "ERROR: When popping an element from the Stack, the Stack is NULL!\n");
+    assert(!SeqStack_IsEmpty(S) && "ERROR: When popping an element from the Stack, the Stack is Empty!\n");
+    ElemType e = S->data[S->top--];
     S->length--;
-    return true;
+    return e;
 }
 
 /* Get the top Element of the Stack(S) [O(1)] */
-bool SeqStack_GetTop(SeqStack S, ElemType *e) {
-    if (SeqStack_IsEmpty(S)) {
-        printf("GetTop Error: Stack is Empty! Failed to Get Top Element!\n");
-        return false;
-    }
-    *e = S->data[S->top];
-    return true;
+ElemType SeqStack_GetTop(SeqStack S) {
+    assert(S != NULL && "ERROR: When getting the top element from the Stack, the Stack is NULL!\n");
+    assert(!SeqStack_IsEmpty(S) && "ERROR: When getting the top element from the Stack, the Stack is Empty!\n");
+    ElemType e = S->data[S->top];
+    return e;
 }
 
 /* Clear the Stack(S) */
 bool SeqStack_Clear(SeqStack S) {
+    assert(S != NULL && "ERROR: When clearing the Stack, the Stack is NULL!\n");
+    if (S == NULL) {
+        return false;
+    }
     S->top = -1;
     S->length = 0;
     return true;
@@ -98,6 +99,7 @@ bool SeqStack_Clear(SeqStack S) {
 
 /* Destroy the Stack(S) */
 void SeqStack_Destroy(SeqStack S) {
+    assert(S != NULL && "ERROR: When destroying the Stack, the Stack is NULL!\n");
     if (S == NULL) {
         return;
     }

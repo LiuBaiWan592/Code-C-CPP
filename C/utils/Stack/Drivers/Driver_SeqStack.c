@@ -2,7 +2,7 @@
  * @FileName    :Driver_SeqStack.c
  * @Date        :2025-03-12 14:27:36
  * @Author      :LiuBaiWan (https://github.com/LiuBaiWan592)
- * @Version     :V2.0.0
+ * @Version     :V1.0.0
  * @Brief       :
  * @Description :
  */
@@ -21,13 +21,9 @@ int main() {
 
     SeqStack_Print(S);
 
-    ElemType top;
-    SeqStack_GetTop(S, &top);
-    printf("Top: %d\n", top);
+    printf("Top: %d\n", SeqStack_GetTop(S));
 
-    ElemType pop;
-    SeqStack_Pop(S, &pop);
-    printf("Pop: %d\n", pop);
+    printf("Pop: %d\n", SeqStack_Pop(S));
 
     bool empty = SeqStack_IsEmpty(S);
     printf("Is Empty: %s\n", empty ? "true" : "false");
