@@ -2,7 +2,7 @@
  * @FileName    :Driver_CirLinkList.c
  * @Date        :2025-03-07 20:26:12
  * @Author      :LiuBaiWan (https://github.com/LiuBaiWan592)
- * @Version     :V2.0.0
+ * @Version     :V1.0.0
  * @Brief       :
  * @Description :
  */
@@ -54,17 +54,16 @@ int main() {
 
     LNode *p = NULL;
     ElemType data = 666;
-    ElemType returnData = 0;
     p = CirLinkList_GetNodeByData(L, data);
-    if (CirLinkList_GetData(p, &returnData)) {
-        printf("Found Node By Data %d : %d\n", data, returnData);
+    if (p != NULL) {
+        printf("Found Node By Data %d : %d\n", data, CirLinkList_GetData(p));
     } else {
         printf("Not Found Node By Data %d !\n", data);
     }
     data = 100;
     p = CirLinkList_GetNodeByData(L, data);
-    if (CirLinkList_GetData(p, &returnData)) {
-        printf("Found Node By Data %d : %d\n", data, returnData);
+    if (p != NULL) {
+        printf("Found Node By Data %d : %d\n", data, CirLinkList_GetData(p));
     } else {
         printf("Not Found Node By Data %d !\n", data);
     }
@@ -73,29 +72,29 @@ int main() {
 
     int position = 0;
     p = CirLinkList_GetNodeByPosition(L, position);
-    if (CirLinkList_GetData(p, &returnData)) {
-        printf("Found Node By Position %d : %d\n", position, returnData);
+    if (p != NULL) {
+        printf("Found Node By Position %d : %d\n", position, CirLinkList_GetData(p));
     } else {
         printf("Not Found Node By Position %d !\n", position);
     }
     position = 5;
     p = CirLinkList_GetNodeByPosition(L, position);
-    if (CirLinkList_GetData(p, &returnData)) {
-        printf("Found Node By Position %d : %d\n", position, returnData);
+    if (p != NULL) {
+        printf("Found Node By Position %d : %d\n", position, CirLinkList_GetData(p));
     } else {
         printf("Not Found Node By Position %d !\n", position);
     }
     position = 14;
     p = CirLinkList_GetNodeByPosition(L, position);
-    if (CirLinkList_GetData(p, &returnData)) {
-        printf("Found Node By Position %d : %d\n", position, returnData);
+    if (p != NULL) {
+        printf("Found Node By Position %d : %d\n", position, CirLinkList_GetData(p));
     } else {
         printf("Not Found Node By Position %d !\n", position);
     }
     position = 15;
     p = CirLinkList_GetNodeByPosition(L, position);
-    if (CirLinkList_GetData(p, &returnData)) {
-        printf("Found Node By Position %d : %d\n", position, returnData);
+    if (p != NULL) {
+        printf("Found Node By Position %d : %d\n", position, CirLinkList_GetData(p));
     } else {
         printf("Not Found Node By Position %d !\n", position);
     }
@@ -104,29 +103,33 @@ int main() {
 
     int index = -1;
     index = CirLinkList_GetPositionByNode(L, node);
-    if (index == 0) {
+    if (index == -1) {
         printf("Not Found Position By Node (node) !\n");
     } else {
         printf("Found Position By Node (node) : %d\n", index);
     }
+
+    // p = NULL;is not a valid node
+    /*
     p = NULL;
-    index = CirLinkList_GetPositionByNode(L, p);
-    if (index == 0) {
+    index =CirLinkList_GetPositionByNode(L, p);
+    if (index == -1) {
         printf("Not Found Position By Node p !\n");
     } else {
         printf("Found Position By Node p : %d\n", index);
     }
+    */
 
     printf("================================================\n");
 
     index = CirLinkList_GetPositionByData(L, 666);
-    if (index == 0) {
+    if (index == -1) {
         printf("Not Found Position By Data (666) !\n");
     } else {
         printf("Found Position By Data (666) : %d\n", index);
     }
     index = CirLinkList_GetPositionByData(L, 888);
-    if (index == 0) {
+    if (index == -1) {
         printf("Not Found Position By Data 888 !\n");
     } else {
         printf("Found Position By Data 888 : %d\n", index);
@@ -134,93 +137,28 @@ int main() {
 
     printf("================================================\n");
 
-    returnData = -1;
-    CirLinkList_GetDataByPosition(L, 0, &returnData);
-    printf("Get Data By Position 0 : %d\n", returnData);
-    returnData = -1;
-    CirLinkList_GetDataByPosition(L, 1, &returnData);
-    printf("Get Data By Position 1 : %d\n", returnData);
-    returnData = -1;
-    CirLinkList_GetDataByPosition(L, 13, &returnData);
-    printf("Get Data By Position 13 : %d\n", returnData);
-    returnData = -1;
-    CirLinkList_GetDataByPosition(L, 14, &returnData);
-    printf("Get Data By Position 14 : %d\n", returnData);
-    returnData = -1;
-    CirLinkList_GetDataByPosition(L, 15, &returnData);
-    printf("Get Data By Position 15 : %d\n", returnData);
+    // printf("Get Data By Position 0 : %d\n",CirLinkList_GetDataByPosition(L, 0));       // index out of range
+    printf("Get Data By Position 1 : %d\n", CirLinkList_GetDataByPosition(L, 1));
+    printf("Get Data By Position 13 : %d\n", CirLinkList_GetDataByPosition(L, 13));
+    printf("Get Data By Position 14 : %d\n", CirLinkList_GetDataByPosition(L, 14));
+    // printf("Get Data By Position 15 : %d\n",CirLinkList_GetDataByPosition(L, 15));     // index out of range
 
     printf("================================================\n");
 
-    ElemType del = -1;
-    CirLinkList_DeleteNodeByPosition(L, 0, &del);
+    // printf("Deleted Node : %d\n",CirLinkList_DeleteNodeByPosition(L, 0));              // index out of range
+    printf("Deleted Node : %d\n", CirLinkList_DeleteNodeByPosition(L, 1));
+    printf("Deleted Node : %d\n", CirLinkList_DeleteNodeByPosition(L, 5));
+    printf("Deleted Node : %d\n", CirLinkList_DeleteNodeByPosition(L, 12));
+    // printf("Deleted Node : %d\n",CirLinkList_DeleteNodeByPosition(L, 12));             // index out of range
     CirLinkList_Print(L);
-    if (del != -1) {
-        printf("Deleted Node : %d\n", del);
-    } else {
-        printf("Deleted Node : NULL\n");
-    }
-    printf("\n");
-    del = -1;
-    CirLinkList_DeleteNodeByPosition(L, 1, &del);
-    CirLinkList_Print(L);
-    if (del != -1) {
-        printf("Deleted Node : %d\n", del);
-    } else {
-        printf("Deleted Node : NULL\n");
-    }
-    printf("\n");
-    del = -1;
-    CirLinkList_DeleteNodeByPosition(L, 5, &del);
-    CirLinkList_Print(L);
-    if (del != -1) {
-        printf("Deleted Node : %d\n", del);
-    } else {
-        printf("Deleted Node : NULL\n");
-    }
-    printf("\n");
-    del = -1;
-    CirLinkList_DeleteNodeByPosition(L, 12, &del);
-    CirLinkList_Print(L);
-    if (del != -1) {
-        printf("Deleted Node : %d\n", del);
-    } else {
-        printf("Deleted Node : NULL\n");
-    }
-    printf("\n");
-    del = -1;
-    CirLinkList_DeleteNodeByPosition(L, 12, &del);
-    CirLinkList_Print(L);
-    if (del != -1) {
-        printf("Deleted Node : %d\n", del);
-    } else {
-        printf("Deleted Node : NULL\n");
-    }
-    printf("\n");
 
     printf("================================================\n");
 
-    CirLinkList_DeleteNodeByData(L, 1234, &del);
+    // printf("Deleted Node : %d\n",CirLinkList_DeleteNodeByData(L, 1234));
+    printf("Deleted Node : %d\n", CirLinkList_DeleteNodeByData(L, 666));
+    printf("Deleted Node : %d\n", CirLinkList_DeleteNodeByData(L, 6));
+
     CirLinkList_Print(L);
-    if (del != -1) {
-        printf("Deleted Node : %d\n", del);
-    } else {
-        printf("Deleted Node : NULL\n");
-    }
-    CirLinkList_DeleteNodeByData(L, 666, &del);
-    CirLinkList_Print(L);
-    if (del != -1) {
-        printf("Deleted Node : %d\n", del);
-    } else {
-        printf("Deleted Node : NULL\n");
-    }
-    CirLinkList_DeleteNodeByData(L, 6, &del);
-    CirLinkList_Print(L);
-    if (del != -1) {
-        printf("Deleted Node : %d\n", del);
-    } else {
-        printf("Deleted Node : NULL\n");
-    }
 
     printf("================================================\n");
 
