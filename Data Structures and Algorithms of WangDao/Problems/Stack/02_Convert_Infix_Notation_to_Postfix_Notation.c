@@ -56,9 +56,7 @@ void InfixToPostfix(Elemtype *infix, Elemtype *postfix) {
             break;
         case '*':
         case '/':
-            while (!LinkStack_IsEmpty(S) && LinkStack_GetTop(S) != '('
-                                       && LinkStack_GetTop(S) != '+'
-                                       && LinkStack_GetTop(S) != '-') {
+            while (!LinkStack_IsEmpty(S) && LinkStack_GetTop(S) != '(' && LinkStack_GetTop(S) != '+' && LinkStack_GetTop(S) != '-') {
                 postfix[j++] = LinkStack_Pop(S);
             }
             LinkStack_Push(S, infix[i]);    // Then push the current operator onto the stack.
@@ -81,22 +79,18 @@ int main() {
     printf("Infix notation to postfix notation:\n\n");
     printf("Infix notation\t\tPostfix notation\n");
     // Elemtype infix[20];
-    Elemtype postfix[20];
-    Elemtype infix1[] = "a+b*c-(d/e+f)*g";      // abc*+de/f+g*-
-    InfixToPostfix(infix1, postfix);
-    printf("%s\t\t%s\n", infix1, postfix);
-
-    Elemtype infix2[] = "a+b*c-d/e+f*g";        // abc*+de/-fg*+
-    InfixToPostfix(infix2, postfix);
-    printf("%s\t\t%s\n", infix2, postfix);
-
-    Elemtype infix3[] = "a+b*(c-d)-e/f";        // abcd-*+ef/-
-    InfixToPostfix(infix3, postfix);
-    printf("%s\t\t%s\n", infix3, postfix);
-
-    Elemtype infix4[] = "a+b-c*d/e+f";          // ab+cd*e/-f+
-    InfixToPostfix(infix4, postfix);
-    printf("%s\t\t%s\n", infix4, postfix);
+    Elemtype infix[4][20] = {"a+b*c-(d/e+f)*g", "a+b*c-d/e+f*g", "a+b*(c-d)-e/f", "a+b-c*d/e+f"};
+    for(int i = 0; i < 4; i++) {
+        Elemtype postfix[20];
+        InfixToPostfix(infix[i], postfix);
+        printf("%s\t\t%s\n", infix[i], postfix);
+    }
 
     return 0;
 }
+
+
+    // "a+b*c-(d/e+f)*g"       abc*+de/f+g*-
+    // "a+b*c-d/e+f*g"         abc*+de/-fg*+
+    // "a+b*(c-d)-e/f"         abcd-*+ef/-
+    // "a+b-c*d/e+f"           ab+cd*e/-f+
