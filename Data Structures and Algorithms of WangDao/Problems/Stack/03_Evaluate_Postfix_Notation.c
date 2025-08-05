@@ -52,8 +52,8 @@ int EvaluatePostfixNotation(char *str, int length) {
 int main() {
     printf("Evaluate Postfix Notation:\n\n");
     printf("Postfix notation\t\tResult\n");
-    char postfix[5][20] = {"123+*", "123*+41/-67*-", "123*+41/-67*+", "1234-*+51/-", "12+34*1/-6+"};
-    for(int i = 0; i < 5; i++) {
+    char postfix[4][20] = {"123*+41/-67*-", "123*+41/-67*+", "1234-*+51/-", "12+34*1/-6+"};
+    for(int i = 0; i < 4; i++) {
         printf("%s\t\t%d\n", postfix[i], EvaluatePostfixNotation(postfix[i], strlen(postfix[i])));
     }
 
