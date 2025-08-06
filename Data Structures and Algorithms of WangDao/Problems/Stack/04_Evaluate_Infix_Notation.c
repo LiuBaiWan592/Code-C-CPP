@@ -24,17 +24,24 @@
 #include "common.h"
 
 int EvaluateInfixNotation(char *infix, int length) {
+    // Initialize an empty stack for operands and an empty stack for operators.
     SeqStack S_operands = SeqStack_Init(length);
     SeqStack S_operators = SeqStack_Init(length);
-
+    // Read the infix expression from left to right.
     for (int i = 0; i < length; i++) {
+        // If the current character is a digit, push it onto the operand stack.
         if( infix[i] >= '0' && infix[i] <= '9') {
             SeqStack_Push(S_operands, infix[i]-'0');
         } else {
+            // If the current character is an operator, pop the top two operands from the operand stack,
+            // perform the operation, and push the result back onto the operand stack.
             switch(infix[i]){
+                // If the current character is an opening parenthesis, push it onto the operator stack.
                 case '(':
                     SeqStack_Push(S_operators, (int)infix[i]);
                     break;
+                // If the current character is a closing parenthesis, pop operators from the operator stack
+                // and operands from the operand stack until an opening parenthesis is encountered.
                 case ')':
                     while((char)SeqStack_GetTop(S_operators) != '(') {
                         int operand2 = SeqStack_Pop(S_operands);
@@ -116,6 +123,7 @@ int EvaluateInfixNotation(char *infix, int length) {
             }
         }
     }
+    // Pop any remaining operators from the operator stack and perform the operations.
     while(!SeqStack_IsEmpty(S_operators)) {
         int operand2 = SeqStack_Pop(S_operands);
         int operand1 = SeqStack_Pop(S_operands);
@@ -139,6 +147,7 @@ int EvaluateInfixNotation(char *infix, int length) {
         }
         SeqStack_Push(S_operands, result);
     }
+    // The final result will be the top element of the operand stack.
     return SeqStack_Pop(S_operands);
 }
 
