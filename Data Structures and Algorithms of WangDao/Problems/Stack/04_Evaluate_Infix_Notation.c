@@ -23,6 +23,38 @@
 
 #include "common.h"
 
+
+/**
+ * @brief  Calculate function
+ * @param  S_operands: The stack of operands
+ * @param  S_operators: The stack of operators
+ * @retval None
+ * @note   None
+ */
+void Calculate(SeqStack S_operands, SeqStack S_operators) {
+    int operand2 = SeqStack_Pop(S_operands);
+    int operand1 = SeqStack_Pop(S_operands);
+    char operator = (char)SeqStack_Pop(S_operators);
+    int result = 0;
+    switch(operator) {
+        case '+':
+            result = operand1 + operand2;
+            break;
+        case '-':
+            result = operand1 - operand2;
+            break;
+        case '*':
+            result = operand1 * operand2;
+            break;
+        case '/':
+            result = operand1 / operand2;
+            break;
+        default:
+            break;
+    }
+    SeqStack_Push(S_operands, result);
+}
+
 int EvaluateInfixNotation(char *infix, int length) {
     // Initialize an empty stack for operands and an empty stack for operators.
     SeqStack S_operands = SeqStack_Init(length);
@@ -44,27 +76,7 @@ int EvaluateInfixNotation(char *infix, int length) {
                 // and operands from the operand stack until an opening parenthesis is encountered.
                 case ')':
                     while((char)SeqStack_GetTop(S_operators) != '(') {
-                        int operand2 = SeqStack_Pop(S_operands);
-                        int operand1 = SeqStack_Pop(S_operands);
-                        char operator = (char)SeqStack_Pop(S_operators);
-                        int result = 0;
-                        switch(operator) {
-                            case '+':
-                                result = operand1 + operand2;
-                                break;
-                            case '-':
-                                result = operand1 - operand2;
-                                break;
-                            case '*':
-                                result = operand1 * operand2;
-                                break;
-                            case '/':
-                                result = operand1 / operand2;
-                                break;
-                            default:
-                                break;
-                        }
-                        SeqStack_Push(S_operands, result);
+                        Calculate(S_operands, S_operators);
                     }
                     SeqStack_Pop(S_operators);
                     break;
@@ -72,27 +84,7 @@ int EvaluateInfixNotation(char *infix, int length) {
                 case '-':
                     while(!SeqStack_IsEmpty(S_operators) 
                            && (char)SeqStack_GetTop(S_operators) != '('){
-                        int operand2 = SeqStack_Pop(S_operands);
-                        int operand1 = SeqStack_Pop(S_operands);
-                        char operator = (char)SeqStack_Pop(S_operators);
-                        int result = 0;
-                        switch(operator) {
-                            case '+':
-                                result = operand1 + operand2;
-                                break;
-                            case '-':
-                                result = operand1 - operand2;
-                                break;
-                            case '*':
-                                result = operand1 * operand2;
-                                break;
-                            case '/':
-                                result = operand1 / operand2;
-                                break;
-                            default:
-                                break;
-                        }
-                        SeqStack_Push(S_operands, result);
+                        Calculate(S_operands, S_operators);
                     }
                     SeqStack_Push(S_operators, (int)infix[i]);
                     break;
@@ -102,21 +94,7 @@ int EvaluateInfixNotation(char *infix, int length) {
                            && (char)SeqStack_GetTop(S_operators) != '('
                            && (char)SeqStack_GetTop(S_operators) != '+'
                            && (char)SeqStack_GetTop(S_operators) != '-'){
-                        int operand2 = SeqStack_Pop(S_operands);
-                        int operand1 = SeqStack_Pop(S_operands);
-                        char operator = (char)SeqStack_Pop(S_operators);
-                        int result = 0;
-                        switch(operator) {
-                            case '*':
-                                result = operand1 * operand2;
-                                break;
-                            case '/':
-                                result = operand1 / operand2;
-                                break;
-                            default:
-                                break;
-                        }
-                        SeqStack_Push(S_operands, result);
+                        Calculate(S_operands, S_operators);
                     }
                     SeqStack_Push(S_operators, (int)infix[i]);
                     break;
@@ -125,27 +103,7 @@ int EvaluateInfixNotation(char *infix, int length) {
     }
     // Pop any remaining operators from the operator stack and perform the operations.
     while(!SeqStack_IsEmpty(S_operators)) {
-        int operand2 = SeqStack_Pop(S_operands);
-        int operand1 = SeqStack_Pop(S_operands);
-        char operator = (char)SeqStack_Pop(S_operators);
-        int result = 0;
-        switch(operator) {
-            case '+':
-                result = operand1 + operand2;
-                break;
-            case '-':
-                result = operand1 - operand2;
-                break;
-            case '*':
-                result = operand1 * operand2;
-                break;
-            case '/':
-                result = operand1 / operand2;
-                break;
-            default:
-                break;
-        }
-        SeqStack_Push(S_operands, result);
+        Calculate(S_operands, S_operators);
     }
     // The final result will be the top element of the operand stack.
     return SeqStack_Pop(S_operands);
