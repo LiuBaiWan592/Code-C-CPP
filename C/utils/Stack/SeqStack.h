@@ -33,10 +33,10 @@ typedef struct SeqStack {
 /* Initialize the Sequence Stack */
 SeqStack SeqStack_Init(int capacity) {
     SeqStack S = (SeqStack)malloc(sizeof(struct SeqStack));
+    S->data = (ElemType *)malloc(sizeof(ElemType) * capacity);
     S->top = -1;
     S->length = 0;
     S->capacity = capacity;
-    S->data = (ElemType *)malloc(sizeof(ElemType) * capacity);
     return S;
 }
 
