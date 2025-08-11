@@ -10,15 +10,16 @@
 #include "common.h"
 
 int main() {
-    SQList List = List_Init();
-    SeqList seqlist = &List;
-    SeqListDyn seqlistdyn = List_Dyn_Init();
+    struct SeqList List = SeqList_Init();
+    SeqList L = &List;
+    int capacity = 10;
+    SeqListDyn seqlistdyn = SeqListDyn_Init(capacity);
     LinkList linklist = LinkList_Init();
     DoublyList doublylist = DoublyList_Init();
     CirLinkList cirlinklist = CirLinkList_Init();
     CirDoublyList cirdoublylist = CirDoublyList_Init();
-    SeqStack seqstack = SeqStack_Init();
-    SeqShareStack seqsharestack = SeqShareStack_Init();
+    SeqStack seqstack = SeqStack_Init(capacity);
+    SeqShareStack seqsharestack = SeqShareStack_Init(capacity);
     LinkStack linkstack = LinkStack_Init();
     UT_hash_table * hashtable = (UT_hash_table *)malloc(sizeof(UT_hash_table));
     printf("Test common success!\n");
