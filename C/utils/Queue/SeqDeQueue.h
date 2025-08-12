@@ -35,7 +35,7 @@ typedef struct SeqDeQueue{
 /* Initialize the Queue */
 SeqDeQueue SeqDeQueue_Init(int capacity) {
     SeqDeQueue Q = (SeqDeQueue)malloc(sizeof(struct SeqDeQueue));
-    Q->data = (ElemType *)malloc(Maxsize * sizeof(ElemType));
+    Q->data = (ElemType *)malloc(capacity * sizeof(ElemType));
     Q->front = Q->rear = 0;
     Q->length = 0;
     Q->capacity = capacity;
@@ -44,25 +44,30 @@ SeqDeQueue SeqDeQueue_Init(int capacity) {
 
 /* Check if the Queue is empty [O(1)] */
 bool SeqDeQueue_IsEmpty(SeqDeQueue Q) {
+    assert(Q != NULL && "ERROR: When checking if the Queue is empty, the Queue is NULL!");
     return Q->front == Q->rear;
 }
 
 /* Check if the Queue is full [O(1)] */
 bool SeqDeQueue_IsFull(SeqDeQueue Q) {
-    return (Q->rear + 1) % Maxsize == Q->front;
+    assert(Q != NULL && "ERROR: When checking if the Queue is full, the Queue is NULL!");
+    return (Q->rear + 1) % Q->capacity == Q->front;
 }
 
 /* Get the length of the Queue [O(1)] */
 int SeqDeQueue_GetLength(SeqDeQueue Q) {
+    assert(Q != NULL && "ERROR: When getting the length of the Queue, the Queue is NULL!");
     return Q->length;
 }
 
 /* Enter the element into the Front of the Queue [O(1)] */
 bool SeqDeQueue_EnterFront(SeqDeQueue Q, ElemType x) {
+    assert(Q != NULL && "ERROR: When entering the element into the Front of the Queue, the Queue is NULL!");
     if (SeqDeQueue_IsFull(Q)) {
+        printf("Queue is full!\n");
         return false;
     }
-    Q->front = (Q->front - 1 + Maxsize) % Maxsize;
+    Q->front = (Q->front - 1 + Q->capacity) % Q->capacity;
     Q->data[Q->front] = x;
     Q->length++;
     return true;
@@ -70,64 +75,74 @@ bool SeqDeQueue_EnterFront(SeqDeQueue Q, ElemType x) {
 
 /* Enter the element into the Rear of the Queue [O(1)] */
 bool SeqDeQueue_EnterRear(SeqDeQueue Q, ElemType x) {
+    assert(Q != NULL && "ERROR: When entering the element into the Rear of the Queue, the Queue is NULL!");
     if (SeqDeQueue_IsFull(Q)) {
+        printf("Queue is full!\n");
         return false;
     }
     Q->data[Q->rear] = x;
-    Q->rear = (Q->rear + 1) % Maxsize;
+    Q->rear = (Q->rear + 1) % Q->capacity;
     Q->length++;
 }
 
 /* Delete the element from the Front of the Queue [O(1)] */
-bool SeqDeQueue_DeleteFront(SeqDeQueue Q, ElemType *x) {
-    if (SeqDeQueue_IsEmpty(Q)) {
-        return false;
-    }
-    *x = Q->data[Q->front];
-    Q->front = (Q->front + 1) % Maxsize;
+ElemType SeqDeQueue_DeleteFront(SeqDeQueue Q) {
+    assert(Q != NULL && "ERROR: When deleting the element from the Front of the Queue, the Queue is NULL!");
+    assert(!SeqDeQueue_IsEmpty(Q) && "ERROR: When deleting the element from the Front of the Queue, the Queue is empty!");
+    ElemType e = Q->data[Q->front];
+    Q->front = (Q->front + 1) % Q->capacity;
     Q->length--;
-    return true;
+    return e;
 }
 
 /* Delete the element from the Rear of the Queue [O(1)] */
-bool SeqDeQueue_DeleteRear(SeqDeQueue Q, ElemType *x) {
-    if (SeqDeQueue_IsEmpty(Q)) {
-        return false;
-    }
-    Q->rear = (Q->rear - 1 + Maxsize) % Maxsize;
-    *x = Q->data[Q->rear];
+ElemType SeqDeQueue_DeleteRear(SeqDeQueue Q) {
+    assert(Q != NULL && "ERROR: When deleting the element from the Rear of the Queue, the Queue is NULL!");
+    assert(!SeqDeQueue_IsEmpty(Q) && "ERROR: When deleting the element from the Rear of the Queue, the Queue is empty!");
+    Q->rear = (Q->rear - 1 + Q->capacity) % Q->capacity;
+    ElemType e = Q->data[Q->rear];
     Q->length--;
-    return true;
+    return e;
 }
 
 /* Get the element from the Front of the Queue [O(1)] */
-bool SeqDeQueue_GetFront(SeqDeQueue Q, ElemType *x) {
-    if (SeqDeQueue_IsEmpty(Q)) {
-        return false;
-    }
-    *x = Q->data[Q->front];
-    return true;
+ElemType SeqDeQueue_GetFront(SeqDeQueue Q) {
+    assert(Q != NULL && "ERROR: When getting the element from the Front of the Queue, the Queue is NULL!");
+    assert(!SeqDeQueue_IsEmpty(Q) && "ERROR: When getting the element from the Front of the Queue, the Queue is empty!");
+    ElemType e = Q->data[Q->front];
+    return e;
 }
 
 /* Get the element from the Rear of the Queue [O(1)] */
-bool SeqDeQueue_GetRear(SeqDeQueue Q, ElemType *x) {
-    if (SeqDeQueue_IsEmpty(Q)) {
-        return false;
-    }
-    *x = Q->data[(Q->rear - 1 + Maxsize) % Maxsize];
-    return true;
+ElemType SeqDeQueue_GetRear(SeqDeQueue Q) {
+    assert(Q != NULL && "ERROR: When getting the element from the Rear of the Queue, the Queue is NULL!");
+    assert(!SeqDeQueue_IsEmpty(Q) && "ERROR: When getting the element from the Rear of the Queue, the Queue is empty!");
+    ElemType e = Q->data[(Q->rear - 1 + Q->capacity) % Q->capacity];
+    return e;
 }
 
 /* Clear the Queue */
-void SeqDeQueue_Clear(SeqDeQueue Q) {
+bool SeqDeQueue_Clear(SeqDeQueue Q) {
+    assert(Q != NULL && "ERROR: When clearing the Queue, the Queue is NULL!");
+    if(Q == NULL){
+        return false;
+    }
     Q->front = Q->rear = 0;
     Q->length = 0;
+    return true;
 }
 
 /* Destroy the Queue */
-void SeqDeQueue_Destroy(SeqDeQueue Q) {
+bool SeqDeQueue_Destroy(SeqDeQueue Q) {
+    assert(Q != NULL && "ERROR: When destroying the Queue, the Queue is NULL!");
+    if(Q == NULL){
+        return false;
+    }
     free(Q->data);
-    free(Q);
+    Q->front = Q->rear = 0;
+    Q->length = 0;
+    Q->capacity = 0;
+    return true;
 }
 
 /* Print the Queue [O(n)] */
@@ -145,7 +160,7 @@ void SeqDeQueue_Print(SeqDeQueue Q) {
     }
     printf("\n");
     printf("  Value: ");
-    for (int i = Q->front; i != Q->rear; i = (i + 1) % Maxsize) {
+    for (int i = Q->front; i != Q->rear; i = (i + 1) % Q->capacity) {
         printf("%d    ", Q->data[i]);
     }
     printf("\n");
