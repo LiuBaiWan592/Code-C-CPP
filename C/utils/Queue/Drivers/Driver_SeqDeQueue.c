@@ -26,16 +26,11 @@ int main() {
     printf("Is empty: %d\n", SeqDeQueue_IsEmpty(Q));
     printf("Is full: %d\n", SeqDeQueue_IsFull(Q));
 
-    ElemType x;
-    SeqDeQueue_DeleteFront(Q, &x);
-    printf("Delete front: %d\n", x);
-    SeqDeQueue_DeleteRear(Q, &x);
-    printf("Delete rear: %d\n", x);
+    printf("Delete front: %d\n", SeqDeQueue_DeleteFront(Q));
+    printf("Delete rear: %d\n", SeqDeQueue_DeleteRear(Q));
 
-    SeqDeQueue_GetFront(Q, &x);
-    printf("Front: %d\n", x);
-    SeqDeQueue_GetRear(Q, &x);
-    printf("Rear: %d\n", x);
+    printf("Front: %d\n", SeqDeQueue_GetFront(Q));
+    printf("Rear: %d\n", SeqDeQueue_GetRear(Q));
 
     SeqDeQueue_Clear(Q);
     SeqDeQueue_Print(Q);
