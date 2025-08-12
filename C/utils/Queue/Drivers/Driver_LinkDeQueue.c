@@ -24,16 +24,11 @@ int main() {
     printf("Length: %d\n", LinkDeQueue_GetLength(Q));
     printf("Is empty: %d\n", LinkDeQueue_IsEmpty(Q));
 
-    ElemType x;
-    LinkDeQueue_DeleteFront(Q, &x);
-    printf("Delete front: %d\n", x);
-    LinkDeQueue_DeleteRear(Q, &x);
-    printf("Delete rear: %d\n", x);
+    printf("Delete front: %d\n", LinkDeQueue_DeleteFront(Q));
+    printf("Delete rear: %d\n", LinkDeQueue_DeleteRear(Q));
 
-    LinkDeQueue_GetFront(Q, &x);
-    printf("Front: %d\n", x);
-    LinkDeQueue_GetRear(Q, &x);
-    printf("Rear: %d\n", x);
+    printf("Front: %d\n", LinkDeQueue_GetFront(Q));
+    printf("Rear: %d\n", LinkDeQueue_GetRear(Q));
     
     LinkDeQueue_Clear(Q);
     LinkDeQueue_Print(Q);
