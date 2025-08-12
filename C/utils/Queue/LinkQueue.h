@@ -69,12 +69,12 @@ ElemType LinkQueue_Delete(LinkQueue Q) {
     assert(Q != NULL && "ERROR: When deleting the element from the Queue, the Queue is NULL!");
     assert(!LinkQueue_IsEmpty(Q) && "ERROR: When deleting the element from the Queue, the Queue is empty!");
     ElemType e = Q->front->data;
-    LNode *temp = Q->front;
+    LNode *delNode = Q->front;
     Q->front = Q->front->next;
     if (Q->front == NULL) {
         Q->rear = NULL;
     }
-    free(temp);
+    free(delNode);
     Q->length--;
     return e;
 }
@@ -104,13 +104,13 @@ bool LinkQueue_Clear(LinkQueue Q) {
 }
 
 /* Destroy the Queue(Q) */
-void LinkQueue_Destroy(LinkQueue Q) {
+bool LinkQueue_Destroy(LinkQueue Q) {
     assert(Q != NULL && "ERROR: When destroying the Queue, the Queue is NULL!");
     if (Q == NULL) {
-        return;
+        return true;
     }
     LinkQueue_Clear(Q);
-    return;
+    return true;
 }
 
 /* Print the Queue(Q) [O(n)]*/
