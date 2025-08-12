@@ -24,39 +24,42 @@
 
 #include "../common.h"
 
-typedef struct {
+typedef struct LinkDeQueue{
     int length; // Length
     DNode *front, *rear; // Front Node and Rear Node
 } *LinkDeQueue;
 
 /* Initialize the Queue */
 LinkDeQueue LinkDeQueue_Init() {
-    LinkDeQueue Q = (LinkDeQueue)malloc(sizeof(LinkDeQueue));
-    Q->front = Q->rear = 0;
+    LinkDeQueue Q = (LinkDeQueue)malloc(sizeof(struct LinkDeQueue));
     Q->length = 0;
+    Q->front = Q->rear = NULL;
     return Q;
 }
 
 /* Check if the Queue is empty [O(1)] */
 bool LinkDeQueue_IsEmpty(LinkDeQueue Q) {
+    assert(Q != NULL && "ERROR: When checking if the Queue is empty, the Queue is NULL!");
     return Q->length == 0;
 }
 
 /* Get the length of the Queue [O(1)] */
 int LinkDeQueue_GetLength(LinkDeQueue Q) {
+    assert(Q != NULL && "ERROR: When getting the length of the Queue, the Queue is NULL!");
     return Q->length;
 }
 
 /* Enter the element into the Front of the Queue [O(1)] */
 bool LinkDeQueue_EnterFront(LinkDeQueue Q, ElemType x) {
-    DNode *p = (DNode *)malloc(sizeof(DNode));
-    p->data = x;
+    assert(Q != NULL && "ERROR: When entering the element into the Front of the Queue, the Queue is NULL!");
+    DNode *newNode = (DNode *)malloc(sizeof(DNode));
+    newNode->data = x;
     if(LinkDeQueue_IsEmpty(Q)) {
-        Q->front = Q->rear = p;
+        Q->front = Q->rear = newNode;
     }else{
-        p->next = Q->front;
-        Q->front->prior = p;
-        Q->front = p;
+        newNode->next = Q->front;
+        Q->front->prior = newNode;
+        Q->front = newNode;
     }
     Q->length++;
     return true;
@@ -64,88 +67,86 @@ bool LinkDeQueue_EnterFront(LinkDeQueue Q, ElemType x) {
 
 /* Enter the element into the Rear of the Queue [O(1)] */
 bool LinkDeQueue_EnterRear(LinkDeQueue Q, ElemType x) {
-    DNode *p = (DNode *)malloc(sizeof(DNode));
-    p->data = x;
+    assert(Q != NULL && "ERROR: When entering the element into the Rear of the Queue, the Queue is NULL!");
+    DNode *newNode = (DNode *)malloc(sizeof(DNode));
+    newNode->data = x;
     if(LinkDeQueue_IsEmpty(Q)) {
-        Q->front = Q->rear = p;
+        Q->front = Q->rear = newNode;
     }else{
-        Q->rear->next = p;
-        p->prior = Q->rear;
-        Q->rear = p;
+        Q->rear->next = newNode;
+        newNode->prior = Q->rear;
+        Q->rear = newNode;
     }
     Q->length++;
     return true;
 }
 
 /* Delete the element from the Front of the Queue [O(1)] */
-bool LinkDeQueue_DeleteFront(LinkDeQueue Q, ElemType *x) {
-    if (LinkDeQueue_IsEmpty(Q)) {
-        return false;
-    }
-    DNode *p = Q->front;
-    *x = p->data;
-    Q->front = p->next;
+ElemType LinkDeQueue_DeleteFront(LinkDeQueue Q) {
+    assert(Q != NULL && "ERROR: When deleting the element from the Front of the Queue, the Queue is NULL!");
+    assert(!LinkDeQueue_IsEmpty(Q) && "ERROR: When deleting the element from the Front of the Queue, the Queue is empty!");
+    DNode *delNode = Q->front;
+    ElemType e = delNode->data;
+    Q->front = delNode->next;
     if(Q->front == NULL){
         Q->rear = NULL;
     }else{
         Q->front->prior = NULL;
     }
-    free(p);
+    free(delNode);
     Q->length--;
-    return true;
+    return e;
 }
 
 /* Delete the element from the Rear of the Queue [O(1)] */
-bool LinkDeQueue_DeleteRear(LinkDeQueue Q, ElemType *x) {
-    if (LinkDeQueue_IsEmpty(Q)) {
-        return false;
-    }
-    DNode *p = Q->rear;
-    *x = p->data;
-    Q->rear = p->prior;
+ElemType LinkDeQueue_DeleteRear(LinkDeQueue Q) {
+    assert(Q != NULL && "ERROR: When deleting the element from the Rear of the Queue, the Queue is NULL!");
+    assert(!LinkDeQueue_IsEmpty(Q) && "ERROR: When deleting the element from the Rear of the Queue, the Queue is empty!");
+    DNode *delNode = Q->rear;
+    ElemType e = delNode->data;
+    Q->rear = delNode->prior;
     if(Q->rear == NULL){
         Q->front = NULL;
     }else{
         Q->rear->next = NULL;
     }
-    free(p);
+    free(delNode);
     Q->length--;
-    return true;
+    return e;
 }
 
 /* Get the element from the Front of the Queue [O(1)] */
-bool LinkDeQueue_GetFront(LinkDeQueue Q, ElemType *x) {
-    if (LinkDeQueue_IsEmpty(Q)) {
-        return false;
-    }
-    *x = Q->front->data;
-    return true;
+ElemType LinkDeQueue_GetFront(LinkDeQueue Q) {
+    assert(Q != NULL && "ERROR: When getting the element from the Front of the Queue, the Queue is NULL!");
+    assert(!LinkDeQueue_IsEmpty(Q) && "ERROR: When getting the element from the Front of the Queue, the Queue is empty!");
+    ElemType e = Q->front->data;
+    return e;
 }
 
 /* Get the element from the Rear of the Queue [O(1)] */
-bool LinkDeQueue_GetRear(LinkDeQueue Q, ElemType *x) {
-    if (LinkDeQueue_IsEmpty(Q)) {
-        return false;
-    }
-    *x = Q->rear->data;
-    return true;
+ElemType LinkDeQueue_GetRear(LinkDeQueue Q) {
+    assert(Q != NULL && "ERROR: When getting the element from the Rear of the Queue, the Queue is NULL!");
+    assert(!LinkDeQueue_IsEmpty(Q) && "ERROR: When getting the element from the Rear of the Queue, the Queue is empty!");
+    ElemType e = Q->rear->data;
+    return e;
 }
 
 /* Clear the Queue [O(n)] */
-void LinkDeQueue_Clear(LinkDeQueue Q) {
-    while (!LinkDeQueue_IsEmpty(Q)) {
-        ElemType x;
-        LinkDeQueue_DeleteFront(Q, &x);
+bool LinkDeQueue_Clear(LinkDeQueue Q) {
+    assert(Q != NULL && "ERROR: When clearing the Queue, the Queue is NULL!");
+    if (LinkDeQueue_IsEmpty(Q)) {
+        return true;
     }
+    while (!LinkDeQueue_IsEmpty(Q)) {
+        LinkDeQueue_DeleteFront(Q);
+    }
+    return true;
 }
 
 /* Destroy the Queue [O(n)] */
-void LinkDeQueue_Destroy(LinkDeQueue Q) {
-    while (!LinkDeQueue_IsEmpty(Q)) {
-        ElemType x;
-        LinkDeQueue_DeleteFront(Q, &x);
-    }
-    free(Q);
+bool LinkDeQueue_Destroy(LinkDeQueue Q) {
+    LinkDeQueue_Clear(Q);
+    return true;
 }
 
 /* Print the Queue [O(n)] */
