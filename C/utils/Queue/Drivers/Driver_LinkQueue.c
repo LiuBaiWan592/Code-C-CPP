@@ -33,6 +33,12 @@ int main() {
     LinkQueue_Clear(Q);
     printf("Is Empty: %d\n", LinkQueue_IsEmpty(Q));
     LinkQueue_Print(Q);
-    LinkQueue_Destroy(Q);
+
+    Q = LinkQueue_Destroy(Q);
+    if (Q == NULL) {
+        printf("LinkQueue Destroyed!\n");
+    } else {
+        printf("LinkQueue Not Destroyed!\n");
+    }
     return 0;
 }

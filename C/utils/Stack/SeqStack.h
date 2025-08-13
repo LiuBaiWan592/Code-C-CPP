@@ -107,6 +107,7 @@ SeqStack SeqStack_Destroy(SeqStack S) {
 
 /* Print the Stack(S) [O(n)] */
 void SeqStack_Print(SeqStack S) {
+    assert(S != NULL && "ERROR: When printing the Stack, the Stack is NULL!\n");
     printf("Sequence Stack: ");
     if (S->length == 0) {
         printf("Empty Stack!\n");

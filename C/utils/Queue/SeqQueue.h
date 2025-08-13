@@ -89,26 +89,24 @@ ElemType SeqQueue_GetFront(SeqQueue Q) {
 /* Clear the Queue(Q) */
 bool SeqQueue_Clear(SeqQueue Q) {
     assert(Q != NULL && "ERROR: When clearing the Queue, the Queue is NULL!");
-    if(Q == NULL) {
-        return false;
+    for(int i = 0; i < Q->capacity; i++){
+        Q->data[i] = (ElemType)0;
     }
     Q->front = Q->rear = 0;
     return true;
 }
 
 /* Destroy the Queue(Q) */
-bool SeqQueue_Destroy(SeqQueue Q) {
+SeqQueue SeqQueue_Destroy(SeqQueue Q) {
     assert(Q != NULL && "ERROR: When destroying the Queue, the Queue is NULL!");
-    if(Q == NULL) {
-        return false;
-    }
     free(Q->data);
-    Q->front = Q->rear = Q->capacity = 0;
-    return true;
+    free(Q);
+    return NULL;
 }
 
 /* Print the Queue(Q) [O(n)]*/
 void SeqQueue_Print(SeqQueue Q) {
+    assert(Q != NULL && "ERROR: When printing the Queue, the Queue is NULL!\n");
     printf("Sequence Queue: ");
     if (SeqQueue_IsEmpty(Q)) {
         printf("Queue is empty!\n");

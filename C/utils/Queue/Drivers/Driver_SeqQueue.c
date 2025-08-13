@@ -35,6 +35,11 @@ int main() {
     SeqQueue_Clear(Q);
     printf("Is Empty: %d\n", SeqQueue_IsEmpty(Q));
     SeqQueue_Print(Q);
-    SeqQueue_Destroy(Q);
+    Q = SeqQueue_Destroy(Q);
+    if (Q == NULL) {
+        printf("SeqQueue Destroyed!\n");
+    } else {
+        printf("SeqQueue Not Destroyed!\n");
+    }
     return 0;
 }

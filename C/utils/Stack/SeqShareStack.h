@@ -143,6 +143,7 @@ SeqShareStack SeqShareStack_Destroy(SeqShareStack S) {
 
 /* Print the Stack(S) [O(n)] */
 void SeqShareStack_Print(SeqShareStack S) {
+    assert(S != NULL && "ERROR: When printing the Stack, the Stack is NULL!\n");
     printf("Sequence Share Stack: ");
     if (SeqShareStack_IsEmpty(S, 1) && SeqShareStack_IsEmpty(S, 2)) {
         printf("Empty Stack!\n");

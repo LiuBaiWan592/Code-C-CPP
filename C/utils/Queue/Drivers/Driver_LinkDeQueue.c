@@ -33,6 +33,11 @@ int main() {
     LinkDeQueue_Clear(Q);
     LinkDeQueue_Print(Q);
 
-    LinkDeQueue_Destroy(Q);
+    Q = LinkDeQueue_Destroy(Q);
+    if (Q == NULL) {
+        printf("LinkDeQueue Destroyed!\n");
+    } else {
+        printf("LinkDeQueue Not Destroyed!\n");
+    }
     return 0;
 }

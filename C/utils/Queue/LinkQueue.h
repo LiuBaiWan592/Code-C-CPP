@@ -90,31 +90,26 @@ ElemType LinkQueue_GetFront(LinkQueue Q) {
 /* Clear the Queue(Q) */
 bool LinkQueue_Clear(LinkQueue Q) {
     assert(Q != NULL && "ERROR: When clearing the Queue, the Queue is NULL!");
-    if (Q == NULL) {
-        return false;
+    if (LinkQueue_IsEmpty(Q)) {
+        return true;
     }
-    Q->front = Q->rear = 0;
-    Q->length = 0;
-    while (Q->front != NULL) {
-        LNode *temp = Q->front;
-        Q->front = Q->front->next;
-        free(temp);
+    while (!LinkQueue_IsEmpty(Q)) {
+        LinkQueue_Delete(Q);
     }
     return true;
 }
 
 /* Destroy the Queue(Q) */
-bool LinkQueue_Destroy(LinkQueue Q) {
+LinkQueue LinkQueue_Destroy(LinkQueue Q) {
     assert(Q != NULL && "ERROR: When destroying the Queue, the Queue is NULL!");
-    if (Q == NULL) {
-        return true;
-    }
     LinkQueue_Clear(Q);
-    return true;
+    free(Q);
+    return NULL;
 }
 
 /* Print the Queue(Q) [O(n)]*/
 void LinkQueue_Print(LinkQueue Q) {
+    assert(Q != NULL && "ERROR: When printing the Queue, the Queue is NULL!\n");
     printf("Linked List Queue: ");
     if (LinkQueue_IsEmpty(Q)) {
         printf("Queue is empty!\n");

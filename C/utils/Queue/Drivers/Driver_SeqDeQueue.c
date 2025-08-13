@@ -35,6 +35,11 @@ int main() {
     SeqDeQueue_Clear(Q);
     SeqDeQueue_Print(Q);
 
-    SeqDeQueue_Destroy(Q);
+    Q = SeqDeQueue_Destroy(Q);
+    if (Q == NULL) {
+        printf("SeqDeQueue Destroyed!\n");
+    } else {
+        printf("SeqDeQueue Not Destroyed!\n");
+    }
     return 0;
 }

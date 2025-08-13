@@ -144,13 +144,15 @@ bool LinkDeQueue_Clear(LinkDeQueue Q) {
 }
 
 /* Destroy the Queue [O(n)] */
-bool LinkDeQueue_Destroy(LinkDeQueue Q) {
+LinkDeQueue LinkDeQueue_Destroy(LinkDeQueue Q) {
     LinkDeQueue_Clear(Q);
-    return true;
+    free(Q);
+    return NULL;
 }
 
 /* Print the Queue [O(n)] */
 void LinkDeQueue_Print(LinkDeQueue Q) {
+    assert(Q != NULL && "ERROR: When printing the Queue, the Queue is NULL!\n");
     printf("Linked Double-Ended Queue: ");
     if (LinkDeQueue_IsEmpty(Q)) {
         printf("Queue is empty!\n");

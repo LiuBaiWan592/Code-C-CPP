@@ -124,8 +124,8 @@ ElemType SeqDeQueue_GetRear(SeqDeQueue Q) {
 /* Clear the Queue */
 bool SeqDeQueue_Clear(SeqDeQueue Q) {
     assert(Q != NULL && "ERROR: When clearing the Queue, the Queue is NULL!");
-    if(Q == NULL){
-        return false;
+    for(int i = 0; i < Q->capacity; i++){
+        Q->data[i] = (ElemType)0;
     }
     Q->front = Q->rear = 0;
     Q->length = 0;
@@ -133,20 +133,16 @@ bool SeqDeQueue_Clear(SeqDeQueue Q) {
 }
 
 /* Destroy the Queue */
-bool SeqDeQueue_Destroy(SeqDeQueue Q) {
+SeqDeQueue SeqDeQueue_Destroy(SeqDeQueue Q) {
     assert(Q != NULL && "ERROR: When destroying the Queue, the Queue is NULL!");
-    if(Q == NULL){
-        return false;
-    }
     free(Q->data);
-    Q->front = Q->rear = 0;
-    Q->length = 0;
-    Q->capacity = 0;
-    return true;
+    free(Q);
+    return NULL;
 }
 
 /* Print the Queue [O(n)] */
 void SeqDeQueue_Print(SeqDeQueue Q) {
+    assert(Q != NULL && "ERROR: When printing the Queue, the Queue is NULL!\n");
     printf("Sequential Double-Ended Queue: ");
     if (SeqDeQueue_IsEmpty(Q)) {
         printf("Queue is empty!\n");
