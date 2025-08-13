@@ -89,8 +89,8 @@ ElemType SeqStack_GetTop(SeqStack S) {
 /* Clear the Stack(S) */
 bool SeqStack_Clear(SeqStack S) {
     assert(S != NULL && "ERROR: When clearing the Stack, the Stack is NULL!\n");
-    if (S == NULL) {
-        return false;
+    for(int i = 0; i < S->capacity; i++){
+        S->data[i] = (ElemType)0;
     }
     S->top = -1;
     S->length = 0;
@@ -98,16 +98,11 @@ bool SeqStack_Clear(SeqStack S) {
 }
 
 /* Destroy the Stack(S) */
-void SeqStack_Destroy(SeqStack S) {
+SeqStack SeqStack_Destroy(SeqStack S) {
     assert(S != NULL && "ERROR: When destroying the Stack, the Stack is NULL!\n");
-    if (S == NULL) {
-        return;
-    }
     free(S->data);
-    S->top = -1;
-    S->length = 0;
-    S->capacity = 0;
-    return;
+    free(S);
+    return NULL;
 }
 
 /* Print the Stack(S) [O(n)] */

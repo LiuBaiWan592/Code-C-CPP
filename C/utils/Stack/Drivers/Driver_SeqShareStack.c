@@ -41,6 +41,11 @@ int main() {
     SeqShareStack_Clear(S);
     SeqShareStack_Print(S);
 
-    SeqShareStack_Destroy(S);
+    S = SeqShareStack_Destroy(S);
+    if (S == NULL) {
+        printf("SeqShareStack Destroyed!\n");
+    } else {
+        printf("SeqShareStack Not Destroyed!\n");
+    }
     return 0;
 }

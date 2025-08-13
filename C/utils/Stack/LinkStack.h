@@ -82,9 +82,6 @@ ElemType LinkStack_GetTop(LinkStack S) {
 /* Clear Linked List Stack */
 bool LinkStack_Clear(LinkStack S) {
     assert(S != NULL && "ERROR: When clearing the Stack, the Stack is NULL!\n");
-    if (S == NULL) {
-        return false;
-    }
     while (!LinkStack_IsEmpty(S)) {
         LinkStack_Pop(S);
     }
@@ -93,23 +90,21 @@ bool LinkStack_Clear(LinkStack S) {
 }
 
 /* Destroy Linked List Stack */
-void LinkStack_Destroy(LinkStack S) {
+LinkStack LinkStack_Destroy(LinkStack S) {
     assert(S != NULL && "ERROR: When destroying the Stack, the Stack is NULL!\n");
-    if (S == NULL) {
-        return;
-    }
     LNode *p = S->next;
     while (p != NULL) {
         LNode *q = p->next;
         free(p);
         p = q;
     }
-    S->length = 0;
-    return;
+    free(S);
+    return NULL;
 }
 
 /* Print Linked List Stack */
 void LinkStack_Print(LinkStack S) {
+    assert(S != NULL && "ERROR: When printing the Stack, the Stack is NULL!\n");
     printf("Linked Stack: ");
     if (LinkStack_IsEmpty(S)) {
         printf("Empty Linked Stack!\n");

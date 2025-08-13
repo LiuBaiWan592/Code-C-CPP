@@ -34,6 +34,11 @@ int main() {
     SeqStack_Clear(S);
     SeqStack_Print(S);
 
-    SeqStack_Destroy(S);
+    S = SeqStack_Destroy(S);
+    if (S == NULL) {
+        printf("SeqStack Destroyed!\n");
+    } else {
+        printf("SeqStack Not Destroyed!\n");
+    }
     return 0;
 }

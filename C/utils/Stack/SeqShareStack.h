@@ -123,8 +123,8 @@ ElemType SeqShareStack_GetTop(SeqShareStack S, int flag) {
 /* Clear the Stack(S) */
 bool SeqShareStack_Clear(SeqShareStack S) {
     assert(S != NULL && "ERROR: When clearing the Stack, the Stack is NULL!\n");
-    if (S == NULL) {
-        return false;
+    for(int i = 0; i < S->capacity; i++){
+        S->data[i] = (ElemType)0;
     }
     S->top_a = -1;
     S->top_b = S->capacity;
@@ -134,18 +134,11 @@ bool SeqShareStack_Clear(SeqShareStack S) {
 }
 
 /* Destroy the Stack(S) */
-void SeqShareStack_Destroy(SeqShareStack S) {
+SeqShareStack SeqShareStack_Destroy(SeqShareStack S) {
     assert(S != NULL && "ERROR: When destroying the Stack, the Stack is NULL!\n");
-    if (S == NULL) {
-        return;
-    }
     free(S->data);
-    S->top_a = -1;
-    S->top_b = S->capacity;
-    S->length_a = 0;
-    S->length_b = 0;
-    S->capacity = 0;
-    return;
+    free(S);
+    return NULL;
 }
 
 /* Print the Stack(S) [O(n)] */

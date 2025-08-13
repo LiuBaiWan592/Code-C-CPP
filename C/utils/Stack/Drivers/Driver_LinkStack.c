@@ -33,6 +33,11 @@ int main() {
     LinkStack_Clear(S);
     LinkStack_Print(S);
 
-    LinkStack_Destroy(S);
+    S = LinkStack_Destroy(S);
+    if (S == NULL) {
+        printf("LinkStack Destroyed!\n");
+    } else {
+        printf("LinkStack Not Destroyed!\n");
+    }
     return 0;
 }
