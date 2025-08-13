@@ -132,8 +132,6 @@ ElemType SeqListDyn_Delete(SeqListDyn L, int index) {
 SeqListDyn SeqListDyn_Destroy(SeqListDyn L) {
     assert(L != NULL && "ERROR: When destorying the List, the List is NULL!");
     free(L->data);
-    L->length = 0;
-    L->capacity = 0;
     free(L);
     return NULL;
 }

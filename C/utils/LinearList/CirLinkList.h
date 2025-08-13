@@ -352,9 +352,6 @@ CirLinkList CirLinkList_Destroy(CirLinkList L) {
         free(q);
         i++;
     }
-    L->length = 0;
-    L->front = NULL;
-    L->rear = NULL;
     free(L);
     return NULL;
 }

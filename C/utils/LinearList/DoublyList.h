@@ -384,9 +384,6 @@ DoublyList DoublyList_Destroy(DoublyList L) {
         p = p->next;
         free(q);
     }
-    L->length = 0;
-    L->front = NULL;
-    L->rear = NULL;
     free(L);
     return NULL;
 }
