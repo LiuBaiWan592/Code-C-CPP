@@ -376,7 +376,7 @@ ElemType DoublyList_DeleteNodeByData(DoublyList L, ElemType data) {
 }
 
 /* Destroy the List(L) [O(n)] */
-bool DoublyList_Destroy(DoublyList L) {
+DoublyList DoublyList_Destroy(DoublyList L) {
     assert(L != NULL && "ERROR: When destroying the List, the List is NULL!");
     DNode *p = L->front, *q = NULL;
     while (p != NULL) {
@@ -387,13 +387,15 @@ bool DoublyList_Destroy(DoublyList L) {
     L->length = 0;
     L->front = NULL;
     L->rear = NULL;
-    return true;
+    free(L);
+    return NULL;
 }
 
 /* =============================================================================== */
 
 /* Print the List(L) [O(n)] */
 void DoublyList_Print(DoublyList L) {
+    assert(L != NULL && "ERROR: When Printing the List, the List is NULL!");
     DNode *p = L->front;
     printf("Linked List: ");
     if (p == NULL) {

@@ -361,7 +361,7 @@ ElemType LinkList_DeleteNodeByData(LinkList L, ElemType data) {
 }
 
 /* Destroy the List(L) [O(n)] */
-bool LinkList_Destroy(LinkList L) {
+LinkList LinkList_Destroy(LinkList L) {
     assert(L != NULL && "ERROR: When destroying the List, the List is NULL!");
     LNode *p = L->front, *q = NULL;
     while (p != NULL) {
@@ -372,13 +372,15 @@ bool LinkList_Destroy(LinkList L) {
     L->length = 0;
     L->front = NULL;
     L->rear = NULL;
-    return true;
+    free(L);
+    return NULL;
 }
 
 /* =============================================================================== */
 
 /* Print the List(L) [O(n)] */
 void LinkList_Print(LinkList L) {
+    assert(L != NULL && "ERROR: When Printing the List, the List is NULL!");
     LNode *p = L->front;
     printf("Linked List: ");
     if (p == NULL) {

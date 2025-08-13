@@ -129,16 +129,18 @@ ElemType SeqListDyn_Delete(SeqListDyn L, int index) {
 }
 
 /* Destory the List(L) [O(1)] */
-bool SeqListDyn_Destroy(SeqListDyn L) {
+SeqListDyn SeqListDyn_Destroy(SeqListDyn L) {
     assert(L != NULL && "ERROR: When destorying the List, the List is NULL!");
     free(L->data);
     L->length = 0;
     L->capacity = 0;
-    return true;
+    free(L);
+    return NULL;
 }
 
 /* Print the List(L) [O(n)] */
 void SeqListDyn_Print(SeqListDyn L) {
+    assert(L != NULL && "ERROR: When Printing the List, the List is NULL!");
     printf("Sequence List: ");
     if (L->length == 0) {
         printf("Empty List!\n");

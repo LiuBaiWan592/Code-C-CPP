@@ -162,15 +162,9 @@ int main() {
 
     printf("================================================\n");
 
-    CirLinkList_Destroy(L);
-    if (L->length == 0 && L->front == NULL && L->rear == NULL) {
+    L = CirLinkList_Destroy(L);
+    if (L == NULL) {
         printf("LinkList Destroyed!\n");
-        printf("Length: %d\n", CirLinkList_GetLength(L));
-        if (CirLinkList_IsEmpty(L)) {
-            printf("LinkList is empty!\n");
-        } else {
-            printf("LinkList is not empty!\n");
-        }
     } else {
         printf("LinkList Not Destroyed!\n");
     }

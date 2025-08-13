@@ -358,7 +358,7 @@ ElemType CirDoublyList_DeleteNodeByData(CirDoublyList L, ElemType data) {
 }
 
 /* Destroy the List(L) [O(n)] */
-bool CirDoublyList_Destroy(CirDoublyList L) {
+CirDoublyList CirDoublyList_Destroy(CirDoublyList L) {
     assert(L != NULL && "ERROR: When destroying the List, the List is NULL!");
     DNode *p = L->front, *q = NULL;
     int i = 1;
@@ -371,13 +371,15 @@ bool CirDoublyList_Destroy(CirDoublyList L) {
     L->length = 0;
     L->front = NULL;
     L->rear = NULL;
-    return true;
+    free(L);
+    return NULL;
 }
 
 /* =============================================================================== */
 
 /* Print the List(L) [O(n)] */
 void CirDoublyList_Print(CirDoublyList L) {
+    assert(L != NULL && "ERROR: When Printing the List, the List is NULL!");
     DNode *p = L->front;
     printf("Linked List: ");
     if (p == NULL) {

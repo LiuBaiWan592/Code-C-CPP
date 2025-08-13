@@ -108,14 +108,15 @@ ElemType SeqList_Delete(SeqList L, int index) {
 }
 
 /* Destory the List(L) [O(1)] */
-void SeqList_Destroy(SeqList L) {
+SeqList SeqList_Destroy(SeqList L) {
     assert(L != NULL && "ERROR: When destroying the List, the List is NULL!");
     L->length = 0;
-    return;
+    return NULL;
 }
 
 /* Print the List(L) [O(n)] */
 void SeqList_Print(SeqList L) {
+    assert(L != NULL && "ERROR: When Printing the List, the List is NULL!");
     printf("Sequence List: ");
     if (L->length == 0) {
         printf("Empty List!\n");

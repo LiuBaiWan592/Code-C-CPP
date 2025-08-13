@@ -72,7 +72,11 @@ int main() {
 
     printf("================================================\n");
 
-    SeqList_Destroy(L);
-    SeqList_Print(L);
+    L = SeqList_Destroy(L);
+    if (L == NULL) {
+        printf("SeqList Destroyed!\n");
+    } else {
+        printf("SeqList Not Destroyed!\n");
+    }
     return 0;
 }

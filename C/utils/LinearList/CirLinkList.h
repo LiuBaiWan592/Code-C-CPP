@@ -342,7 +342,7 @@ ElemType CirLinkList_DeleteNodeByData(CirLinkList L, ElemType data) {
 }
 
 /* Destroy the List(L) [O(n)] */
-bool CirLinkList_Destroy(CirLinkList L) {
+CirLinkList CirLinkList_Destroy(CirLinkList L) {
     assert(L != NULL && "ERROR: When destroying the List, the List is NULL!");
     LNode *p = L->front, *q = NULL;
     int i = 1;
@@ -355,13 +355,15 @@ bool CirLinkList_Destroy(CirLinkList L) {
     L->length = 0;
     L->front = NULL;
     L->rear = NULL;
-    return true;
+    free(L);
+    return NULL;
 }
 
 /* =============================================================================== */
 
 /* Print the List(L) [O(n)] */
 void CirLinkList_Print(CirLinkList L) {
+    assert(L != NULL && "ERROR: When Printing the List, the List is NULL!");
     LNode *p = L->front;
     printf("Linked List: ");
     if (p == NULL) {

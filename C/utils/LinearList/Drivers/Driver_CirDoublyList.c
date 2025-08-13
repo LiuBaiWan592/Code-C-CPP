@@ -162,15 +162,9 @@ int main() {
 
     printf("================================================\n");
 
-    CirDoublyList_Destroy(L);
-    if (L->length == 0 && L->front == NULL && L->rear == NULL) {
+    L = CirDoublyList_Destroy(L);
+    if (L == NULL) {
         printf("DoublyList Destroyed!\n");
-        printf("Length: %d\n", CirDoublyList_GetLength(L));
-        if (CirDoublyList_IsEmpty(L)) {
-            printf("DoublyList is empty!\n");
-        } else {
-            printf("DoublyList is not empty!\n");
-        }
     } else {
         printf("DoublyList Not Destroyed!\n");
     }

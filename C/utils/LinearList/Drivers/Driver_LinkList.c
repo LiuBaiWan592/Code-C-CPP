@@ -182,15 +182,9 @@ int main() {
 
     printf("================================================\n");
 
-    LinkList_Destroy(L);
-    if (L->length == 0 && L->front == NULL && L->rear == NULL) {
+    L = LinkList_Destroy(L);
+    if (L == NULL) {
         printf("LinkList Destroyed!\n");
-        printf("Length: %d\n", LinkList_GetLength(L));
-        if (LinkList_IsEmpty(L)) {
-            printf("LinkList is empty!\n");
-        } else {
-            printf("LinkList is not empty!\n");
-        }
     } else {
         printf("LinkList Not Destroyed!\n");
     }
