@@ -152,7 +152,7 @@ void SeqShareStack_Print(SeqShareStack S) {
         printf("\n");
     }
     printf("  Index: ");
-    for (int i = 0; i < Maxsize; i++) {
+    for (int i = 0; i < S->capacity; i++) {
         printf("%d    ", i);
     }
     printf("\n");
@@ -163,7 +163,7 @@ void SeqShareStack_Print(SeqShareStack S) {
     for (int i = S->top_a + 1; i < S->top_b; i++) {
         printf("%d    ", 0);
     }
-    for (int i = S->top_b; i < Maxsize; i++) {
+    for (int i = S->top_b; i < S->capacity; i++) {
         printf("%d    ", S->data[i]);
     }
     printf("\n");
