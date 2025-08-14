@@ -67,6 +67,42 @@ struct SString SString_Concat(SString S1, SString S2) {
     }
 }
 
+struct SString SString_SubString(SString S, int pos, int len) {
+    struct SString T;
+    if (pos < 1 || pos > S->length || len < 0 || len > S->length - pos + 1) {
+        printf("Warning: Invalid position or length!\n");
+        return T;
+    }
+    for (int i = 1; i <= len; i++) {
+        T.ch[i] = S->ch[pos + i - 1];
+    }
+    T.length = len;
+    return T;
+}
+
+int SString_Compare(SString S, SString T) {
+    for (int i = 1; i <= S->length && i <= T->length; i++) {
+        if (S->ch[i] != T->ch[i]) {
+            return S->ch[i] - T->ch[i];
+        }
+    }
+    return S->length - T->length;
+}
+
+int SString_Index(SString S, SString T) {
+    int i = 1, n = S->length, m = T->length;
+    struct SString sub;
+    while (i <= n - m + 1) {
+        sub = SString_SubString(S, i, m);
+        if (SString_Compare(&sub, T) != 0) {
+            i++;
+        } else {
+            return i;
+        }
+    }
+    return 0;
+}
+
 bool SString_Clear(SString S) {
     S->length = 0;
     return true;
@@ -114,6 +150,17 @@ int main() {
     S1 = SString_Concat(S, T);
     SString_Print(&S1);
     SString_Print(S);
+
+    S2 = SString_SubString(S, 3, 3);
+    SString_Print(&S2);
+    SString_Print(T);
+
+    S2 = SString_SubString(S, 1, 8);
+    SString_Print(&S2);
+    printf("Compare S and T: %d\n", SString_Compare(S, T));
+
+    S2 = SString_SubString(S, 3, 3);
+    printf("Index of T in S: %d\n", SString_Index(S, T));
 
     SString_Clear(S);
     SString_Print(S);
