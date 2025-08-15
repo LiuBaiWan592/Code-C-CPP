@@ -103,6 +103,24 @@ int SString_Index(SString S, SString T) {
     return 0;
 }
 
+int SString_Index_Force(SString S, SString T) {
+    int i = 1, j = 1;
+    while (i <= S->length && j <= T->length) {
+        if (S->ch[i] == T->ch[j]) {
+            i++;
+            j++;
+        } else {
+            i = i - j + 2;
+            j = 1;
+        }
+    }
+    if (j > T->length) {
+        return i - T->length;
+    } else {
+        return 0;
+    }
+}
+
 bool SString_Clear(SString S) {
     S->length = 0;
     return true;
@@ -161,6 +179,8 @@ int main() {
 
     S2 = SString_SubString(S, 3, 3);
     printf("Index of T in S: %d\n", SString_Index(S, T));
+
+    printf("Index of T in S (Force): %d\n", SString_Index_Force(S, T));
 
     SString_Clear(S);
     SString_Print(S);

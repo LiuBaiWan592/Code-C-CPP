@@ -9,6 +9,7 @@
 
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 typedef struct HString {
     char *ch;
@@ -102,6 +103,25 @@ int HString_Index(HString S, HString T) {
     return 0;
 }
 
+int HString_Index_Force(HString S, HString T) {
+    int i = 1, j = 1;
+    while (i <= S->length && j <= T->length) {
+        if (S->ch[i] == T->ch[j]) {
+            i++;
+            j++;
+        } else {
+            i = i - j + 2;
+            j = 1;
+        }
+    }
+    if (j > T->length) {
+        return i - T->length;
+    } else {
+        return 0;
+    }
+}
+
+
 bool HString_Clear(HString S) {
     S->length = 0;
     return true;
@@ -159,6 +179,7 @@ int main() {
     printf("Compare S and ST: %d\n", HString_Compare(S, ST));
 
     printf("Index of T in ST: %d\n", HString_Index(ST, T));
+    printf("Index of T in ST (Force): %d\n", HString_Index_Force(ST, T));
 
     HString_Clear(S);
     HString_Print(S);
