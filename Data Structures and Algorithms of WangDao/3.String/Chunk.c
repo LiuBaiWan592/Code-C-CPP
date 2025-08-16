@@ -30,4 +30,23 @@ Chunk Chunk_Init() {
 }
 
 bool Chunk_Assign(Chunk C, char *str) {
+    ChunkNode *current = C->next;
+    int i = 0;
+    while (str[i] != '\0') {
+        if(i % CHUNKSIZE == 0) {
+            ChunkNode *newNode = (ChunkNode *)malloc(sizeof(struct ChunkNode));
+            newNode->next = NULL;
+            current->next = newNode;
+            current = current->next;
+        }
+        current->ch[i % CHUNKSIZE] = str[i];
+        i++;
+    }
+    if(i % CHUNKSIZE != 0) {
+        for(int j = i % CHUNKSIZE; j < CHUNKSIZE; j++) {
+            current->ch[j] = '#';
+        }
+    }
+    C->length = i;
+    return true;
 }
