@@ -25,22 +25,28 @@ typedef struct Chunk {
 Chunk Chunk_Init() {
     Chunk C = (Chunk)malloc(sizeof(struct Chunk));
     C->length = 0;
-    C->next = (ChunkNode *)malloc(sizeof(struct ChunkNode));
-    for (int i = 0; i < CHUNKSIZE; i++) {
-        C->next->ch[i] = '#';
-    }
-    C->next->next = NULL;
+    C->next = NULL;
     return C;
+}
+
+ChunkNode *Chunk_InitNode() {
+    ChunkNode *newNode = (ChunkNode *)malloc(sizeof(struct ChunkNode));
+    newNode->next = NULL;
+    return newNode;
 }
 
 bool Chunk_Assign(Chunk C, char *str) {
     ChunkNode *current = C->next;
+    if (current == NULL) {
+        current = Chunk_InitNode();
+        C->next = current;
+    }
     int i = 0;
     while (str[i] != '\0') {
         if (i % CHUNKSIZE == 0 && i != 0) {
-            ChunkNode *newNode = (ChunkNode *)malloc(sizeof(struct ChunkNode));
-            newNode->next = NULL;
-            current->next = newNode;
+            if (current->next == NULL) {
+                current->next = Chunk_InitNode();
+            }
             current = current->next;
         }
         current->ch[i % CHUNKSIZE] = str[i];
@@ -53,6 +59,17 @@ bool Chunk_Assign(Chunk C, char *str) {
     }
     C->length = i;
     return true;
+}
+
+bool Chunk_IsEmpty(Chunk C) {
+    return C->length == 0;
+}
+
+int Chunk_GetLength(Chunk C) {
+    return C->length;
+}
+
+bool Chunk_Copy(Chunk C, Chunk D) {
 }
 
 void Chunk_Print(Chunk C) {
@@ -73,4 +90,8 @@ int main() {
     char str[] = "Hello, World!";
     Chunk_Assign(C, str);
     Chunk_Print(C);
+
+    printf("If C is empty: %s\n", Chunk_IsEmpty(C) ? "empty" : "not empty");
+    printf("Length of C: %d\n", Chunk_GetLength(C));
+    return 0;
 }
