@@ -12,9 +12,22 @@
 
 #define CHUNKSIZE 4
 
-typedef struct Chunk {
+typedef struct ChunkNode {
     char ch[CHUNKSIZE];
+    struct ChunkNode *next;
+}ChunkNode;
+
+typedef struct Chunk {
     int length;
-    struct Chunk *next;
+    struct ChunkNode *next;
 } *Chunk;
 
+Chunk Chunk_Init() {
+    Chunk C = (Chunk)malloc(sizeof(struct Chunk));
+    C->length = 0;
+    C->next = NULL;
+    return C;
+}
+
+bool Chunk_Assign(Chunk C, char *str) {
+}
