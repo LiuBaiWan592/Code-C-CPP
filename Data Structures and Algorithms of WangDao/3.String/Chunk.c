@@ -15,7 +15,7 @@
 typedef struct ChunkNode {
     char ch[CHUNKSIZE];
     struct ChunkNode *next;
-}ChunkNode;
+} ChunkNode;
 
 typedef struct Chunk {
     int length;
@@ -25,7 +25,11 @@ typedef struct Chunk {
 Chunk Chunk_Init() {
     Chunk C = (Chunk)malloc(sizeof(struct Chunk));
     C->length = 0;
-    C->next = NULL;
+    C->next = (ChunkNode *)malloc(sizeof(struct ChunkNode));
+    for (int i = 0; i < CHUNKSIZE; i++) {
+        C->next->ch[i] = '#';
+    }
+    C->next->next = NULL;
     return C;
 }
 
@@ -33,7 +37,7 @@ bool Chunk_Assign(Chunk C, char *str) {
     ChunkNode *current = C->next;
     int i = 0;
     while (str[i] != '\0') {
-        if(i % CHUNKSIZE == 0) {
+        if (i % CHUNKSIZE == 0 && i != 0) {
             ChunkNode *newNode = (ChunkNode *)malloc(sizeof(struct ChunkNode));
             newNode->next = NULL;
             current->next = newNode;
@@ -42,11 +46,31 @@ bool Chunk_Assign(Chunk C, char *str) {
         current->ch[i % CHUNKSIZE] = str[i];
         i++;
     }
-    if(i % CHUNKSIZE != 0) {
-        for(int j = i % CHUNKSIZE; j < CHUNKSIZE; j++) {
+    if (i % CHUNKSIZE != 0) {
+        for (int j = i % CHUNKSIZE; j < CHUNKSIZE; j++) {
             current->ch[j] = '#';
         }
     }
     C->length = i;
     return true;
+}
+
+void Chunk_Print(Chunk C) {
+    ChunkNode *current = C->next;
+    int i = 0;
+    while (current != NULL) {
+        for (int j = 0; i * CHUNKSIZE + j < C->length && j < CHUNKSIZE; j++) {
+            printf("%c", current->ch[j]);
+        }
+        current = current->next;
+        i++;
+    }
+    printf("\n");
+}
+
+int main() {
+    Chunk C = Chunk_Init();
+    char str[] = "Hello, World!";
+    Chunk_Assign(C, str);
+    Chunk_Print(C);
 }
