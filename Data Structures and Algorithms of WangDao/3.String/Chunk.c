@@ -9,6 +9,7 @@
 
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #define CHUNKSIZE 4
 
@@ -35,6 +36,16 @@ ChunkNode *Chunk_InitNode() {
     return newNode;
 }
 
+bool Chunk_ClearTail(ChunkNode *current) {
+    current = current->next;
+    while (current != NULL) {
+        ChunkNode *temp = current;
+        current = current->next;
+        free(temp);
+    }
+    return true;
+}
+
 bool Chunk_Assign(Chunk C, char *str) {
     ChunkNode *current = C->next;
     if (current == NULL) {
@@ -58,6 +69,9 @@ bool Chunk_Assign(Chunk C, char *str) {
         }
     }
     C->length = i;
+    if (current->next != NULL) {
+        Chunk_ClearTail(current);
+    }
     return true;
 }
 
