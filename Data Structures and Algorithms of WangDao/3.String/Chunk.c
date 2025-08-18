@@ -47,11 +47,10 @@ bool Chunk_ClearTail(ChunkNode *current) {
 }
 
 bool Chunk_Assign(Chunk C, char *str) {
-    ChunkNode *current = C->next;
-    if (current == NULL) {
-        current = Chunk_InitNode();
-        C->next = current;
+    if (C->next == NULL) {
+        C->next = Chunk_InitNode();
     }
+    ChunkNode *current = C->next;
     int i = 0;
     while (str[i] != '\0') {
         if (i % CHUNKSIZE == 0 && i != 0) {
@@ -84,6 +83,25 @@ int Chunk_GetLength(Chunk C) {
 }
 
 bool Chunk_Copy(Chunk C, Chunk D) {
+    ChunkNode *CNode = C->next;
+    if (D->next == NULL) {
+        D->next = Chunk_InitNode();
+    }
+    ChunkNode *DNode = D->next;
+    while (CNode != NULL) {
+        for (int i = 0; i < CHUNKSIZE; i++) {
+            DNode->ch[i] = CNode->ch[i];
+        }
+        CNode = CNode->next;
+        if (DNode->next == NULL) {
+            DNode->next = Chunk_InitNode();
+            DNode = DNode->next;
+        } else {
+            DNode = DNode->next;
+        }
+    }
+    D->length = C->length;
+    return true;
 }
 
 void Chunk_Print(Chunk C) {
@@ -107,5 +125,11 @@ int main() {
 
     printf("If C is empty: %s\n", Chunk_IsEmpty(C) ? "empty" : "not empty");
     printf("Length of C: %d\n", Chunk_GetLength(C));
+
+    Chunk D = Chunk_Init();
+    Chunk_Copy(C, D);
+    Chunk_Print(D);
+    printf("If D is empty: %s\n", Chunk_IsEmpty(D) ? "empty" : "not empty");
+    printf("Length of D: %d\n", Chunk_GetLength(D));
     return 0;
 }
