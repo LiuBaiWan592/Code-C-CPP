@@ -12,12 +12,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/* Heap String */
 typedef struct HString {
-    char *ch;
-    int length;
-    int capacity;
+    char *ch;               // ch[0] is not used
+    int length;             // length of HString
+    int capacity;           // capacity of HString
 } *HString;
 
+/* Initialize the Heap String [O(1)] */
 HString HString_Init(int capacity) {
     HString S = (HString)malloc(sizeof(struct HString));
     S->ch = (char *)malloc(sizeof(char) * (capacity + 1));
@@ -26,6 +28,7 @@ HString HString_Init(int capacity) {
     return S;
 }
 
+/* Assign the char array to the SString [O(n)] */
 bool HString_Assign(HString S, char *str) {
     int i = 0;
     while (str[i] != '\0' && i < S->capacity) {
@@ -40,34 +43,39 @@ bool HString_Assign(HString S, char *str) {
     return true;
 }
 
+/* Check if the SString is empty [O(1)] */
 bool HString_IsEmpty(HString S) {
     return S->length == 0;
 }
 
+/* Get the length of the SString [O(1)] */
 int HString_GetLength(HString S) {
     return S->length;
 }
 
-bool HString_Copy(HString S, HString T) {
-    for (int i = 1; i <= S->length; i++) {
-        T->ch[i] = S->ch[i];
+/* Copy the SString S1 to SString S2 [O(n)] */
+bool HString_Copy(HString S1, HString S2) {
+    for (int i = 1; i <= S1->length; i++) {
+        S2->ch[i] = S1->ch[i];
     }
-    T->length = S->length;
+    S2->length = S1->length;
     return true;
 }
 
-HString HString_Concat(HString S, HString T) {
-    HString ST = HString_Init(S->length + T->length);
-    for (int i = 1; i <= S->length; i++) {
-        ST->ch[i] = S->ch[i];
+/* Concatenate the SString S1 and S2 to S [O(n)] */
+HString HString_Concat(HString S1, HString S2) {
+    HString S = HString_Init(S1->length + S2->length);
+    for (int i = 1; i <= S1->length; i++) {
+        S->ch[i] = S1->ch[i];
     }
-    for (int i = 1; i <= T->length; i++) {
-        ST->ch[S->length + i] = T->ch[i];
+    for (int i = 1; i <= S2->length; i++) {
+        S->ch[S1->length + i] = S2->ch[i];
     }
-    ST->length = S->length + T->length;
-    return ST;
+    S->length = S1->length + S2->length;
+    return S;
 }
 
+/* Get the sub string of S from pos to pos+len [O(n)] */
 HString HString_SubString(HString S, int pos, int len) {
     HString Sub = HString_Init(len);
     if (pos < 1 || pos > S->length || len < 0 || len > S->length - pos + 1) {
@@ -81,21 +89,23 @@ HString HString_SubString(HString S, int pos, int len) {
     return Sub;
 }
 
-int HString_Compare(HString S, HString T) {
-    for (int i = 1; i <= S->length && i <= T->length; i++) {
-        if (S->ch[i] != T->ch[i]) {
-            return S->ch[i] - T->ch[i];
+/* Compare the SString S1 and S2, if S1 > S2 return a Positive number, if S1 < S2 return a negative number, else return 0 [O(n)] */
+int HString_Compare(HString S1, HString S2) {
+    for (int i = 1; i <= S1->length && i <= S2->length; i++) {
+        if (S1->ch[i] != S2->ch[i]) {
+            return S1->ch[i] - S2->ch[i];
         }
     }
-    return S->length - T->length;
+    return S1->length - S2->length;
 }
 
-int HString_Index(HString S, HString T) {
-    int i = 1, n = S->length, m = T->length;
+/* Get the index of S2 in S1, using the substring function [O(n * m)] */
+int HString_Index(HString S1, HString S2) {
+    int i = 1, n = S1->length, m = S2->length;
     HString Sub = HString_Init(m);
     while (i <= n - m + 1) {
-        Sub = HString_SubString(S, i, m);
-        if (HString_Compare(Sub, T) != 0) {
+        Sub = HString_SubString(S1, i, m);
+        if (HString_Compare(Sub, S2) != 0) {
             i++;
         } else {
             return i;
@@ -104,10 +114,11 @@ int HString_Index(HString S, HString T) {
     return 0;
 }
 
-int HString_Index_Force(HString S, HString T) {
+/* Get the index of T in S, using the Force method [O(n * m)] */
+int HString_Index_Force(HString S1, HString S2) {
     int i = 1, j = 1;
-    while (i <= S->length && j <= T->length) {
-        if (S->ch[i] == T->ch[j]) {
+    while (i <= S1->length && j <= S2->length) {
+        if (S1->ch[i] == S2->ch[j]) {
             i++;
             j++;
         } else {
@@ -115,25 +126,27 @@ int HString_Index_Force(HString S, HString T) {
             j = 1;
         }
     }
-    if (j > T->length) {
-        return i - T->length;
+    if (j > S2->length) {
+        return i - S2->length;
     } else {
         return 0;
     }
 }
 
-
+/* Clear the SString S [O(1)] */
 bool HString_Clear(HString S) {
     S->length = 0;
     return true;
 }
 
+/* Destroy the SString S [O(1)] */
 HString HString_Destroy(HString S) {
     free(S->ch);
     free(S);    
     return NULL;
 }
 
+/* Print the SString S [O(n)] */
 void HString_Print(HString S) {
     printf("HString: ");
     if (HString_IsEmpty(S)) {
@@ -154,6 +167,7 @@ void HString_Print(HString S) {
     printf("\n");
 }
 
+/* Driver code */
 int main() {
     HString S = HString_Init(10);
     HString T = HString_Init(10);
