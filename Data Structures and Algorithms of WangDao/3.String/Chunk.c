@@ -82,29 +82,29 @@ int Chunk_GetLength(Chunk C) {
     return C->length;
 }
 
-bool Chunk_Copy(Chunk C, Chunk D) {
-    ChunkNode *CNode = C->next;
-    if (D->next == NULL) {
-        D->next = Chunk_InitNode();
+bool Chunk_Copy(Chunk C1, Chunk C2) {
+    ChunkNode *C1Node = C1->next;
+    if (C2->next == NULL) {
+        C2->next = Chunk_InitNode();
     }
-    ChunkNode *DNode = D->next;
-    while (CNode != NULL) {
+    ChunkNode *C2Node = C2->next;
+    while (C1Node != NULL) {
         for (int i = 0; i < CHUNKSIZE; i++) {
-            DNode->ch[i] = CNode->ch[i];
+            C2Node->ch[i] = C1Node->ch[i];
         }
-        CNode = CNode->next;
-        if (DNode->next == NULL) {
-            DNode->next = Chunk_InitNode();
-            DNode = DNode->next;
+        C1Node = C1Node->next;
+        if (C2Node->next == NULL) {
+            C2Node->next = Chunk_InitNode();
+            C2Node = C2Node->next;
         } else {
-            DNode = DNode->next;
+            C2Node = C2Node->next;
         }
     }
-    D->length = C->length;
+    C2->length = C1->length;
     return true;
 }
 
-char* Chunk_GetChar(Chunk C) {
+char *Chunk_GetChar(Chunk C) {
     char *str = (char *)malloc(sizeof(char) * C->length + 1);
     ChunkNode *current = C->next;
     int i = 0;
@@ -144,6 +144,67 @@ Chunk Chunk_Concat(Chunk C1, Chunk C2) {
     return C;
 }
 
+Chunk Chunk_Substring(Chunk C, int start, int len) {
+    Chunk D = Chunk_Init();
+    ChunkNode *current = C->next;
+    int nodeNum = start / CHUNKSIZE;
+    for (int i = 0; i < nodeNum; i++) {
+        current = current->next;
+    }
+    char *str = (char *)malloc(sizeof(char) * (len + 1));
+    for (int i = 0; i < len; i++) {
+        str[i] = current->ch[(start + i) % CHUNKSIZE];
+        if ((start + i) % CHUNKSIZE == CHUNKSIZE - 1) {
+            current = current->next;
+        }
+    }
+    str[len] = '\0';
+    Chunk_Assign(D, str);
+    free(str);
+    return D;
+}
+
+int Chunk_Compare(Chunk C1, Chunk C2) {
+    ChunkNode *C1Node = C1->next;
+    ChunkNode *C2Node = C2->next;
+    int i = 0;
+    while (C1Node != NULL && C2Node != NULL) {
+        for (int j = 0;
+             j < CHUNKSIZE && i * CHUNKSIZE + j < C1->length && i * CHUNKSIZE + j < C2->length;
+             j++) {
+            if (C1Node->ch[j] != C2Node->ch[j]) {
+                return C1Node->ch[j] - C2Node->ch[j];
+            }
+        }
+        C1Node = C1Node->next;
+        C2Node = C2Node->next;
+        i++;
+    }
+    if (C1Node == NULL && C2Node == NULL) {
+        return 0;
+    } else if (C1Node == NULL) {
+        return -1;
+    } else {
+        return 1;
+    }
+}
+
+bool Chunk_Clear(Chunk C) {
+    ChunkNode *current = C->next;
+    while (current != NULL) {
+        ChunkNode *temp = current;
+        current = current->next;
+        free(temp);
+    }
+    C->next = NULL;
+    C->length = 0;
+}
+
+Chunk Chunk_Destroy(Chunk C) {
+    Chunk_Clear(C);
+    free(C);
+    return NULL;
+}
 
 void Chunk_Print(Chunk C) {
     ChunkNode *current = C->next;
@@ -177,5 +238,26 @@ int main() {
     Chunk_Print(E);
     printf("If E is empty: %s\n", Chunk_IsEmpty(E) ? "empty" : "not empty");
     printf("Length of E: %d\n", Chunk_GetLength(E));
+
+    D = Chunk_Substring(D, 7, 5);
+    Chunk_Print(D);
+    printf("If D is empty: %s\n", Chunk_IsEmpty(D) ? "empty" : "not empty");
+    printf("Length of D: %d\n", Chunk_GetLength(D));
+
+    printf("Comparison result: %d\n", Chunk_Compare(C, E));
+
+    if (Chunk_Clear(C)) {
+        printf("C is cleared.\n");
+    }
+    printf("If C is empty: %s\n", Chunk_IsEmpty(C) ? "empty" : "not empty");
+    printf("Length of C: %d\n", Chunk_GetLength(C));
+
+    C = Chunk_Destroy(C);
+    if (C == NULL) {
+        printf("C is destroyed.\n");
+    }
+    D = Chunk_Destroy(D);
+    E = Chunk_Destroy(E);
+
     return 0;
 }
