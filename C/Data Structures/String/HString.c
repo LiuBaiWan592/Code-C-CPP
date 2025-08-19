@@ -6,6 +6,19 @@
  * @Brief       :Heap Sequence String
  * @Description :The Index of *ch in HString is 1~length, not 0~length-1
  *              :the first character is ch[1], the ch[0] is not used
+ *              :HString: String with dynamic memory allocation
+ *              :HString_Assign: Assign the char array to the HString [O(n)]
+ *              :HString_IsEmpty: Check if the HString is empty [O(1)]
+ *              :HString_GetLength: Get the length of the HString [O(1)]
+ *              :HString_Copy: Copy the HString S to HString T [O(n)]
+ *              :HString_Concat: Concatenate the HString S1 and S2 to S [O(n)]
+ *              :HString_SubString: Get the sub string of S from pos to pos+len [O(n)]
+ *              :HString_Compare: Compare the HString S1 and S2 [O(n)]
+ *              :HString_Index: Get the first position of S2 in S1 [O(n)]
+ *              :HString_Index_Force: Get the first position of S2 in S1 by force [O(n^2)]
+ *              :HString_Clear: Clear the HString S [O(1)]
+ *              :HString_Destroy: Destroy the HString S [O(1)]
+ *              :HString_Print: Print the HString S [O(n)]
  */
 
 #include <stdbool.h>
@@ -28,7 +41,7 @@ HString HString_Init(int capacity) {
     return S;
 }
 
-/* Assign the char array to the SString [O(n)] */
+/* Assign the char array to the HString [O(n)] */
 bool HString_Assign(HString S, char *str) {
     int i = 0;
     while (str[i] != '\0' && i < S->capacity) {
@@ -43,17 +56,17 @@ bool HString_Assign(HString S, char *str) {
     return true;
 }
 
-/* Check if the SString is empty [O(1)] */
+/* Check if the HString is empty [O(1)] */
 bool HString_IsEmpty(HString S) {
     return S->length == 0;
 }
 
-/* Get the length of the SString [O(1)] */
+/* Get the length of the HString [O(1)] */
 int HString_GetLength(HString S) {
     return S->length;
 }
 
-/* Copy the SString S1 to SString S2 [O(n)] */
+/* Copy the HString S1 to HString S2 [O(n)] */
 bool HString_Copy(HString S1, HString S2) {
     for (int i = 1; i <= S1->length; i++) {
         S2->ch[i] = S1->ch[i];
@@ -62,7 +75,7 @@ bool HString_Copy(HString S1, HString S2) {
     return true;
 }
 
-/* Concatenate the SString S1 and S2 to S [O(n)] */
+/* Concatenate the HString S1 and S2 to S [O(n)] */
 HString HString_Concat(HString S1, HString S2) {
     HString S = HString_Init(S1->length + S2->length);
     for (int i = 1; i <= S1->length; i++) {
@@ -89,7 +102,7 @@ HString HString_SubString(HString S, int pos, int len) {
     return Sub;
 }
 
-/* Compare the SString S1 and S2, if S1 > S2 return a Positive number, if S1 < S2 return a negative number, else return 0 [O(n)] */
+/* Compare the HString S1 and S2, if S1 > S2 return a Positive number, if S1 < S2 return a negative number, else return 0 [O(n)] */
 int HString_Compare(HString S1, HString S2) {
     for (int i = 1; i <= S1->length && i <= S2->length; i++) {
         if (S1->ch[i] != S2->ch[i]) {
@@ -133,20 +146,20 @@ int HString_Index_Force(HString S1, HString S2) {
     }
 }
 
-/* Clear the SString S [O(1)] */
+/* Clear the HString S [O(1)] */
 bool HString_Clear(HString S) {
     S->length = 0;
     return true;
 }
 
-/* Destroy the SString S [O(1)] */
+/* Destroy the HString S [O(1)] */
 HString HString_Destroy(HString S) {
     free(S->ch);
     free(S);    
     return NULL;
 }
 
-/* Print the SString S [O(n)] */
+/* Print the HString S [O(n)] */
 void HString_Print(HString S) {
     printf("HString: ");
     if (HString_IsEmpty(S)) {
