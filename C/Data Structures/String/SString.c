@@ -6,6 +6,19 @@
  * @Brief       :Static Sequence String
  * @Description :The Index of ch[] in SString is 1~length, not 0~length-1
  *              :the first character is ch[1], the ch[0] is not used
+ *              :SString: String with Static Sequence
+ *              :SString_Assign: Assign the char array to the SString [O(n)]
+ *              :SString_IsEmpty: Check if the SString is empty [O(1)]
+ *              :SString_GetLength: Get the length of the SString [O(1)]
+ *              :SString_Copy: Copy the SString S to SString T [O(n)]
+ *              :SString_Concat: Concatenate the SString S1 and S2 to S [O(n)]
+ *              :SString_SubString: Get the sub string of S from pos to pos+len [O(n)]
+ *              :SString_Compare: Compare the SString S1 and S2 [O(n)]
+ *              :SString_Index: Get the first position of S2 in S1 [O(n)]
+ *              :SString_Index_Force: Get the first position of S2 in S1 by force [O(n^2)]
+ *              :SString_Clear: Clear the SString S [O(1)]
+ *              :SString_Destroy: Destroy the SString S [O(1)]
+ *              :SString_Print: Print the SString S [O(n)]
  */
 
 #include <stdbool.h>
@@ -13,11 +26,13 @@
 
 #define MAXSIZE 10
 
+/* Static String*/
 typedef struct SString {
-    char ch[MAXSIZE + 1];
-    int length;
+    char ch[MAXSIZE + 1];       // ch[0] is not used
+    int length;                 // length of string
 } *SString;
 
+/* Assign the char array to the SString [O(n)] */
 bool SString_Assign(SString S, char *str) {
     int i = 0;
     while (str[i] != '\0' && i < MAXSIZE) {
@@ -32,22 +47,26 @@ bool SString_Assign(SString S, char *str) {
     return true;
 }
 
+/* Check if the SString is empty [O(1)] */
 bool SString_IsEmpty(SString S) {
     return S->length == 0;
 }
 
+/* Get the length of the SString [O(1)] */
 int SString_GetLength(SString S) {
     return S->length;
 }
 
-bool SString_Copy(SString S, SString T) {
-    for (int i = 1; i <= S->length; i++) {
-        T->ch[i] = S->ch[i];
+/* Copy the SString S1 to SString S2 [O(n)] */
+bool SString_Copy(SString S1, SString S2) {
+    for (int i = 1; i <= S1->length; i++) {
+        S2->ch[i] = S1->ch[i];
     }
-    T->length = S->length;
+    S2->length = S1->length;
     return true;
 }
 
+/* Concatenate the SString S1 and S2 to S [O(n)] */
 struct SString SString_Concat(SString S1, SString S2) {
     struct SString S;
     for (int i = 1; i <= S1->length; i++) {
@@ -68,6 +87,7 @@ struct SString SString_Concat(SString S1, SString S2) {
     }
 }
 
+/* Get the sub string of S from pos to pos+len [O(n)] */
 struct SString SString_SubString(SString S, int pos, int len) {
     struct SString T;
     if (pos < 1 || pos > S->length || len < 0 || len > S->length - pos + 1) {
@@ -81,21 +101,23 @@ struct SString SString_SubString(SString S, int pos, int len) {
     return T;
 }
 
-int SString_Compare(SString S, SString T) {
-    for (int i = 1; i <= S->length && i <= T->length; i++) {
-        if (S->ch[i] != T->ch[i]) {
-            return S->ch[i] - T->ch[i];
+/* Compare the SString S1 and S2, if S1 > S2 return a Positive number, if S1 < S2 return a negative number, else return 0 [O(n)] */
+int SString_Compare(SString S1, SString S2) {
+    for (int i = 1; i <= S1->length && i <= S2->length; i++) {
+        if (S1->ch[i] != S2->ch[i]) {
+            return S1->ch[i] - S2->ch[i];
         }
     }
-    return S->length - T->length;
+    return S1->length - S2->length;
 }
 
-int SString_Index(SString S, SString T) {
-    int i = 1, n = S->length, m = T->length;
+/* Get the index of S2 in S1, using the substring function [O(n * m)] */
+int SString_Index(SString S1, SString S2) {
+    int i = 1, n = S1->length, m = S2->length;
     struct SString sub;
     while (i <= n - m + 1) {
-        sub = SString_SubString(S, i, m);
-        if (SString_Compare(&sub, T) != 0) {
+        sub = SString_SubString(S1, i, m);
+        if (SString_Compare(&sub, S2) != 0) {
             i++;
         } else {
             return i;
@@ -104,10 +126,11 @@ int SString_Index(SString S, SString T) {
     return 0;
 }
 
-int SString_Index_Force(SString S, SString T) {
+/* Get the index of T in S, using the Force method [O(n * m)] */
+int SString_Index_Force(SString S1, SString S2) {
     int i = 1, j = 1;
-    while (i <= S->length && j <= T->length) {
-        if (S->ch[i] == T->ch[j]) {
+    while (i <= S1->length && j <= S2->length) {
+        if (S1->ch[i] == S2->ch[j]) {
             i++;
             j++;
         } else {
@@ -115,22 +138,26 @@ int SString_Index_Force(SString S, SString T) {
             j = 1;
         }
     }
-    if (j > T->length) {
-        return i - T->length;
+    if (j > S2->length) {
+        return i - S2->length;
     } else {
         return 0;
     }
 }
 
+/* Clear the SString S [O(1)] */
 bool SString_Clear(SString S) {
     S->length = 0;
     return true;
 }
 
+/* Destroy the SString S [O(1)] */
 SString SString_Destroy(SString S) {
     S->length = 0;
     return NULL;
 }
+
+/* Print the SString S [O(n)] */
 void SString_Print(SString S) {
     printf("SString: ");
     if (SString_IsEmpty(S)) {
@@ -151,6 +178,7 @@ void SString_Print(SString S) {
     printf("\n");
 }
 
+/* Driver code */
 int main() {
     struct SString S1, S2;
     SString S = &S1, T = &S2;
