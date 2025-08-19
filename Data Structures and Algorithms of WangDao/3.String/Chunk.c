@@ -207,11 +207,24 @@ Chunk Chunk_Destroy(Chunk C) {
 }
 
 void Chunk_Print(Chunk C) {
+    printf("Chunk: ");
+    if (Chunk_IsEmpty(C)) {
+        printf("The chunk is empty.\n");
+        return;
+    } else {
+        printf("\n");
+    }
+    printf("  Index: ");
+    for (int i = 0; i < C->length; i++) {
+        printf("%d\t", i);
+    }
+    printf("\n");
+    printf("  Value: ");
     ChunkNode *current = C->next;
     int i = 0;
     while (current != NULL) {
         for (int j = 0; i * CHUNKSIZE + j < C->length && j < CHUNKSIZE; j++) {
-            printf("%c", current->ch[j]);
+            printf("%c\t", current->ch[j]);
         }
         current = current->next;
         i++;

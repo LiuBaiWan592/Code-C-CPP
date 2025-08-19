@@ -168,12 +168,12 @@ void SString_Print(SString S) {
     }
     printf("  Index: ");
     for (int i = 1; i <= S->length; i++) {
-        printf("%d ", i);
+        printf("%d\t", i);
     }
     printf("\n");
     printf("  Value: ");
     for (int i = 1; i <= S->length; i++) {
-        printf("%c ", S->ch[i]);
+        printf("%c\t", S->ch[i]);
     }
     printf("\n");
 }
