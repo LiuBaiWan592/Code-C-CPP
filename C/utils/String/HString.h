@@ -9,7 +9,7 @@
  *              :HString_Assign: Assign the char array to the HString [O(n)]
  *              :HString_IsEmpty: Check if the HString is empty [O(1)]
  *              :HString_GetLength: Get the length of the HString [O(1)]
- *              :HString_Copy: Copy the HString S to HString T [O(n)]
+ *              :HString_Copy: Copy the HString S1 to HString S2 [O(n)]
  *              :HString_Concat: Concatenate the HString S1 and S2 to S [O(n)]
  *              :HString_SubString: Get the sub string of S from pos to pos+len [O(n)]
  *              :HString_Compare: Compare the HString S1 and S2 [O(n)]
@@ -138,7 +138,7 @@ int HString_Index(HString S1, HString S2) {
     return 0;
 }
 
-/* Get the index of T in S, using the Force method [O(n * m)] */
+/* Get the index of S2 in S1, using the Force method [O(n * m)] */
 int HString_Index_Force(HString S1, HString S2) {
     assert(S1 != NULL && "ERROR: When getting the index of the HString, the HString S1 is NULL!");
     assert(S2 != NULL && "ERROR: When getting the index of the HString, the HString S2 is NULL!");

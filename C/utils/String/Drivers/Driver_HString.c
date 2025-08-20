@@ -3,7 +3,7 @@
  * @Date        :2025-08-19 23:24:24
  * @Author      :LiuBaiWan (https://github.com/LiuBaiWan592)
  * @Version     :V1.0.0
- * @Brief       : HString Driver
+ * @Brief       :HString Driver
  * @Description :
  */
 

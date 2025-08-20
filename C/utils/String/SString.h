@@ -10,7 +10,7 @@
  *              :SString_Assign: Assign the char array to the SString [O(n)]
  *              :SString_IsEmpty: Check if the SString is empty [O(1)]
  *              :SString_GetLength: Get the length of the SString [O(1)]
- *              :SString_Copy: Copy the SString S to SString T [O(n)]
+ *              :SString_Copy: Copy the SString S1 to SString S2 [O(n)]
  *              :SString_Concat: Concatenate the SString S1 and S2 to S [O(n)]
  *              :SString_SubString: Get the sub string of S from pos to pos+len [O(n)]
  *              :SString_Compare: Compare the SString S1 and S2 [O(n)]
@@ -100,12 +100,12 @@ struct SString SString_SubString(SString S, int pos, int len) {
     assert(S != NULL && "ERROR: When getting the sub string of the SString, the SString is NULL!");
     assert(pos >= 1 && pos <= S->length && "ERROR: When getting the sub string of the SString, the position is invalid!");
     assert(len >= 0 && len <= S->length - pos + 1 && "ERROR: When getting the sub string of the SString, the length is invalid!");
-    struct SString T;
+    struct SString Sub;
     for (int i = 1; i <= len; i++) {
-        T.ch[i] = S->ch[pos + i - 1];
+        Sub.ch[i] = S->ch[pos + i - 1];
     }
-    T.length = len;
-    return T;
+    Sub.length = len;
+    return Sub;
 }
 
 /* Compare the SString S1 and S2, if S1 > S2 return a Positive number, if S1 < S2 return a negative number, else return 0 [O(n)] */
@@ -137,7 +137,7 @@ int SString_Index(SString S1, SString S2) {
     return 0;
 }
 
-/* Get the index of T in S, using the Force method [O(n * m)] */
+/* Get the index of S2 in S1, using the Force method [O(n * m)] */
 int SString_Index_Force(SString S1, SString S2) {
     assert(S1 != NULL && "ERROR: When getting the index of the SString, the SString S1 is NULL!");
     assert(S2 != NULL && "ERROR: When getting the index of the SString, the SString S2 is NULL!");
