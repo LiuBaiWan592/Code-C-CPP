@@ -37,6 +37,13 @@
 #include "./Stack/SeqShareStack.h"
 #include "./Stack/LinkStack.h"
 
+#include "./Queue/SeqQueue.h"
+#include "./Queue/SeqDeQueue.h"
+#include "./Queue/LinkQueue.h"
+#include "./Queue/LinkDeQueue.h"
+
+#include "./String/SString.h"
+#include "./String/HString.h"
 
 #include "./uthash/src/uthash.h" // uthash库
 
