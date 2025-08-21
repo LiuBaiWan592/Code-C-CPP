@@ -7,6 +7,7 @@
  * @Description :The Index of ch[] in SString is 1~length, not 0~length-1
  *              :the first character is ch[1], the ch[0] is not used
  *              :SString: String with Static Sequence
+ *              :SString_Init: Initialize the SString [O(1)]
  *              :SString_Assign: Assign the char array to the SString [O(n)]
  *              :SString_IsEmpty: Check if the SString is empty [O(1)]
  *              :SString_GetLength: Get the length of the SString [O(1)]
@@ -31,6 +32,13 @@ typedef struct SString {
     char ch[Maxsize + 1];       // ch[0] is not used
     int length;                 // length of string
 } *SString;
+
+/* Initialize the SString [O(1)] */
+struct SString SString_Init() {
+    struct SString S;
+    S.length = 0;
+    return S;
+}
 
 /* Assign the char array to the SString [O(n)] */
 bool SString_Assign(SString S, char *str) {

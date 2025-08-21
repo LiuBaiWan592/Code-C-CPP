@@ -11,7 +11,7 @@
 
 /* Driver code */
 int main() {
-    struct SString S1, S2;
+    struct SString S1 = SString_Init(), S2 = SString_Init();
     SString S = &S1, T = &S2;
     SString_Assign(S, "Hello");
     SString_Print(S);
