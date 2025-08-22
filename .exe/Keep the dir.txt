@@ -1,1 +1,1 @@
-保留“.exe”目录，作为存放可执行文件的目录。
+Keep the ". exe" directory as the directory for storing executable files.
