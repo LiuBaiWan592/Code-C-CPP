@@ -1,4 +1,5 @@
 # Code-C-CPP
+*A repository for storing C/C++ source code, when I learn data structures and algorithms, I will also record the problems encountered in the process.*
 
 ## Dictionary Structure
 
