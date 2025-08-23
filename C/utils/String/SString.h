@@ -166,6 +166,42 @@ int SString_Index_Force(SString S1, SString S2) {
     }
 }
 
+/* Get the next array of the SString S [O(n)] */
+bool SString_GetNext(SString S, int *next) {
+    assert(S != NULL && "ERROR: When getting the next of the SString, the SString is NULL!");
+    next[1] = 0;
+    int i = 1, j = 0;
+    while (i < S->length) {
+        if (j == 0 || S->ch[i] == S->ch[j]) {
+            i++;
+            j++;
+            next[i] = j;        // next[i] = next[i - 1] + 1;
+        } else {
+            j = next[j];        // j = next[j - 1];
+        }
+    }
+}
+
+/* Get the index of S2 in S1, using the KMP method [O(n + m)] */
+bool SString_Index_KMP(SString S1, SString S2, int *next) {
+    assert(S1 != NULL && "ERROR: When getting the index of the SString, the SString S1 is NULL!");
+    assert(S2 != NULL && "ERROR: When getting the index of the SString, the SString S2 is NULL!");
+    int i = 1, j = 1;
+    while (i <= S1->length && j <= S2->length) {
+        if (j == 0 || S1->ch[i] == S2->ch[j]) {
+            i++;
+            j++;
+        } else {
+            j = next[j];
+        }
+    }
+    if (j > S2->length) {
+        return i - S2->length;
+    } else {
+        return 0;
+    }
+}
+
 /* Clear the SString S [O(1)] */
 bool SString_Clear(SString S) {
     assert(S != NULL && "ERROR: When clearing the SString, the SString is NULL!");
