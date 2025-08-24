@@ -159,6 +159,23 @@ int HString_Index_Force(HString S1, HString S2) {
     }
 }
 
+/* Get the next array of the HString S [O(n)] */
+int* HString_GetNextArray(HString S) {
+    assert(S != NULL && "ERROR: When getting the next array of the HString, the HString is NULL!");
+    int* next = (int*)malloc(sizeof(int) * (S->length + 1));
+    next[1] = 0;
+    int i = 1, j = 0;
+    while (i < S->length) {
+        if (j == 0 || S->ch[i] == S->ch[j]) {
+            i++;
+            j++;
+            next[i] = j;
+        } else {
+            j = next[j];
+        }
+    }
+}
+
 /* Clear the HString S [O(1)] */
 bool HString_Clear(HString S) {
     assert(S != NULL && "ERROR: When clearing the HString, the HString is NULL!");
