@@ -167,7 +167,7 @@ int SString_Index_Force(SString S1, SString S2) {
 }
 
 /* Get the next array of the SString S [O(n)] */
-bool SString_GetNext(SString S, int *next) {
+bool SString_GetNextArray(SString S, int *next) {
     assert(S != NULL && "ERROR: When getting the next of the SString, the SString is NULL!");
     next[1] = 0;
     int i = 1, j = 0;
