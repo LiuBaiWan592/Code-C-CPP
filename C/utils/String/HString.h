@@ -176,6 +176,27 @@ int* HString_GetNextArray(HString S) {
     }
 }
 
+/* Get the index of S2 in S1, using the KMP method [O(n + m)] */
+int HString_Index_KMP(HString S1, HString S2) {
+    assert(S1 != NULL && "ERROR: When getting the index of the HString, the HString S1 is NULL!");
+    assert(S2 != NULL && "ERROR: When getting the index of the HString, the HString S2 is NULL!");
+    int i = 1, j = 1;
+    int* next = HString_GetNextArray(S2);
+    while (i <= S1->length && j <= S2->length) {
+        if (j == 0 || S1->ch[i] == S2->ch[j]) {
+            i++;
+            j++;
+        } else {
+            j = next[j];
+        }
+    }
+    if (j > S2->length) {
+        return i - S2->length;
+    }else {
+        return 0;
+    }
+}
+
 /* Clear the HString S [O(1)] */
 bool HString_Clear(HString S) {
     assert(S != NULL && "ERROR: When clearing the HString, the HString is NULL!");
