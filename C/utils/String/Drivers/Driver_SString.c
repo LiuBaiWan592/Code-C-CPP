@@ -42,6 +42,16 @@ int main() {
 
     printf("Index of T in S (Force): %d\n", SString_Index_Force(S, T));
 
+    // KMP
+    int *next = SString_GetNext(T);
+    printf("Next of T: ");
+    for (int i = 0; i <= SString_GetLength(T); i++) {
+        printf("%d ", next[i]);
+    }
+    printf("\n");
+
+    printf("Index T in S KMP: %d\n", SString_Index_KMP(S, T, next));
+    
     SString_Clear(S);
     SString_Print(S);
     printf("If S is empty: %s\n", SString_IsEmpty(S) ? "empty" : "not empty");
