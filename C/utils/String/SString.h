@@ -185,6 +185,29 @@ int *SString_GetNext(SString S) {
     return next;
 }
 
+/* Get the next value array of the SString S [O(m)] */
+int *SString_GetNextval(SString S) {
+    assert(S != NULL && "ERROR: When getting the nextval of the SString, the SString is NULL!");
+    int *nextval = (int *)malloc((S->length + 1) * sizeof(int));
+    nextval[0] = -1;
+    nextval[1] = 0;
+    int i = 1, j = 0;
+    while (i < S->length) {
+        if (j == 0 || S->ch[i] == S->ch[j]) {
+            i++;
+            j++;
+            if (S->ch[i] != S->ch[j]) {
+                nextval[i] = j;
+            } else {
+                nextval[i] = nextval[j];    // if p[i] == p[next[i]], nextval[i] = nextval[next[i]];
+            }
+        } else {
+            j = nextval[j];
+        }
+    }
+    return nextval;
+}
+
 /* Get the index of S2 in S1, using the KMP method [O(n + m)] */
 int SString_Index_KMP(SString S1, SString S2, int *next) {
     assert(S1 != NULL && "ERROR: When getting the index of the SString, the SString S1 is NULL!");

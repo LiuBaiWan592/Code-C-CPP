@@ -51,7 +51,16 @@ int main() {
     printf("\n");
 
     printf("Index T in S KMP: %d\n", SString_Index_KMP(S, T, next));
-    
+
+    int *nextval = SString_GetNextval(T);
+    printf("Nextval of T: ");
+    for (int i = 0; i <= SString_GetLength(T); i++) {
+        printf("%d ", nextval[i]);
+    }
+    printf("\n");
+
+    printf("Index T in S KMP (nextval): %d\n", SString_Index_KMP(S, T, nextval));
+
     SString_Clear(S);
     SString_Print(S);
     printf("If S is empty: %s\n", SString_IsEmpty(S) ? "empty" : "not empty");
