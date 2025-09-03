@@ -38,6 +38,9 @@ int main() {
     printf("Index of T in ST: %d\n", HString_Index(ST, T));
     printf("Index of T in ST (Force): %d\n", HString_Index_Force(ST, T));
 
+    printf("Index of T in ST KMP: %d\n", HString_Index_KMP(ST, T, HString_GetNext(T)));
+    printf("Index of T in ST KMP (nextval): %d\n", HString_Index_KMP(ST, T, HString_GetNextval(T)));
+
     HString_Clear(S);
     HString_Print(S);
     printf("If S is empty: %s\n", HString_IsEmpty(S) ? "empty" : "not empty");

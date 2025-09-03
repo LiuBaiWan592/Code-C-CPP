@@ -159,29 +159,54 @@ int HString_Index_Force(HString S1, HString S2) {
     }
 }
 
-/* Get the next array of the HString S [O(n)] */
-int* HString_GetNextArray(HString S) {
+/* Get the next array of the HString S [O(m)] */
+int* HString_GetNext(HString S) {
     assert(S != NULL && "ERROR: When getting the next array of the HString, the HString is NULL!");
-    int* next = (int*)malloc(sizeof(int) * (S->length + 1));
-    next[1] = 0;
+    int *next = (int *)malloc((S->length + 1) * sizeof(int));
+    next[0] = -1;
+    next[1] = 0;                // next[1] = 0, next[2] = 1;
     int i = 1, j = 0;
     while (i < S->length) {
         if (j == 0 || S->ch[i] == S->ch[j]) {
             i++;
             j++;
-            next[i] = j;
+            next[i] = j;        // if p[i] == p[j], next[j+1] = next[j] + 1;
         } else {
-            j = next[j];
+            j = next[j];        // if p[i] != p[j], j = next[j];
         }
     }
+    return next;
+}
+
+/* Get the next value array of the HString S [O(m)] */
+int *HString_GetNextval(SString S) {
+    assert(S != NULL && "ERROR: When getting the nextval of the HString, the HString is NULL!");
+    int *nextval = (int *)malloc((S->length + 1) * sizeof(int));
+    nextval[0] = -1;
+    nextval[1] = 0;
+    int i = 1, j = 0;
+    while (i < S->length) {
+        if (j == 0 || S->ch[i] == S->ch[j]) {
+            i++;
+            j++;
+            if (S->ch[i] != S->ch[j]) {
+                nextval[i] = j;
+            } else {
+                nextval[i] = nextval[j];    // if p[i] == p[next[i]], nextval[i] = nextval[next[i]];
+            }
+        } else {
+            j = nextval[j];
+        }
+    }
+    return nextval;
 }
 
 /* Get the index of S2 in S1, using the KMP method [O(n + m)] */
-int HString_Index_KMP(HString S1, HString S2) {
+int HString_Index_KMP(HString S1, HString S2, int *next) {
     assert(S1 != NULL && "ERROR: When getting the index of the HString, the HString S1 is NULL!");
     assert(S2 != NULL && "ERROR: When getting the index of the HString, the HString S2 is NULL!");
+    assert(next != NULL && "ERROR: When getting the index of the HString, the next array is NULL!");
     int i = 1, j = 1;
-    int* next = HString_GetNextArray(S2);
     while (i <= S1->length && j <= S2->length) {
         if (j == 0 || S1->ch[i] == S2->ch[j]) {
             i++;
