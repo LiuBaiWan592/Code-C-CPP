@@ -43,7 +43,8 @@ int main() {
     printf("Index of T in S (Force): %d\n", SString_Index_Force(S, T));
 
     // KMP
-    int *next = SString_GetNext(T);
+    int next[SString_GetLength(T) + 1];
+    SString_GetNext(T, next);
     printf("Next of T: ");
     for (int i = 0; i <= SString_GetLength(T); i++) {
         printf("%d ", next[i]);
@@ -52,7 +53,8 @@ int main() {
 
     printf("Index T in S KMP: %d\n", SString_Index_KMP(S, T, next));
 
-    int *nextval = SString_GetNextval(T);
+    int nextval[SString_GetLength(T) + 1];
+    SString_GetNextval(T, nextval);
     printf("Nextval of T: ");
     for (int i = 0; i <= SString_GetLength(T); i++) {
         printf("%d ", nextval[i]);

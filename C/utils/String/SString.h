@@ -167,9 +167,8 @@ int SString_Index_Force(SString S1, SString S2) {
 }
 
 /* Get the next array of the SString S [O(m)] */
-int *SString_GetNext(SString S) {
+bool SString_GetNext(SString S, int *next) {
     assert(S != NULL && "ERROR: When getting the next of the SString, the SString is NULL!");
-    int *next = (int *)malloc((S->length + 1) * sizeof(int));
     next[0] = -1;
     next[1] = 0;                // next[1] = 0, next[2] = 1;
     int i = 1, j = 0;
@@ -182,13 +181,12 @@ int *SString_GetNext(SString S) {
             j = next[j];        // if p[i] != p[j], j = next[j];
         }
     }
-    return next;
+    return true;
 }
 
 /* Get the next value array of the SString S [O(m)] */
-int *SString_GetNextval(SString S) {
+bool SString_GetNextval(SString S, int *nextval) {
     assert(S != NULL && "ERROR: When getting the nextval of the SString, the SString is NULL!");
-    int *nextval = (int *)malloc((S->length + 1) * sizeof(int));
     nextval[0] = -1;
     nextval[1] = 0;
     int i = 1, j = 0;
@@ -205,13 +203,14 @@ int *SString_GetNextval(SString S) {
             j = nextval[j];
         }
     }
-    return nextval;
+    return true;
 }
 
 /* Get the index of S2 in S1, using the KMP method [O(n + m)] */
 int SString_Index_KMP(SString S1, SString S2, int *next) {
     assert(S1 != NULL && "ERROR: When getting the index of the SString, the SString S1 is NULL!");
     assert(S2 != NULL && "ERROR: When getting the index of the SString, the SString S2 is NULL!");
+    assert(next != NULL && "ERROR: When getting the index of the SString, the next is NULL!");
     int i = 1, j = 1;
     while (i <= S1->length && j <= S2->length) {
         if (j == 0 || S1->ch[i] == S2->ch[j]) {
