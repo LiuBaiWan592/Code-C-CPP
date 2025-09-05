@@ -23,3 +23,12 @@ typedef struct SeqBinaryTree {
     int length;
     int capacity;
 } *SeqBinaryTree;
+
+TreeNode *SeqBinaryTree_InitTreeNode(ElemType *arr, int length) {
+    TreeNode *data = (TreeNode *)malloc(sizeof(TreeNode) * length);
+    for (int i = 0; i < length; i++) {
+        data[i].data = arr[i];
+    }
+    return data;
+}
+
