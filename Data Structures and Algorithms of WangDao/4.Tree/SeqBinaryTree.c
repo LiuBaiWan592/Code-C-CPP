@@ -43,3 +43,10 @@ SeqBinaryTree SeqBinaryTree_Init(int capacity, TreeNode *data, int length) {
     free(data);
     return tree;
 }
+
+SeqBinaryTree SeqBinaryTree_Destroy(SeqBinaryTree tree) {
+    free(tree->data);
+    free(tree);
+    return NULL;
+}
+
