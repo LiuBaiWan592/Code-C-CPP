@@ -50,3 +50,13 @@ SeqBinaryTree SeqBinaryTree_Destroy(SeqBinaryTree tree) {
     return NULL;
 }
 
+void SeqBinaryTree_PrintData(SeqBinaryTree tree) {
+    for (int i = 0; i < tree->length; i++) {
+        if(tree->data[i].data != INT_MIN){
+            printf("%d ", tree->data[i].data);
+        }else{
+            printf("NULL ");
+        }
+    }
+    printf("\n");
+}
