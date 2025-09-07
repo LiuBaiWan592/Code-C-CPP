@@ -60,3 +60,12 @@ void SeqBinaryTree_PrintData(SeqBinaryTree tree) {
     }
     printf("\n");
 }
+
+int main() {
+    ElemType arr[] = {1, 2, 3, 4, INT_MIN, 6, 7, 8, 9, INT_MIN, INT_MIN, 12, INT_MIN, INT_MIN, 15};
+    TreeNode *data = SeqBinaryTree_InitTreeNode(arr, sizeof(arr) / sizeof(ElemType));
+    SeqBinaryTree tree = SeqBinaryTree_Init(15, data, sizeof(arr) / sizeof(ElemType));
+    SeqBinaryTree_PrintData(tree);
+    SeqBinaryTree_Destroy(tree);
+    return 0;
+}
