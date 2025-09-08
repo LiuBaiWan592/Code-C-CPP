@@ -34,13 +34,9 @@ TreeNode *SeqBinaryTree_InitTreeNode(ElemType *arr, int length) {
 
 SeqBinaryTree SeqBinaryTree_Init(int capacity, TreeNode *data, int length) {
     SeqBinaryTree tree = (SeqBinaryTree)malloc(sizeof(struct SeqBinaryTree));
-    tree->data = (TreeNode *)malloc(sizeof(TreeNode) * capacity);
+    tree->data = data;
     tree->length = length;
-    for (int i = 0; i < length; i++) {
-        tree->data[i] = data[i];
-    }
     tree->capacity = capacity;
-    free(data);
     return tree;
 }
 
