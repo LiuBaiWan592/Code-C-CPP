@@ -11,6 +11,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define ElemType int
 
@@ -57,6 +58,53 @@ void SeqBinaryTree_PrintData(SeqBinaryTree tree) {
     printf("\n");
 }
 
+typedef struct Trunk {
+    struct Trunk *prev;
+    char *str;
+} Trunk;
+
+Trunk *newTrunk(Trunk *prev, char *str) {
+    Trunk *trunk = (Trunk *)malloc(sizeof(Trunk));
+    trunk->prev = prev;
+    trunk->str = (char *)malloc(sizeof(char) * 10);
+    strcpy(trunk->str, str);
+    return trunk;
+}
+
+void showTrunks(Trunk *trunk) {
+    if (trunk == NULL) {
+        return;
+    }
+    showTrunks(trunk->prev);
+    printf("%s", trunk->str);
+}
+
+void SeqBinaryTree_PrintTreeHelper(SeqBinaryTree tree, int i, Trunk *prev, bool isRight) {
+    if (tree->data[i].data == INT_MIN || i > tree->length) {
+        return;
+    }
+    char *prev_str = "    ";
+    Trunk *trunk = newTrunk(prev, prev_str);
+    SeqBinaryTree_PrintTreeHelper(tree, 2 * i + 1, trunk, true);
+    if (prev == NULL) {
+        trunk->str = "———";
+    } else if (isRight) {
+        trunk->str = "/———";
+        prev_str = "   |";
+    } else {
+        trunk->str = "\\———";
+        prev->str = prev_str;
+    }
+    showTrunks(trunk);
+    printf("%d\n", tree->data[i].data);
+
+    if (prev != NULL) {
+        prev->str = prev_str;
+    }
+    trunk->str = "   |";
+    SeqBinaryTree_PrintTreeHelper(tree, 2 * i, trunk, false);
+}
+
 int main() {
     ElemType arr[] = {1, 2, 3, 4, INT_MIN, 6, 7, 8, 9, INT_MIN, INT_MIN, 12, INT_MIN, INT_MIN, 15};
     int length = sizeof(arr) / sizeof(ElemType);
@@ -64,6 +112,7 @@ int main() {
     TreeNode *data = SeqBinaryTree_InitTreeNode(arr, length);
     SeqBinaryTree tree = SeqBinaryTree_Init(capacity, data, length);
     SeqBinaryTree_PrintData(tree);
+    SeqBinaryTree_PrintTreeHelper(tree, 1, NULL, false);
     SeqBinaryTree_Destroy(tree);
     return 0;
 }
