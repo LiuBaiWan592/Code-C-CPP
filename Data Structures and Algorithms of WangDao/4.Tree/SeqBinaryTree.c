@@ -25,9 +25,9 @@ typedef struct SeqBinaryTree {
 } *SeqBinaryTree;
 
 TreeNode *SeqBinaryTree_InitTreeNode(ElemType *arr, int length) {
-    TreeNode *data = (TreeNode *)malloc(sizeof(TreeNode) * length);
+    TreeNode *data = (TreeNode *)malloc(sizeof(TreeNode) * length + 1);
     for (int i = 0; i < length; i++) {
-        data[i].data = arr[i];
+        data[i + 1].data = arr[i];
     }
     return data;
 }
@@ -47,10 +47,10 @@ SeqBinaryTree SeqBinaryTree_Destroy(SeqBinaryTree tree) {
 }
 
 void SeqBinaryTree_PrintData(SeqBinaryTree tree) {
-    for (int i = 0; i < tree->length; i++) {
-        if(tree->data[i].data != INT_MIN){
+    for (int i = 1; i <= tree->length; i++) {
+        if (tree->data[i].data != INT_MIN) {
             printf("%d ", tree->data[i].data);
-        }else{
+        } else {
             printf("NULL ");
         }
     }
@@ -59,8 +59,10 @@ void SeqBinaryTree_PrintData(SeqBinaryTree tree) {
 
 int main() {
     ElemType arr[] = {1, 2, 3, 4, INT_MIN, 6, 7, 8, 9, INT_MIN, INT_MIN, 12, INT_MIN, INT_MIN, 15};
-    TreeNode *data = SeqBinaryTree_InitTreeNode(arr, sizeof(arr) / sizeof(ElemType));
-    SeqBinaryTree tree = SeqBinaryTree_Init(15, data, sizeof(arr) / sizeof(ElemType));
+    int length = sizeof(arr) / sizeof(ElemType);
+    int capacity = length + 1;
+    TreeNode *data = SeqBinaryTree_InitTreeNode(arr, length);
+    SeqBinaryTree tree = SeqBinaryTree_Init(capacity, data, length);
     SeqBinaryTree_PrintData(tree);
     SeqBinaryTree_Destroy(tree);
     return 0;
