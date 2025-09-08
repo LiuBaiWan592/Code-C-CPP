@@ -79,13 +79,13 @@ void showTrunks(Trunk *trunk) {
     printf("%s", trunk->str);
 }
 
-void SeqBinaryTree_PrintTreeHelper(SeqBinaryTree tree, int i, Trunk *prev, bool isRight) {
+void SeqBinaryTree_PrintTree(SeqBinaryTree tree, int i, Trunk *prev, bool isRight) {
     if (tree->data[i].data == INT_MIN || i > tree->length) {
         return;
     }
     char *prev_str = "    ";
     Trunk *trunk = newTrunk(prev, prev_str);
-    SeqBinaryTree_PrintTreeHelper(tree, 2 * i + 1, trunk, true);
+    SeqBinaryTree_PrintTree(tree, 2 * i + 1, trunk, true);
     if (prev == NULL) {
         trunk->str = "———";
     } else if (isRight) {
@@ -102,7 +102,7 @@ void SeqBinaryTree_PrintTreeHelper(SeqBinaryTree tree, int i, Trunk *prev, bool 
         prev->str = prev_str;
     }
     trunk->str = "   |";
-    SeqBinaryTree_PrintTreeHelper(tree, 2 * i, trunk, false);
+    SeqBinaryTree_PrintTree(tree, 2 * i, trunk, false);
 }
 
 int main() {
@@ -112,7 +112,7 @@ int main() {
     TreeNode *data = SeqBinaryTree_InitTreeNode(arr, length);
     SeqBinaryTree tree = SeqBinaryTree_Init(capacity, data, length);
     SeqBinaryTree_PrintData(tree);
-    SeqBinaryTree_PrintTreeHelper(tree, 1, NULL, false);
+    SeqBinaryTree_PrintTree(tree, 1, NULL, false);
     SeqBinaryTree_Destroy(tree);
     return 0;
 }
