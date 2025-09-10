@@ -9,6 +9,14 @@
 
 #include <stdio.h>
 
+#define ElemType int
+
+typedef struct BiTNode {
+    ElemType data;                   // data
+    struct BiTNode *lchild, *rchild; // left child and right child
+}BiTNode, *BiTree;
+
+
 int main() {
     return 0;
 }
