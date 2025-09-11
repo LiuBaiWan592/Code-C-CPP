@@ -26,9 +26,9 @@ typedef struct SeqBinaryTree {
 } *SeqBinaryTree;
 
 TreeNode *SeqBinaryTree_InitTreeNode(ElemType *arr, int length) {
-    TreeNode *data = (TreeNode *)malloc(sizeof(TreeNode) * length + 1);
+    TreeNode *data = (TreeNode *)malloc(sizeof(TreeNode) * length);
     for (int i = 0; i < length; i++) {
-        data[i + 1].data = arr[i];
+        data[i].data = arr[i];
     }
     return data;
 }
@@ -48,7 +48,7 @@ SeqBinaryTree SeqBinaryTree_Destroy(SeqBinaryTree tree) {
 }
 
 void SeqBinaryTree_PrintData(SeqBinaryTree tree) {
-    for (int i = 1; i <= tree->length; i++) {
+    for (int i = 0; i < tree->length; i++) {
         if (tree->data[i].data != INT_MIN) {
             printf("%d ", tree->data[i].data);
         } else {
@@ -80,12 +80,12 @@ void showTrunks(Trunk *trunk) {
 }
 
 void SeqBinaryTree_PrintTree(SeqBinaryTree tree, int i, Trunk *prev, bool isRight) {
-    if (tree->data[i].data == INT_MIN || i > tree->length) {
+    if (tree->data[i].data == INT_MIN || i >= tree->length) {
         return;
     }
     char *prev_str = "    ";
     Trunk *trunk = newTrunk(prev, prev_str);
-    SeqBinaryTree_PrintTree(tree, 2 * i + 1, trunk, true);
+    SeqBinaryTree_PrintTree(tree, 2 * i + 2, trunk, true);
     if (prev == NULL) {
         trunk->str = "———";
     } else if (isRight) {
@@ -102,17 +102,17 @@ void SeqBinaryTree_PrintTree(SeqBinaryTree tree, int i, Trunk *prev, bool isRigh
         prev->str = prev_str;
     }
     trunk->str = "   |";
-    SeqBinaryTree_PrintTree(tree, 2 * i, trunk, false);
+    SeqBinaryTree_PrintTree(tree, 2 * i + 1, trunk, false);
 }
 
 int main() {
     ElemType arr[] = {1, 2, 3, 4, INT_MIN, 6, 7, 8, 9, INT_MIN, INT_MIN, 12, INT_MIN, INT_MIN, 15};
     int length = sizeof(arr) / sizeof(ElemType);
-    int capacity = length + 1;
+    int capacity = length;
     TreeNode *data = SeqBinaryTree_InitTreeNode(arr, length);
     SeqBinaryTree tree = SeqBinaryTree_Init(capacity, data, length);
     SeqBinaryTree_PrintData(tree);
-    SeqBinaryTree_PrintTree(tree, 1, NULL, false);
+    SeqBinaryTree_PrintTree(tree, 0, NULL, false);
     SeqBinaryTree_Destroy(tree);
     return 0;
 }
