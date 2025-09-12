@@ -75,3 +75,14 @@ BiTree BiTree_Destroy(BiTree root) {
     free(root);
     return NULL;
 }
+
+void BiTree_PrintData(ElemType *arr, int length) {
+    for (int i = 0; i < length; i++) {
+        if(arr[i] != INT_MIN){
+            printf("%d ", arr[i]);
+        }else{
+            printf("NULL ");
+        }
+    }
+    printf("\n");
+}
