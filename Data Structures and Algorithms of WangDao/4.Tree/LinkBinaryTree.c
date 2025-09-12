@@ -44,3 +44,24 @@ BiTree BiTree_ArrayToBiTreeDFS(ElemType *arr, int length, int index) {
 BiTree BiTree_ArrayToBiTree(ElemType *arr, int length) {
     return BiTree_ArrayToBiTreeDFS(arr, length, 0);
 }
+
+void BiTree_BiTreeToArrayDFS(BiTree root, int index, ElemType *res, int *length) {
+    if (root == NULL) {
+        return;
+    }
+    while (index >= *length) {
+        res = realloc(res, sizeof(ElemType) * (*length + 1));
+        res[*length] = INT_MIN;
+        (*length)++;
+    }
+    res[index] = root->data;
+    BiTree_BiTreeToArrayDFS(root->lchild, 2 * index + 1, res, length);
+    BiTree_BiTreeToArrayDFS(root->rchild, 2 * index + 2, res, length);
+}
+
+ElemType *BiTree_BiTreeToArray(BiTree root, int *length) {
+    ElemType *res = (ElemType *)malloc(sizeof(ElemType) * *length);
+    *length = 0;
+    BiTree_BiTreeToArrayDFS(root, 0, res, length);
+    return res;
+}
