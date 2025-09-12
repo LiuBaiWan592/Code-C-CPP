@@ -30,3 +30,17 @@ BiTNode *BiTree_NewTreeNode(ElemType data) {
     newNode->lchild = newNode->rchild = NULL;
     return newNode;
 }
+
+BiTree BiTree_ArrayToBiTreeDFS(ElemType *arr, int length, int index) {
+    if (index < 0 || index >= length || arr[index] == INT_MIN) {
+        return NULL;
+    }
+    BiTNode *Node = BiTree_NewTreeNode(arr[index]);
+    Node->lchild = BiTree_ArrayToBiTreeDFS(arr, length, 2 * index + 1);
+    Node->rchild = BiTree_ArrayToBiTreeDFS(arr, length, 2 * index + 2);
+    return Node;
+}
+
+BiTree BiTree_ArrayToBiTree(ElemType *arr, int length) {
+    return BiTree_ArrayToBiTreeDFS(arr, length, 0);
+}
