@@ -7,16 +7,26 @@
  * @Description :
  */
 
+#include <limits.h>
 #include <stdio.h>
+#include <stdbool.h>
+#include <string.h>
+#include <stdlib.h>
 
 #define ElemType int
 
 typedef struct BiTNode {
     ElemType data;                   // data
+    int depth;                       // node's depth
+    int height;                      // node's height
     struct BiTNode *lchild, *rchild; // left child and right child
 }BiTNode, *BiTree;
 
-
-int main() {
-    return 0;
+BiTNode *BiTree_NewTreeNode(ElemType data) {
+    BiTNode *newNode = (BiTNode *)malloc(sizeof(BiTNode));
+    newNode->data = data;
+    newNode->depth = 0;
+    newNode->height = 0;
+    newNode->lchild = newNode->rchild = NULL;
+    return newNode;
 }
