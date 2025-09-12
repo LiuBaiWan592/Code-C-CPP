@@ -65,3 +65,13 @@ ElemType *BiTree_BiTreeToArray(BiTree root, int *length) {
     BiTree_BiTreeToArrayDFS(root, 0, res, length);
     return res;
 }
+
+BiTree BiTree_Destroy(BiTree root) {
+    if (root == NULL) {
+        return NULL;
+    }
+    BiTree_Destroy(root->lchild);
+    BiTree_Destroy(root->rchild);
+    free(root);
+    return NULL;
+}
